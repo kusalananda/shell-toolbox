@@ -1,10 +1,9 @@
 # shell-toolbox
-Useful shell scripts and functions, mostly for `ksh93` and `bash`.
+Useful shell scripts, for `ksh93` and `bash`.
 
-The scripts and functions are documented in the source.
+The scripts are documented in the source.
 
-
-## Shell functions (in `fun/`)
+## Shell scripts
 
 * `shell`:  _Creates a shell for testing things in_.  Creates a
 temporary shell with a temporary working directory.  The working
@@ -18,3 +17,7 @@ shells and runs the same command in all of them, capturing and
 displaying the exit status and the output sent to all standard streams.
 Useful for testing compatibility of shell constructs between shells.
 Works with `ksh93` and `bash`.
+
+## Instructions for installing
+
+See the document called "INSTALL".
