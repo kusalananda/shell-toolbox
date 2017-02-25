@@ -11,6 +11,8 @@ AC_CONFIG_SRCDIR([src/shell.in])
 # We need KornShell or bash
 AC_PATH_PROGS([shell_path], [ksh93 bash])
 
+# TODO: Fail if neither ksh93 nor bash was found
+
 # We need grep
 AC_PROG_GREP
 
