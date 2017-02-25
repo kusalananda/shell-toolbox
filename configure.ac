@@ -8,7 +8,7 @@ AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([src/shell.in])
 
 # We need KornShell or bash
-AC_PATH_PROGS([shell_path], [ksh93 ksh bash])
+AC_PATH_PROGS([shell_path], [ksh93 bash])
 
 # We need grep
 AC_PROG_GREP
