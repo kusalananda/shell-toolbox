@@ -4,6 +4,7 @@ AC_INIT([shell-toolbox],[2070225])
 AC_CONFIG_AUX_DIR([build])
 
 AM_INIT_AUTOMAKE([foreign])
+AM_MAINTAINER_MODE
 
 AC_CONFIG_SRCDIR([src/shell.in])
 
