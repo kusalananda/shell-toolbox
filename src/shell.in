@@ -1,52 +1,48 @@
-function shell
-{
-    # Starts the specified shell in a clean environment (but see below)
-    # and with an empty temporary working directory.  The working
-    # directory is deleted upon exiting the shell session.  If no shell
-    # name is given, the shell is infered from $SHELL.
-    #
-    # Environtment variable explicitly set:
-    #
-    #   HOME:           carried over from parent environment
-    #   PATH:           set to output of "getconf PATH"
-    #   SHELL:          set to the absolute path of the real shell
-    #   TERM:           carried over from parent environment
-    #   _is_tmp_shell:  set to 'Yes' to avoid recursive calls
-    #
-    # Example invocations:
-    #
-    #   $ shell         # starts a new shell (uses $SHELL)
-    #   $ shell bash    # starts a new bash shell
+#!@shell_path@
 
-    if [[ "$_is_tmp_shell" == 'Yes' ]]; then
-        echo 'Already in temporary shell.  Exit this one first.' >&2
-        return 1
-    fi
+# Starts the specified shell in a clean environment (but see below)
+# and with an empty temporary working directory.  The working
+# directory is deleted upon exiting the shell session.  If no shell
+# name is given, the shell is infered from $SHELL.
+#
+# Environtment variable explicitly set:
+#
+#   HOME:           carried over from parent environment
+#   PATH:           set to output of "getconf PATH"
+#   SHELL:          set to the absolute path of the real shell
+#   TERM:           carried over from parent environment
+#   _is_tmp_shell:  set to 'Yes' to avoid recursive calls
+#
+# Example invocations:
+#
+#   $ shell         # starts a new shell (uses $SHELL)
+#   $ shell bash    # starts a new bash shell
 
-    typeset shell="$( basename "${1:-$SHELL}" )"
+if [[ "$_is_tmp_shell" == 'Yes' ]]; then
+    echo 'Already in temporary shell.  Exit this one first.' >&2
+    return 1
+fi
 
-    typeset realshell="$( grep "^[^#].*/$shell\$" /etc/shells )"
+typeset shell="$( basename "${1:-$SHELL}" )"
 
-    if [[ -z "$realshell" ]] || [[ ! -x "$realshell" ]]; then
-        printf 'No such shell: %s\n' "$shell" >&2
-        return 1
-    fi
+typeset realshell="$( grep "^[^#].*/$shell\$" /etc/shells )"
 
-    (
-        tmpcwd="$( mktemp -d -p /tmp "shell-$shell.XXXXXXXX" )"
-        trap 'printf "Removing %s\n" "$tmpcwd" >&2; rm -rf "$tmpcwd"' EXIT
+if [[ -z "$realshell" ]] || [[ ! -x "$realshell" ]]; then
+    printf 'No such shell: %s\n' "$shell" >&2
+    return 1
+fi
 
-        printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2
+tmpcwd="$( mktemp -d -p /tmp "shell-$shell.XXXXXXXX" )"
+trap 'printf "Removing %s\n" "$tmpcwd" >&2; rm -rf "$tmpcwd"' EXIT
 
-        cd "$tmpcwd" &&
-        env -i  HOME="$HOME" \
-                PATH="$( getconf PATH )" \
-                TERM="$TERM" \
-                SHELL="$realshell" \
-                _is_tmp_shell='Yes' \
-                "$realshell"
-    )
-}
+printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2
 
+cd "$tmpcwd" &&
+env -i  HOME="$HOME" \
+        PATH="$( getconf PATH )" \
+        TERM="$TERM" \
+        SHELL="$realshell" \
+        _is_tmp_shell='Yes' \
+        "$realshell"
 
 # vim: ft=sh
