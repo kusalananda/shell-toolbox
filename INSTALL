@@ -1,0 +1,23 @@
+This project uses GNU autotools.
+
+To install the scripts under /usr/local (scripts will go in the "bin"
+subdirectory):
+
+    ./configure
+    make
+    make install
+
+To install under $HOME/local:
+
+    ./configure --prefix="$HOME/local"
+    make
+    make install
+
+To install using GNU stow under $HOME/local:
+
+    ./configure --prefix="$HOME/local/stow/shell-toolbox"
+    make
+    make install
+    cd "$HOME/local/stow"
+    stow shell-toolbox
+

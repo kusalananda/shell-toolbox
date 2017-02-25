@@ -1,0 +1,35 @@
+#!@shell_path@
+
+# Will run the given command in all avaliable shells and capture and
+# display the output generated on standard output as well as any
+# diagnostic messages generated on standard error, together with the
+# exit code.
+#
+# Example invocations:
+#
+#   $ shtest 'wc <( echo "hello" )'
+#   $ shtest 'i=10; echo "$[ i - 1 ]"'
+
+@GREP@ '^[^#]' /etc/shells | (
+typeset -a tmpfiles
+trap 'rm -f "${tmpfiles[@]}"' EXIT
+while read realshell; do
+    typeset shell="${realshell##*/}"
+
+    typeset tmpout="$( @mktemp_path@ -p /tmp "$shell-out.XXXXXXXX" )"
+    typeset tmperr="$( @mktemp_path@ -p /tmp "$shell-err.XXXXXXXX" )"
+
+    tmpfiles+=( "$tmpout" "$tmperr" )
+
+    command "$realshell" -c "$@" 1>"$tmpout" 2>"$tmperr"
+    err="$?"
+
+    printf '=== %s (exit %d)\n' "$shell" "$err"
+    echo "--- stdout:"
+    cat "$tmpout"
+    echo "--- stderr:"
+    cat "$tmperr"
+done )
+
+
+# vim: ft=sh
