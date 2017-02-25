@@ -1,9 +1,9 @@
 function shell
 {
     # Starts the specified shell in a clean environment (but see below)
-    # and with an empty temporary working directory.
-    # The working directory is deleted upon exiting the shell session.
-    # If no shell name is given, the shell is infered from $SHELL.
+    # and with an empty temporary working directory.  The working
+    # directory is deleted upon exiting the shell session.  If no shell
+    # name is given, the shell is infered from $SHELL.
     #
     # Environtment variable explicitly set:
     #
