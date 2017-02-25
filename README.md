@@ -16,5 +16,5 @@ in an interactive environment other than your usual shell.  Works with
 * `shtest`: _Runs a command in all shells_.  Iterates over all installed
 shells and runs the same command in all of them, capturing and
 displaying the exit status and the output sent to all standard streams.
-Useful for testing compatibility of shell constructs between shell.
+Useful for testing compatibility of shell constructs between shells.
 Works with `ksh93` and `bash`.
