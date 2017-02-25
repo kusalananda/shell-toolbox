@@ -25,14 +25,14 @@ fi
 
 typeset shell="$( basename "${1:-$SHELL}" )"
 
-typeset realshell="$( grep "^[^#].*/$shell\$" /etc/shells )"
+typeset realshell="$( @GREP@ "^[^#].*/$shell\$" /etc/shells )"
 
 if [[ -z "$realshell" ]] || [[ ! -x "$realshell" ]]; then
     printf 'No such shell: %s\n' "$shell" >&2
     return 1
 fi
 
-tmpcwd="$( mktemp -d -p /tmp "shell-$shell.XXXXXXXX" )"
+tmpcwd="$( @mktemp_path@ -d -p /tmp "shell-$shell.XXXXXXXX" )"
 trap 'printf "Removing %s\n" "$tmpcwd" >&2; rm -rf "$tmpcwd"' EXIT
 
 printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2

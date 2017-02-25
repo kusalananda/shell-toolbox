@@ -10,14 +10,14 @@
 #   $ shtest 'wc <( echo "hello" )'
 #   $ shtest 'i=10; echo "$[ i - 1 ]"'
 
-grep '^[^#]' /etc/shells | (
+@GREP@ '^[^#]' /etc/shells | (
 typeset -a tmpfiles
 trap 'rm -f "${tmpfiles[@]}"' EXIT
 while read realshell; do
     typeset shell="${realshell##*/}"
 
-    typeset tmpout="$( mktemp -p /tmp "$shell-out.XXXXXXXX" )"
-    typeset tmperr="$( mktemp -p /tmp "$shell-err.XXXXXXXX" )"
+    typeset tmpout="$( @mktemp_path@ -p /tmp "$shell-out.XXXXXXXX" )"
+    typeset tmperr="$( @mktemp_path@ -p /tmp "$shell-err.XXXXXXXX" )"
 
     tmpfiles+=( "$tmpout" "$tmperr" )
 
