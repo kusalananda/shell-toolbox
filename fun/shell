@@ -32,22 +32,12 @@ function shell
         return 1
     fi
 
-    # Bash uses the RETURN trap to trap function returns while ksh93
-    # uses the EXIT trap for the same thing.
-
-    typeset exittrap
-    if [[ -n "$BASH_VERSION" ]]; then
-        exittrap="RETURN"
-    else
-        exittrap="EXIT"
-    fi
-
-    tmpcwd="$( mktemp -d -p /tmp "shell-$shell.XXXXXXXX" )"
-    trap 'printf "Removing %s\n" "$tmpcwd" >&2; rm -rf "$tmpcwd"' "$exittrap"
-
-    printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2
-
     (
+        tmpcwd="$( mktemp -d -p /tmp "shell-$shell.XXXXXXXX" )"
+        trap 'printf "Removing %s\n" "$tmpcwd" >&2; rm -rf "$tmpcwd"' EXIT
+
+        printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2
+
         cd "$tmpcwd" &&
         env -i  HOME="$HOME" \
                 PATH="$( getconf PATH )" \
