@@ -18,6 +18,10 @@
 #   $ shell         # starts a new shell (uses $SHELL)
 #   $ shell bash    # starts a new bash shell
 
+typeset prefix="@prefix@"
+typeset exec_prefix="@exec_prefix@"
+. "@libexecdir@/toolbox.fun"
+
 if [[ "$_is_tmp_shell" == 'Yes' ]]; then
     echo 'Already in temporary shell.  Exit this one first.' >&2
     return 1
@@ -25,7 +29,7 @@ fi
 
 typeset shell="$( basename "${1:-$SHELL}" )"
 
-typeset realshell="$( @GREP@ "^[^#].*/$shell\$" /etc/shells )"
+typeset realshell="$( toolbox_get_shells | @GREP@ "/$shell\$" )"
 
 if [[ -z "$realshell" ]] || [[ ! -x "$realshell" ]]; then
     printf 'No such shell: %s\n' "$shell" >&2

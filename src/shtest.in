@@ -10,7 +10,11 @@
 #   $ shtest 'wc <( echo "hello" )'
 #   $ shtest 'i=10; echo "$[ i - 1 ]"'
 
-@GREP@ '^[^#]' /etc/shells | (
+typeset prefix="@prefix@"
+typeset exec_prefix="@exec_prefix@"
+. "@libexecdir@/toolbox.fun"
+
+toolbox_get_shells | (
 typeset -a tmpfiles
 trap 'rm -f "${tmpfiles[@]}"' EXIT
 while read realshell; do
