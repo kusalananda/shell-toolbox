@@ -1,2 +1,3 @@
 bin_SCRIPTS=	shell shtest
-CLEANFILES=	$(bin_SCRIPTS)
+libexec_SCRIPTS=	toolbox.fun
+CLEANFILES=	$(bin_SCRIPTS) $(libexec_SCRIPTS)

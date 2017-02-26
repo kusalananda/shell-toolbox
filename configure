@@ -2503,6 +2503,8 @@ fi
 
 ac_config_files="$ac_config_files Makefile src/Makefile"
 
+ac_config_files="$ac_config_files src/toolbox.fun"
+
 ac_config_files="$ac_config_files src/shell"
 
 ac_config_files="$ac_config_files src/shtest"
@@ -3230,6 +3232,7 @@ do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
+    "src/toolbox.fun") CONFIG_FILES="$CONFIG_FILES src/toolbox.fun" ;;
     "src/shell") CONFIG_FILES="$CONFIG_FILES src/shell" ;;
     "src/shtest") CONFIG_FILES="$CONFIG_FILES src/shtest" ;;
 
