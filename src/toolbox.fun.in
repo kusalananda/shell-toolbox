@@ -1,0 +1,64 @@
+# Support functions for shell-toolbox
+
+function _get_solaris_shells
+{
+    # Returns a list of valid Solaris 11.3 shells.  The list is taken
+    # from the shells(4) manual and is shortened to only contain one
+    # single instance of each shell.
+
+    # Parameters:   none
+    # stdin:        unused
+    # stdout:       list of shells (one per line)
+
+    cat <<END_LIST
+/bin/bash
+/bin/csh
+/bin/jsh
+/bin/ksh
+/bin/ksh93
+/bin/pfbash
+/bin/pfcsh
+/bin/pfksh
+/bin/pfksh93
+/bin/pfsh
+/bin/pftcsh
+/bin/pfzsh
+/bin/sh
+/bin/tcsh
+/bin/zsh
+END_LIST
+}
+
+function toolbox_get_shells
+{
+    # Returns a list of installed shells.
+
+    # Rationale: OpenBSD and NetBSD can use "getent shells" to get a
+    # list of shells, but this doesn't work on Ubuntu.  Solaris is a
+    # problem since "getent shells" doesn't work and /etc/shells may not
+    # exist.  The list of valid Solaris shells is instead taken from
+    # the shells(4) manual on a vanilla Solaris 11.3 system.
+
+    # Parameters:   none
+    # stdin:        unused
+    # stdout:       list of shells (one per line)
+
+    if ! getent shells 2>/dev/null; then
+        if [[ -f /etc/shells ]]; then
+            @GREP@ '^[^#]' /etc/shells
+        elif [[ "$( uname -s )" == "SunOS" ]]; then
+            _get_solaris_shells |
+            while read solaris_shell; do
+                if [[ -x "$solaris_shell" ]]; then
+                    printf '%s\n' "$solaris_shell"
+                fi
+            done
+        else
+            echo 'Can not get list of shells!' >&2
+            exit 1
+        fi
+    fi
+}
+
+
+# vim: ft=sh

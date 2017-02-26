@@ -1,0 +1,27 @@
+########################################################################
+# shell-toolbox                                                        #
+#                                                                      #
+# Useful shell scripts for ksh93 and bash                              #
+########################################################################
+
+How to use: The scripts are documented in the source.
+
+How to install: Please see the document called "INSTALL".
+
+
+Shell scripts
+------------------------------------------------------------------------
+
+* shell:  Creates a shell for testing things in
+
+    Creates a temporary shell with a temporary working directory.  The
+    working directory is removed when the shell exits.  Useful for
+    testing things in an interactive environment other than your usual
+    shell.
+
+* shtest: Runs a command in all shells
+
+    Iterates over all installed shells and runs the same command in all
+    of them, capturing and displaying the exit status and the output
+    sent to all standard streams.  Useful for testing compatibility of
+    shell constructs between shells.

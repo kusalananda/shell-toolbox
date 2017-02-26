@@ -1,0 +1,3 @@
+* Make "configure" fail if neither ksh93 nor bash was found.
+
+* Test to make sure "mktemp" understands both -d and -p flags.
