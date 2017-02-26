@@ -8,18 +8,12 @@ AM_MAINTAINER_MODE
 
 AC_CONFIG_SRCDIR([src/shell.in])
 
-# We need KornShell or bash
-AC_PATH_PROGS([shell_path], [ksh93 bash])
+# What we need:
+#   * Absolute path for ksh93/bash, grep and mktemp
 
-# TODO: Fail if neither ksh93 nor bash was found
-
-# We need grep
 AC_PROG_GREP
-
-# We need mktemp
+AC_PATH_PROGS([shell_path], [ksh93 bash])
 AC_PATH_PROG([mktemp_path], [mktemp])
-
-# TODO: Make sure mktemp supports -d and -p
 
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
