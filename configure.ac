@@ -9,10 +9,10 @@ AM_MAINTAINER_MODE
 AC_CONFIG_SRCDIR([src/shell.in])
 
 # What we need:
-#   * Absolute path for ksh93/bash, grep and mktemp
+#   * Absolute path for ksh93/pdksh/bash, grep and mktemp
 
 AC_PROG_GREP
-AC_PATH_PROGS([shell_path], [ksh93 bash])
+AC_PATH_PROGS([shell_path], [ksh93 ksh pdksh bash])
 AC_PATH_PROG([mktemp_path], [mktemp])
 
 AC_CONFIG_FILES([Makefile src/Makefile])
