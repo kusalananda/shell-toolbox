@@ -1,6 +1,3 @@
 * Make "configure" fail if neither ksh93 nor bash was found.
 
 * Test to make sure "mktemp" understands both -d and -p flags.
-
-* Test whether we may use "getent" to get shells (as on OpenBSD/NetBSD,
-  but not Ubuntu) and the default PATH (not on Solaris, apparently).
