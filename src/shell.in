@@ -33,7 +33,7 @@ if [[ -z "$realshell" ]] || [[ ! -x "$realshell" ]]; then
 fi
 
 tmpcwd="$( @mktemp_path@ -d -p /tmp "shell-$shell.XXXXXXXX" )"
-trap 'printf "Removing %s\n" "$tmpcwd" >&2; rm -rf "$tmpcwd"' EXIT
+trap 'printf "Removing %s\n" "$tmpcwd" >&2; cd / && rm -rf "$tmpcwd"' EXIT
 
 printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2
 
