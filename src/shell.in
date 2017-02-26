@@ -18,8 +18,8 @@
 #   $ shell         # starts a new shell (uses $SHELL)
 #   $ shell bash    # starts a new bash shell
 
-typeset prefix="@prefix@"
-typeset exec_prefix="@exec_prefix@"
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
 . "@libexecdir@/toolbox.fun"
 
 if [[ "$_is_tmp_shell" == 'Yes' ]]; then
@@ -27,9 +27,9 @@ if [[ "$_is_tmp_shell" == 'Yes' ]]; then
     return 1
 fi
 
-typeset shell="$( basename "${1:-$SHELL}" )"
+shell="$( basename "${1:-$SHELL}" )"
 
-typeset realshell="$( toolbox_get_shells | @GREP@ "/$shell\$" )"
+realshell="$( toolbox_get_shells | @GREP@ "/$shell\$" )"
 
 if [[ -z "$realshell" ]] || [[ ! -x "$realshell" ]]; then
     printf 'No such shell: %s\n' "$shell" >&2
@@ -48,5 +48,6 @@ env -i  HOME="$HOME" \
         SHELL="$realshell" \
         _is_tmp_shell='Yes' \
         "$realshell"
+
 
 # vim: ft=sh

@@ -10,18 +10,18 @@
 #   $ shtest 'wc <( echo "hello" )'
 #   $ shtest 'i=10; echo "$[ i - 1 ]"'
 
-typeset prefix="@prefix@"
-typeset exec_prefix="@exec_prefix@"
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
 . "@libexecdir@/toolbox.fun"
 
 toolbox_get_shells | (
 typeset -a tmpfiles
 trap 'rm -f "${tmpfiles[@]}"' EXIT
 while read realshell; do
-    typeset shell="${realshell##*/}"
+    shell="${realshell##*/}"
 
-    typeset tmpout="$( @mktemp_path@ -p /tmp "$shell-out.XXXXXXXX" )"
-    typeset tmperr="$( @mktemp_path@ -p /tmp "$shell-err.XXXXXXXX" )"
+    tmpout="$( @mktemp_path@ -p /tmp "$shell-out.XXXXXXXX" )"
+    tmperr="$( @mktemp_path@ -p /tmp "$shell-err.XXXXXXXX" )"
 
     tmpfiles+=( "$tmpout" "$tmperr" )
 
