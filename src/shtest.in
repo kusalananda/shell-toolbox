@@ -15,15 +15,12 @@ exec_prefix="@exec_prefix@"
 . "@libexecdir@/toolbox.fun"
 
 toolbox_get_shells | (
-typeset -a tmpfiles
-trap 'rm -f "${tmpfiles[@]}"' EXIT
+trap 'rm -f "$tmpout" "$tmperr"' EXIT
 while read realshell; do
     shell="${realshell##*/}"
 
     tmpout="$( @mktemp_path@ -p /tmp "$shell-out.XXXXXXXX" )"
     tmperr="$( @mktemp_path@ -p /tmp "$shell-err.XXXXXXXX" )"
-
-    tmpfiles+=( "$tmpout" "$tmperr" )
 
     command "$realshell" -c "$@" 1>"$tmpout" 2>"$tmperr"
     err="$?"
@@ -33,6 +30,8 @@ while read realshell; do
     cat "$tmpout"
     echo "--- stderr:"
     cat "$tmperr"
+
+    rm -f "$tmpout" "$tmperr"
 done )
 
 
