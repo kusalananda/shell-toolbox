@@ -16,6 +16,7 @@ AC_PATH_PROGS([shell_path], [ksh93 bash])
 AC_PATH_PROG([mktemp_path], [mktemp])
 
 AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([src/toolbox.fun])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
 AC_CONFIG_FILES([src/shtest], [chmod +x src/shtest])
 AC_OUTPUT
