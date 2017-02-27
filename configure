@@ -2509,6 +2509,8 @@ ac_config_files="$ac_config_files src/shell"
 
 ac_config_files="$ac_config_files src/shtest"
 
+ac_config_files="$ac_config_files src/shevil"
+
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -3235,6 +3237,7 @@ do
     "src/toolbox.fun") CONFIG_FILES="$CONFIG_FILES src/toolbox.fun" ;;
     "src/shell") CONFIG_FILES="$CONFIG_FILES src/shell" ;;
     "src/shtest") CONFIG_FILES="$CONFIG_FILES src/shtest" ;;
+    "src/shevil") CONFIG_FILES="$CONFIG_FILES src/shevil" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -3663,6 +3666,7 @@ which seems to be undefined.  Please make sure it is defined" >&2;}
   case $ac_file$ac_mode in
     "src/shell":F) chmod +x src/shell ;;
     "src/shtest":F) chmod +x src/shtest ;;
+    "src/shevil":F) chmod +x src/shevil ;;
 
   esac
 done # for ac_tag

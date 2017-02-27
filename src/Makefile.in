@@ -93,7 +93,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = toolbox.fun shell shtest
+CONFIG_CLEAN_FILES = toolbox.fun shell shtest shevil
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -145,7 +145,8 @@ am__can_run_installinfo = \
   esac
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/shell.in \
-	$(srcdir)/shtest.in $(srcdir)/toolbox.fun.in
+	$(srcdir)/shevil.in $(srcdir)/shtest.in \
+	$(srcdir)/toolbox.fun.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -224,7 +225,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-bin_SCRIPTS = shell shtest
+bin_SCRIPTS = shell shtest shevil
 libexec_SCRIPTS = toolbox.fun
 CLEANFILES = $(bin_SCRIPTS) $(libexec_SCRIPTS)
 all: all-am
@@ -264,6 +265,8 @@ toolbox.fun: $(top_builddir)/config.status $(srcdir)/toolbox.fun.in
 shell: $(top_builddir)/config.status $(srcdir)/shell.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 shtest: $(top_builddir)/config.status $(srcdir)/shtest.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+shevil: $(top_builddir)/config.status $(srcdir)/shevil.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
