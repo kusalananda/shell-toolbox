@@ -60,7 +60,9 @@ touch -- subdir/file0 'subdir 1/file1' \
 # misc.
 touch -- 'foo`echo malicious`bar' 'foo$(echo malicious)bar'
 touch -- "single'quote" 'double"quote' 'back\slash'
+touch -- '(' '!' '!!'  $'\xe2\x81\x84' $'\xe2\x88\x95'
 
 echo 'Done.'
+
 
 # vim: ft=sh
