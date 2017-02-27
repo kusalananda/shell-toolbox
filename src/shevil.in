@@ -2,11 +2,18 @@
 
 # This script creates a collection of files and directories with names
 # that may cause issues in scripts that are less cautiously written.
+#
+# Example invocations:
+#
+#   $ shevil testdir    # creates testdir and populates it
+#   $ shevil            # creates a directory under $TMPDIR (or /tmp)
+#                       # and populates it
 
 if [[ -n "$1" ]]; then
     tmpdir="$1"
     if [[ -e "$tmpdir" ]]; then
         printf 'The name "%s" already exists here.\n' "$tmpdir" >&2
+        echo 'Pick another directory name.' >&2
         exit 1
     fi
     mkdir -p "$tmpdir"
@@ -17,7 +24,7 @@ fi
 printf 'Created directory "%s".\n' "$tmpdir"
 echo "Remove this directory manually once it's no longer needed."
 
-cd "$tmpdir"
+cd "$tmpdir" || exit 1
 
 # Create files that are separate, but appear similar to each other
 # because of whitespace (space, tab, newline, carriage return, backspace):
