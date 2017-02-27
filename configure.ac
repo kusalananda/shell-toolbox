@@ -19,4 +19,5 @@ AC_CONFIG_FILES([Makefile src/Makefile])
 AC_CONFIG_FILES([src/toolbox.fun])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
 AC_CONFIG_FILES([src/shtest], [chmod +x src/shtest])
+AC_CONFIG_FILES([src/shevil], [chmod +x src/shevil])
 AC_OUTPUT
