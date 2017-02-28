@@ -20,4 +20,3 @@ To install using GNU stow under $HOME/local:
     make install
     cd "$HOME/local/stow"
     stow shell-toolbox
-
