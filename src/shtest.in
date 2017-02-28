@@ -1,4 +1,7 @@
-#!@shell_path@
+#!/bin/sh
+
+# Part of @PACKAGE_STRING@
+# For bug reports, see "@PACKAGE_BUGREPORT@"
 
 # Will run the given command in all avaliable shells and capture and
 # display the output generated on standard output as well as any
@@ -12,7 +15,7 @@
 
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
-. "@libexecdir@/toolbox.fun"
+. "@libexecdir@/toolbox.shlib"
 
 toolbox_get_shells | (
 trap 'rm -f "$tmpout" "$tmperr"' EXIT
