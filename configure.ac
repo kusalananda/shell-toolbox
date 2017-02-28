@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([shell-toolbox],[2070226],[https://github.com/kusalananda/shell-toolbox/issues])
+AC_INIT([shell-toolbox],[2070228],[https://github.com/kusalananda/shell-toolbox/issues])
 
 AC_CONFIG_AUX_DIR([build])
 
