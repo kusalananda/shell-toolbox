@@ -12,7 +12,7 @@
 
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
-. "@libexecdir@/toolbox.fun"
+. "@libexecdir@/toolbox.shlib"
 
 toolbox_get_shells | (
 trap 'rm -f "$tmpout" "$tmperr"' EXIT

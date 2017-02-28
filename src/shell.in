@@ -20,7 +20,7 @@
 
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
-. "@libexecdir@/toolbox.fun"
+. "@libexecdir@/toolbox.shlib"
 
 if [[ "$_is_tmp_shell" == 'Yes' ]]; then
     echo 'Already in temporary shell.  Exit this one first.' >&2
