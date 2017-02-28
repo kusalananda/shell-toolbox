@@ -1,7 +1,7 @@
 This project uses GNU autotools.
 
-To install the scripts under /usr/local (scripts will go in the "bin"
-subdirectory):
+To install the scripts under /usr/local (scripts will always go in the
+"bin" subdirectory):
 
     ./configure
     make
