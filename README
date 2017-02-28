@@ -8,6 +8,7 @@ How to use: The scripts are documented in the source.
 
 How to install: Please see the document called "INSTALL".
 
+Tested on: OpenBSD 6.0, NetBSD 7.0.2, Ubuntu 16.10, Solaris 11.3
 
 Shell scripts
 ------------------------------------------------------------------------
