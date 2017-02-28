@@ -1,4 +1,7 @@
-#!@shell_path@
+#!/bin/sh
+
+# Part of @PACKAGE_STRING@
+# For bug reports, see "@PACKAGE_BUGREPORT@"
 
 # Will run the given command in all avaliable shells and capture and
 # display the output generated on standard output as well as any
