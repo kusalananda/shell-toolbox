@@ -1,4 +1,7 @@
-#!@shell_path@
+#!/bin/sh
+
+# Part of @PACKAGE_STRING@
+# For bug reports, see "@PACKAGE_BUGREPORT@"
 
 # Starts the specified shell in a clean environment (but see below)
 # and with an empty temporary working directory.  The working
@@ -22,18 +25,18 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 . "@libexecdir@/toolbox.shlib"
 
-if [[ "$_is_tmp_shell" == 'Yes' ]]; then
+if [ "$_is_tmp_shell" = 'Yes' ]; then
     echo 'Already in temporary shell.  Exit this one first.' >&2
-    return 1
+    exit 1
 fi
 
 shell="$( basename "${1:-$SHELL}" )"
 
 realshell="$( toolbox_get_shells | @GREP@ "/$shell\$" )"
 
-if [[ -z "$realshell" ]] || [[ ! -x "$realshell" ]]; then
+if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
     printf 'No such shell: %s\n' "$shell" >&2
-    return 1
+    exit 1
 fi
 
 tmpcwd="$( @mktemp_path@ -d -p /tmp "shell-$shell.XXXXXXXX" )"

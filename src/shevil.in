@@ -1,5 +1,8 @@
 #!@shell_path@
 
+# Part of @PACKAGE_STRING@
+# For bug reports, see "@PACKAGE_BUGREPORT@"
+
 # This script creates a collection of files and directories with names
 # that may cause issues in scripts that are less cautiously written.
 #
@@ -9,9 +12,9 @@
 #   $ shevil            # creates a directory under $TMPDIR (or /tmp)
 #                       # and populates it
 
-if [[ -n "$1" ]]; then
+if [ -n "$1" ]; then
     tmpdir="$1"
-    if [[ -e "$tmpdir" ]]; then
+    if [ -e "$tmpdir" ]; then
         printf 'The name "%s" already exists here.\n' "$tmpdir" >&2
         echo 'Pick another directory name.' >&2
         exit 1

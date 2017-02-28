@@ -1,34 +1,24 @@
 ########################################################################
 # shell-toolbox                                                        #
 #                                                                      #
-# Useful shell scripts for ksh93 and bash                              #
+# Useful shell scripts for /bin/sh, ksh93 and bash                     #
 ########################################################################
 
 How to use: The scripts are documented in the source.
 
 How to install: Please see the document called "INSTALL".
 
+Tested on: OpenBSD 6.0, NetBSD 7.0.2, Ubuntu 16.10, Solaris 11.3
 
 Shell scripts
 ------------------------------------------------------------------------
 
-* shell:    Creates a shell for testing things in
+* shell:    Creates a shell for testing things in.
 
     Creates a temporary shell with a temporary working directory.  The
     working directory is removed when the shell exits.  Useful for
     testing things in an interactive environment other than your usual
     shell.
-
-
-* shtest:   Runs a command in all shells
-
-    Iterates over all installed shells and runs the same command in all
-    of them, capturing and displaying the exit status and the output
-    sent to all standard streams.  Useful for testing compatibility of
-    shell constructs between shells.
-
-    Adaption of idea from @terdon on the "Unix & Linux" StackExchange
-    forum.
 
 
 * shevil:   Creates files and directories with (possibly)
@@ -38,3 +28,15 @@ Shell scripts
     "Unix & Linux" StackExchange forum.
     http://unix.stackexchange.com/q/347484/116858
 
+    This script requires ksh93 or bash.
+
+
+* shtest:   Runs a command in all shells.
+
+    Iterates over all installed shells and runs the same command in all
+    of them, capturing and displaying the exit status and the output
+    sent to all standard streams.  Useful for testing compatibility of
+    shell constructs between shells.
+
+    Adaption of idea from @terdon on the "Unix & Linux" StackExchange
+    forum.
