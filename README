@@ -19,24 +19,3 @@ Shell scripts
     working directory is removed when the shell exits.  Useful for
     testing things in an interactive environment other than your usual
     shell.
-
-
-* shevil:   Creates files and directories with (possibly)
-            difficult-to-handle names in a temporary directory.
-
-    Adaption of question and answer originally by @JeffSchaller on the
-    "Unix & Linux" StackExchange forum.
-    http://unix.stackexchange.com/q/347484/116858
-
-    This script requires ksh93 or bash.
-
-
-* shtest:   Runs a command in all shells.
-
-    Iterates over all installed shells and runs the same command in all
-    of them, capturing and displaying the exit status and the output
-    sent to all standard streams.  Useful for testing compatibility of
-    shell constructs between shells.
-
-    Adaption of idea from @terdon on the "Unix & Linux" StackExchange
-    forum.

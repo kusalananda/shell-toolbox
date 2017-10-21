@@ -1,3 +1,12 @@
-* Make "configure" fail if neither ksh93 nor bash was found.
+For "shell":
 
-* Test to make sure "mktemp" understands both -d and -p flags.
+    * Make it possible to pre-populate the temporary directory with the
+      contents of an existing directory.
+
+    * Allow for multiple concurrent "shell" sessions in the same
+      temporary directory, possibly by giving the user the ablity to
+      manually pick the working directory (which would not be deleted
+      when exiting the session).
+
+    * Allow for exiting the "shell" session without deleting the
+      temporary directory.
