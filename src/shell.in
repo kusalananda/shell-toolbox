@@ -94,6 +94,15 @@ if [ "$_is_tmp_shell" = 'Yes' ]; then
     exit 1
 fi
 
+while getopts 'k' opt; do
+    case "$opt" in
+        k) keep=1 ;;
+        *) echo 'error in command line parsing' >&2
+           exit 1
+    esac
+done
+shift "$(( OPTIND - 1 ))"
+
 shell="$( basename "${1:-$SHELL}" )"
 
 realshell="$( get_shells | grep "/$shell\$" )"
@@ -106,7 +115,11 @@ if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
 fi
 
 tmpcwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
-trap 'printf "Removing %s\n" "$tmpcwd" >&2; cd / && rm -rf "$tmpcwd"' EXIT
+if [ "$keep" -eq 1 ]; then
+    trap 'printf "Leaving %s in place\n" "$tmpcwd" >&2' EXIT
+else
+    trap 'printf "Removing %s\n" "$tmpcwd" >&2; cd / && rm -rf "$tmpcwd"' EXIT
+fi
 
 printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2
 
