@@ -2,8 +2,3 @@ For "shell":
 
     * Make it possible to pre-populate the temporary directory with the
       contents of an existing directory.
-
-    * Allow for multiple concurrent "shell" sessions in the same
-      temporary directory, possibly by giving the user the ablity to
-      manually pick the working directory (which would not be deleted
-      when exiting the session).

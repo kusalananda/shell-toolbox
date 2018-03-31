@@ -19,10 +19,14 @@
 #
 # Example invocations:
 #
-#   $ shell         # starts a new shell (uses $SHELL)
-#   $ shell bash    # starts a new bash shell
-#   $ shell -k      # starts a new shell (uses $SHELL), temporary directory
-#                   # will not be deleted when exiting the session
+#   $ shell         # Starts a new shell (uses $SHELL).
+#   $ shell bash    # Starts a new bash shell.
+#   $ shell -k      # Starts a new shell (uses $SHELL).
+#                   # The temporary directory will not be deleted when
+#                   # exiting the session.
+#   $ shell -d dir  # Starts a new shell (uses $SHELL) with "dir"
+#                   # as the working directory.  The directory will not be
+#                   # deleted when exiting the session.
 
 _get_solaris_shells ()
 {
@@ -96,8 +100,10 @@ if [ "$_is_tmp_shell" = 'Yes' ]; then
     exit 1
 fi
 
-while getopts 'k' opt; do
+while getopts 'd:k' opt; do
     case "$opt" in
+        d) tmpcwd=$OPTARG
+           keep=1 ;;
         k) keep=1 ;;
         *) echo 'error in command line parsing' >&2
            exit 1
@@ -116,7 +122,10 @@ if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
     exit 1
 fi
 
-tmpcwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
+if [ -z "$tmpcwd" ]; then
+    tmpcwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
+fi
+
 if [ "$keep" -eq 1 ]; then
     trap 'printf "Leaving %s in place\n" "$tmpcwd" >&2' EXIT
 else
