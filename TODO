@@ -7,6 +7,3 @@ For "shell":
       temporary directory, possibly by giving the user the ablity to
       manually pick the working directory (which would not be deleted
       when exiting the session).
-
-    * Allow for exiting the "shell" session without deleting the
-      temporary directory.
