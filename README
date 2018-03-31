@@ -15,7 +15,7 @@ Shell scripts
 
 * shell:    Creates a shell for testing things in.
 
-    Creates a temporary shell with a temporary working directory.  The
-    working directory is removed when the shell exits.  Useful for
-    testing things in an interactive environment other than your usual
-    shell.
+    Creates a "temporary interactive shell" with a temporary working
+    directory.  The working directory is removed when the shell exits
+    (unless the -k flag is used).  Useful for testing things in an
+    interactive environment other than your usual shell.
