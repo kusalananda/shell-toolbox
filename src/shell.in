@@ -6,9 +6,9 @@
 # Starts the specified shell in a clean environment (but see below)
 # and with an empty temporary working directory.  The working
 # directory is deleted upon exiting the shell session.  If no shell
-# name is given, the shell is infered from $SHELL.
+# name is given, the shell is inferred from $SHELL.
 #
-# Environtment variable explicitly set:
+# Environment variable explicitly set:
 #
 #   HOME:           carried over from parent environment
 #   PATH:           set to output of "getconf PATH"
