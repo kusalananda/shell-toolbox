@@ -21,6 +21,8 @@
 #
 #   $ shell         # starts a new shell (uses $SHELL)
 #   $ shell bash    # starts a new bash shell
+#   $ shell -k      # starts a new shell (uses $SHELL), temporary directory
+#                   # will not be deleted when exiting the session
 
 _get_solaris_shells ()
 {
