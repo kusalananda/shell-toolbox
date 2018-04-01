@@ -1,3 +1,4 @@
-* Make "configure" fail if neither ksh93 nor bash was found.
+For "shell":
 
-* Test to make sure "mktemp" understands both -d and -p flags.
+    * Make it possible to pre-populate the temporary directory with the
+      contents of an existing directory.

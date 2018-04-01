@@ -6,41 +6,131 @@
 # Starts the specified shell in a clean environment (but see below)
 # and with an empty temporary working directory.  The working
 # directory is deleted upon exiting the shell session.  If no shell
-# name is given, the shell is infered from $SHELL.
+# name is given, the shell is inferred from $SHELL.
 #
-# Environtment variable explicitly set:
+# Environment variable explicitly set:
 #
 #   HOME:           carried over from parent environment
 #   PATH:           set to output of "getconf PATH"
+#   PS1:            set to $ followed by a space
 #   SHELL:          set to the absolute path of the real shell
 #   TERM:           carried over from parent environment
 #   _is_tmp_shell:  set to 'Yes' to avoid recursive calls
 #
 # Example invocations:
 #
-#   $ shell         # starts a new shell (uses $SHELL)
-#   $ shell bash    # starts a new bash shell
+#   $ shell         # Starts a new shell (uses $SHELL).
+#   $ shell bash    # Starts a new bash shell.
+#   $ shell -k      # Starts a new shell (uses $SHELL).
+#                   # The temporary directory will not be deleted when
+#                   # exiting the session.
+#   $ shell -d dir  # Starts a new shell (uses $SHELL) with "dir"
+#                   # as the working directory.  The directory will not be
+#                   # deleted when exiting the session.
 
-prefix="@prefix@"
-exec_prefix="@exec_prefix@"
-. "@libexecdir@/toolbox.shlib"
+_get_solaris_shells ()
+{
+    # Returns a list of valid Solaris 11.3 shells.  The list is taken
+    # from the shells(4) manual and is shortened to only contain one
+    # single instance of each shell.
+
+    # Parameters:   none
+    # stdin:        unused
+    # stdout:       list of shells (one per line)
+
+    cat <<END_LIST
+/bin/bash
+/bin/csh
+/bin/jsh
+/bin/ksh
+/bin/ksh93
+/bin/pfbash
+/bin/pfcsh
+/bin/pfksh
+/bin/pfksh93
+/bin/pfsh
+/bin/pftcsh
+/bin/pfzsh
+/bin/sh
+/bin/tcsh
+/bin/zsh
+END_LIST
+}
+
+get_shells ()
+{
+    # Returns a list of installed shells.  The shells are validated
+    # (it's made sure that they are executable files) before returned.
+
+    # Rationale: OpenBSD and NetBSD can use "getent shells" to get a
+    # list of shells, but this doesn't work on Ubuntu.  Solaris is a
+    # problem since "getent shells" doesn't work and /etc/shells may not
+    # exist.  The list of valid Solaris shells is instead taken from
+    # the shells(4) manual on a vanilla Solaris 11.3 system.
+
+    # Parameters:   none
+    # stdin:        unused
+    # stdout:       list of shells (one per line)
+
+    # Try using "getent shells", if that fails, try parsing /etc/shells,
+    # and if that fails, see if we're on Solaris and pass a predifined
+    # list of shells.  Else fail.
+
+    if ! getent shells 2>/dev/null &&
+       ! grep '^[^#]' /etc/shells 2>/dev/null
+    then
+        if [ "$( uname -s )" = "SunOS" ]; then
+            _get_solaris_shells
+        else
+            echo 'Can not get list of shells!' >&2
+            echo 'Please file a bug report at' >&2
+            echo '@PACKAGE_BUGREPORT@' >&2
+            exit 1
+        fi
+    fi |
+    while read realshell; do
+        if [ -x "$realshell" ]; then
+            printf '%s\n' "$realshell"
+        fi
+    done
+}
 
 if [ "$_is_tmp_shell" = 'Yes' ]; then
     echo 'Already in temporary shell.  Exit this one first.' >&2
     exit 1
 fi
 
+while getopts 'd:k' opt; do
+    case "$opt" in
+        d) tmpcwd=$OPTARG
+           keep=1 ;;
+        k) keep=1 ;;
+        *) echo 'error in command line parsing' >&2
+           exit 1
+    esac
+done
+shift "$(( OPTIND - 1 ))"
+
 shell="$( basename "${1:-$SHELL}" )"
 
-realshell="$( toolbox_get_shells | @GREP@ "/$shell\$" )"
+realshell="$( get_shells | grep "/$shell\$" )"
 
 if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
     printf 'No such shell: %s\n' "$shell" >&2
+    echo 'Valid shells:' >&2
+    get_shells | awk '{ printf("\t%s\n", $0) }' >&2
     exit 1
 fi
 
-tmpcwd="$( @mktemp_path@ -d -p /tmp "shell-$shell.XXXXXXXX" )"
-trap 'printf "Removing %s\n" "$tmpcwd" >&2; cd / && rm -rf "$tmpcwd"' EXIT
+if [ -z "$tmpcwd" ]; then
+    tmpcwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
+fi
+
+if [ "$keep" -eq 1 ]; then
+    trap 'printf "Leaving %s in place\n" "$tmpcwd" >&2' EXIT
+else
+    trap 'printf "Removing %s\n" "$tmpcwd" >&2; cd / && rm -rf "$tmpcwd"' EXIT
+fi
 
 printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2
 
@@ -49,6 +139,7 @@ env -i  HOME="$HOME" \
         PATH="$( getconf PATH )" \
         TERM="$TERM" \
         SHELL="$realshell" \
+        PS1='$ ' \
         _is_tmp_shell='Yes' \
         "$realshell"
 
