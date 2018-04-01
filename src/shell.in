@@ -84,11 +84,6 @@ get_shells ()
     done
 }
 
-if [ "$_is_tmp_shell" = 'Yes' ]; then
-    echo 'Already in temporary shell.  Exit this one first.' >&2
-    exit 1
-fi
-
 while getopts 'd:k' opt; do
     case "$opt" in
         d) tmpcwd=$OPTARG
