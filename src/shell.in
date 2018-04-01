@@ -3,6 +3,19 @@
 # Part of @PACKAGE_STRING@
 # For bug reports, see "@PACKAGE_BUGREPORT@"
 
+_error ()
+{
+    # Simple function for outputting error messages.  Prefixes the error
+    # message with the name of the utility.
+
+    # Parameters:   same as printf
+    # stdin:        unused
+    # stdout:       unused
+    # stderr:       error message
+
+    printf 'shell: ' >&2
+    printf "$@" >&2
+}
 
 _get_solaris_shells ()
 {
@@ -81,7 +94,7 @@ while getopts 'd:k' opt; do
         d) tmpcwd=$OPTARG
            keep=1 ;;
         k) keep=1 ;;
-        *) echo 'error in command line parsing' >&2
+        *) _error 'error while parsing the command line'
            exit 1
     esac
 done
@@ -92,7 +105,7 @@ shell="$( basename "${1:-$SHELL}" )"
 realshell="$( get_shells | grep "/$shell\$" )"
 
 if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
-    printf 'No such shell: %s\n' "$shell" >&2
+    _error 'No such shell: %s\n' "$shell"
     echo 'Valid shells:' >&2
     get_shells | awk '{ printf("\t%s\n", $0) }' >&2
     exit 1
