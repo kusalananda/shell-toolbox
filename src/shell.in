@@ -112,6 +112,16 @@ fi
 
 if [ -z "$tmpcwd" ]; then
     tmpcwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
+elif [ ! -d "$tmpcwd" ]; then
+    if [ -e "$tmpcwd" ]; then
+        _error '"%s" exists, but is not a directory\n' "$tmpcwd"
+        exit 1
+    fi
+
+    if ! mkdir -p "$tmpcwd"; then
+        _error 'Failed to create directory "%s"\n' "$tmpcwd"
+        exit 1
+    fi
 fi
 
 if [ "$keep" -eq 1 ]; then
