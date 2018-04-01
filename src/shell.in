@@ -96,6 +96,10 @@ done
 shift "$(( OPTIND - 1 ))"
 
 shell="$( basename "${1:-$SHELL}" )"
+if [ -z "$shell" ]; then
+    _error 'Can not determine what shell to start\n'
+    exit 1
+fi
 
 realshell="$( get_shells | grep "/$shell\$" )"
 
