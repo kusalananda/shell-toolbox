@@ -1,22 +1,35 @@
+########################################################################
 # shell-toolbox
+########################################################################
 
 Useful shell scripts
 
-How to use: The scripts are documented with their own manuals.
+How to use:
+    The scripts are documented with their own manuals.  The same manuals
+    are also available as plain text and Markdown in the "doc" directory
+    of the source distribution.  These will also be installed in
+    "<prefix>/share/doc/shell-toolbox" by default.
 
-How to install: Please see the document called `INSTALL.md`.
+How to install:
+    Please see the document called "INSTALL" in the source distribution.
 
-Tested on: OpenBSD 6.3, NetBSD 7.0.2, Ubuntu 16.10, Solaris 11.3
+Tested on:
+    OpenBSD 6.3, NetBSD 7.0.2, Ubuntu 16.10, Solaris 11.3
 
-## Shell scripts
 
-* `shell`:    Creates a shell for testing things in.
+------------------------------------------------------------------------
+# Shell scripts
+------------------------------------------------------------------------
 
- Creates a "temporary interactive shell" with a temporary working
- directory (unless the `-d` flag is used to specify an existing
- directory) and clean environment.  The working directory is removed
- when the shell exits (unless the `-k` or `-d` flag was used).  Useful
- for testing things in an interactive environment other than your usual
- shell.
+* "shell":    Creates a shell for testing things in.
 
- See `man 1 shell` after installation.
+     This script is useful for testing things in an interactive
+     environment other than your usual shell, or for testing things in a
+     clean environment with automatic cleanup of any files left behind.
+
+     Creates a "temporary interactive shell" with a temporary working
+     directory (unless the "-d" flag is used to specify an existing
+     directory) and clean environment.  The working directory is removed
+     when the shell exits (unless the "-k" or "-d" flag was used).
+
+     See `man 1 shell` after installation.
