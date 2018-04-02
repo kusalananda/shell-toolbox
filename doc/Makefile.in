@@ -157,6 +157,7 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+COL = @COL@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 ECHO_C = @ECHO_C@
@@ -485,13 +486,16 @@ uninstall-man: uninstall-man1
 
 
 shell.man:	$(srcdir)/shell.mdoc
+	test -x "$(MANDOC)" && \
 	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man
 
 shell.md:	$(srcdir)/shell.mdoc
+	test -x "$(MANDOC)" && \
 	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
 
 shell.txt:	$(srcdir)/shell.mdoc
-	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | col -b >shell.txt
+	test -x "$(MANDOC)" && test -x "$(COL)" && \
+	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | $(COL) -b >shell.txt
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
