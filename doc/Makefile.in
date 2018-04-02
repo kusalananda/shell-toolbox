@@ -13,6 +13,7 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -90,7 +91,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(dist_doc_DATA) \
+	$(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
@@ -141,9 +143,10 @@ am__uninstall_files_from_dir = { \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
 man1dir = $(mandir)/man1
-am__installdirs = "$(DESTDIR)$(man1dir)"
+am__installdirs = "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(docdir)"
 NROFF = nroff
 MANS = $(dist_man1_MANS)
+DATA = $(dist_doc_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 am__DIST_COMMON = $(dist_man1_MANS) $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -223,7 +226,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 dist_man1_MANS = shell.man
+dist_doc_DATA = shell.md
 EXTRA_DIST = shell.mdoc
+DISTCLEANFILES = shell.man shell.md
 all: all-am
 
 .SUFFIXES:
@@ -297,6 +302,27 @@ uninstall-man1:
 	} | sed -e 's,.*/,,;h;s,.*\.,,;s,^[^1][0-9a-z]*$$,1,;x' \
 	      -e 's,\.[0-9a-z]*$$,,;$(transform);G;s,\n,.,'`; \
 	dir='$(DESTDIR)$(man1dir)'; $(am__uninstall_files_from_dir)
+install-dist_docDATA: $(dist_doc_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(dist_doc_DATA)'; test -n "$(docdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(docdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(docdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(docdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(docdir)" || exit $$?; \
+	done
+
+uninstall-dist_docDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_doc_DATA)'; test -n "$(docdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(docdir)'; $(am__uninstall_files_from_dir)
 tags TAGS:
 
 ctags CTAGS:
@@ -336,9 +362,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(MANS)
+all-am: Makefile $(MANS) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(man1dir)"; do \
+	for dir in "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(docdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -367,6 +393,7 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -391,7 +418,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-man
+install-data-am: install-dist_docDATA install-man
 
 install-dvi: install-dvi-am
 
@@ -435,7 +462,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-man
+uninstall-am: uninstall-dist_docDATA uninstall-man
 
 uninstall-man: uninstall-man1
 
@@ -444,20 +471,24 @@ uninstall-man: uninstall-man1
 .PHONY: all all-am check check-am clean clean-generic cscopelist-am \
 	ctags-am distclean distclean-generic distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-man1 install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am tags-am uninstall uninstall-am uninstall-man \
+	install-data-am install-dist_docDATA install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-man1 install-pdf install-pdf-am install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am tags-am \
+	uninstall uninstall-am uninstall-dist_docDATA uninstall-man \
 	uninstall-man1
 
 .PRECIOUS: Makefile
 
 
-shell.man:	shell.mdoc
-	$(mandoc) -T man -I os=Unix shell.mdoc >shell.man
+shell.man:	$(srcdir)/shell.mdoc
+	$(mandoc) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man
+
+shell.md:	$(srcdir)/shell.mdoc
+	$(mandoc) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
