@@ -1,7 +1,7 @@
 SHELL(1)		    General Commands Manual		      SHELL(1)
 
 NAME
-     shell  Creates a temporary interactive shell session in a disposable
+     shell - Creates a temporary interactive shell session in a disposable
      working directory
 
 SYNOPSIS
@@ -46,9 +46,9 @@ ENVIRONMENT
 
      HOME    Set to the working directory where the shell is started.
 
-     PATH    Set to the output of getconf PATH.
+     PATH    Set to the output of "getconf PATH".
 
-     PS1     Set to the string $ (dollar-sign and space).  Note that some
+     PS1     Set to the string `$ ' (dollar-sign and space).  Note that some
 	     shells ignore this variable if passed from the parent
 	     environment.
 
@@ -61,8 +61,8 @@ ENVIRONMENT
 
 FILES
      /etc/shells
-	     Used as a source for valid login shells on systems where getent
-	     shells does not work.
+	     Used as a source for valid login shells on systems where "getent
+	     shells" does not work.
 
 EXAMPLES
      Start a new shell in a new temporary directory:
@@ -87,11 +87,11 @@ EXAMPLES
 	   Leaving /home/myself/testing in place
 
 AUTHORS
-     Andreas Kusalananda Khri <andreas.kahari@nbis.se>
+     Andreas Kusalananda Kahari <andreas.kahari@nbis.se>
 
 CAVEATS
      For Solaris, the list of valid login shells is taken from the shells(4)
-     manual on a Solaris 11.3 system.  This is because Solaris lacks getent
-     shells and may also lack the /etc/shells file.
+     manual on a Solaris 11.3 system.  This is because Solaris lacks "getent
+     shells" and may also lack the /etc/shells file.
 
 Unix				 April 2, 2018				  Unix

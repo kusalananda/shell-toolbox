@@ -172,6 +172,7 @@ LIBS = @LIBS@
 LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
+MANDOC = @MANDOC@
 MKDIR_P = @MKDIR_P@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -210,7 +211,6 @@ libexecdir = @libexecdir@
 localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
-mandoc = @mandoc@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
@@ -485,13 +485,13 @@ uninstall-man: uninstall-man1
 
 
 shell.man:	$(srcdir)/shell.mdoc
-	$(mandoc) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man
+	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man
 
 shell.md:	$(srcdir)/shell.mdoc
-	$(mandoc) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
+	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
 
 shell.txt:	$(srcdir)/shell.mdoc
-	$(mandoc) -I os=Unix $(srcdir)/shell.mdoc | col -b >shell.txt
+	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | col -b >shell.txt
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

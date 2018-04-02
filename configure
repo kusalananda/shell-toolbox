@@ -588,7 +588,7 @@ PACKAGE_URL=''
 ac_unique_file="src/shell.in"
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-mandoc
+MANDOC
 MAINT
 MAINTAINER_MODE_FALSE
 MAINTAINER_MODE_TRUE
@@ -2354,12 +2354,12 @@ fi
 set dummy mandoc; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_mandoc+:} false; then :
+if ${ac_cv_path_MANDOC+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  case $mandoc in
+  case $MANDOC in
   [\\/]* | ?:[\\/]*)
-  ac_cv_path_mandoc="$mandoc" # Let the user override the test with a path.
+  ac_cv_path_MANDOC="$MANDOC" # Let the user override the test with a path.
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
@@ -2369,7 +2369,7 @@ do
   test -z "$as_dir" && as_dir=.
     for ac_exec_ext in '' $ac_executable_extensions; do
   if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_path_mandoc="$as_dir/$ac_word$ac_exec_ext"
+    ac_cv_path_MANDOC="$as_dir/$ac_word$ac_exec_ext"
     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
@@ -2380,10 +2380,10 @@ IFS=$as_save_IFS
   ;;
 esac
 fi
-mandoc=$ac_cv_path_mandoc
-if test -n "$mandoc"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $mandoc" >&5
-$as_echo "$mandoc" >&6; }
+MANDOC=$ac_cv_path_MANDOC
+if test -n "$MANDOC"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $MANDOC" >&5
+$as_echo "$MANDOC" >&6; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
