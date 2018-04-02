@@ -457,7 +457,7 @@ uninstall-man: uninstall-man1
 
 
 shell.man:	shell.mdoc
-	$(mandoc) -T man shell.mdoc >shell.man
+	$(mandoc) -T man -I os=Unix shell.mdoc >shell.man
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
