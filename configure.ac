@@ -8,7 +8,7 @@ AM_MAINTAINER_MODE
 
 AC_CONFIG_SRCDIR([src/shell.in])
 
-AC_PATH_PROG(mandoc, [mandoc])
+AC_PATH_PROG(MANDOC, [mandoc])
 
 AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])

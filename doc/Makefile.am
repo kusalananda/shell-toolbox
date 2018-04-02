@@ -4,10 +4,10 @@ EXTRA_DIST=	shell.mdoc
 DISTCLEANFILES=	shell.man shell.md shell.txt
 
 shell.man:	$(srcdir)/shell.mdoc
-	$(mandoc) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man
+	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man
 
 shell.md:	$(srcdir)/shell.mdoc
-	$(mandoc) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
+	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
 
 shell.txt:	$(srcdir)/shell.mdoc
-	$(mandoc) -I os=Unix $(srcdir)/shell.mdoc | col -b >shell.txt
+	$(MANDOC) -I os=Unix $(srcdir)/shell.mdoc | col -b >shell.txt
