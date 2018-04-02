@@ -86,7 +86,7 @@ get_shells ()
 
 while getopts 'd:k' opt; do
     case "$opt" in
-        d) tmpcwd=$OPTARG
+        d) tmpwd=$OPTARG
            keep=1 ;;
         k) keep=1 ;;
         *) _error 'error while parsing the command line'
@@ -110,30 +110,30 @@ if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
     exit 1
 fi
 
-if [ -z "$tmpcwd" ]; then
-    tmpcwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
-elif [ ! -d "$tmpcwd" ]; then
-    if [ -e "$tmpcwd" ]; then
-        _error '"%s" exists, but is not a directory\n' "$tmpcwd"
+if [ -z "$tmpwd" ]; then
+    tmpwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
+elif [ ! -d "$tmpwd" ]; then
+    if [ -e "$tmpwd" ]; then
+        _error '"%s" exists, but is not a directory\n' "$tmpwd"
         exit 1
     fi
 
-    if ! mkdir -p "$tmpcwd"; then
-        _error 'Failed to create directory "%s"\n' "$tmpcwd"
+    if ! mkdir -p "$tmpwd"; then
+        _error 'Failed to create directory "%s"\n' "$tmpwd"
         exit 1
     fi
 fi
 
 if [ "$keep" -eq 1 ]; then
-    trap 'printf "Leaving %s in place\n" "$tmpcwd" >&2' EXIT
+    trap 'printf "Leaving %s in place\n" "$tmpwd" >&2' EXIT
 else
-    trap 'printf "Removing %s\n" "$tmpcwd" >&2; cd / && rm -rf "$tmpcwd"' EXIT
+    trap 'printf "Removing %s\n" "$tmpwd" >&2; cd / && rm -rf "$tmpwd"' EXIT
 fi
 
-printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2
+printf 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
 
-cd "$tmpcwd" &&
-env -i  HOME="$tmpcwd" \
+cd "$tmpwd" &&
+env -i  HOME="$tmpwd" \
         PATH="$( getconf PATH )" \
         PS1='$ ' \
         SHELL="$realshell" \
