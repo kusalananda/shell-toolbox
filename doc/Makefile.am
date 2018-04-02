@@ -10,4 +10,4 @@ shell.md:	$(srcdir)/shell.mdoc
 	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
 
 shell.txt:	$(srcdir)/shell.mdoc
-	$(MANDOC) -I os=Unix $(srcdir)/shell.mdoc | col -b >shell.txt
+	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | col -b >shell.txt
