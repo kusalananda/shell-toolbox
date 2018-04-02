@@ -1,0 +1,143 @@
+.TH "SHELL" "1" "April 2, 2018" "Unix" "General Commands Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBshell\fR
+\- Creates a temporary interactive shell session in a disposable working directory
+.SH "SYNOPSIS"
+.HP 6n
+\fBshell\fR
+[\fB\-d\fR\ \fIdirectory\fR\ |\ \fB\-k\fR]
+[\fIshell\fR]
+.SH "DESCRIPTION"
+The
+\fBshell\fR
+utility creates an interactive shell session with a clean environment
+and with an empty working directory.
+.PP
+By specifying a specific
+\fIshell\fR
+on the command line, a shell other than the user's login shell may be
+invoked.
+If a specific shell is not requested, the
+\fRSHELL\fR
+environment variable will be used to infer what shell to start.
+.PP
+The basename of the named
+\fIshell\fR
+must correspond to a valid login shell and the actual shell that is
+started will always be taken from the list of valid login shells (by
+matching the basename of the specified
+\fIshell\fR,
+or
+\fR$SHELL\fR,
+against the basenames of
+the allowed login shells).
+.PP
+The options are as follows:
+.TP 8n
+\fB\-d\fR \fIdirectory\fR
+Use the specified directory rather than a new temporary directory.
+If the directory does not already exist, it will be created.
+This directory will not be deleted when the shell session terminates.
+This option implies the
+\fB\-k\fR
+option.
+.TP 8n
+\fB\-k\fR
+Keep the temprorary directory around after terminating the shell session.
+.SH "ENVIRONMENT"
+\fBshell\fR
+uses the following environment variables:
+.TP 8n
+\fRTMPDIR\fR
+Directory in which to create the working directory when the
+\fB\-d\fR
+option is not used.
+.TP 8n
+\fRSHELL\fR
+Used to determine what shell to start if a specific
+\fIshell\fR
+is not specified on the command line.
+.PP
+\fBshell\fR
+clears the environment of the interactive shell that it starts, but
+also sets the following environment variables:
+.TP 8n
+\fRHOME\fR
+Set to the working directory where the shell is started.
+.TP 8n
+\fRPATH\fR
+Set to the output of
+\(Lq\fBgetconf PATH\fR\(Rq.
+.TP 8n
+\fRPS1\fR
+Set to the string
+\(oq$\ \(cq
+(dollar-sign and space).
+Note that some shells ignore this variable if passed from the parent
+environment.
+.TP 8n
+\fRSHELL\fR
+Set to the absolute path of the real shell executable.
+This may be different from the
+\fIshell\fR
+mentioned on the command line as the actual shell used will always be
+picked from the list of valid login shells.
+.TP 8n
+\fRTERM\fR
+Carried over from the parent environment.
+.SH "FILES"
+.TP 8n
+\fI/etc/shells\fR
+Used as a source for valid login shells on systems where
+\(Lq\fBgetent shells\fR\(Rq
+does not work.
+.SH "EXAMPLES"
+Start a new shell in a new temporary directory:
+.nf
+.sp
+.RS 6n
+$ shell
+Starting /bin/ksh in /tmp/shell-ksh.lDv4uX48
+$ exit
+Removing /tmp/shell-ksh.lDv4uX48
+.RE
+.fi
+.PP
+Start a new
+\fBksh93\fR
+shell in a temporary directory:
+.nf
+.sp
+.RS 6n
+$ shell ksh93
+Starting /usr/local/bin/ksh93 in /tmp/shell-ksh93.oct61lxx
+myself:/tmp/shell-ksh93.oct61lxx:1$ exit
+Removing /tmp/shell-ksh93.oct61lxx
+.RE
+.fi
+.PP
+Start a new
+\fBbash\fR
+shell in a specific directory:
+.nf
+.sp
+.RS 6n
+$ shell -d "$HOME/testing" bash
+Starting /usr/local/bin/bash in /home/myself/testing
+$ exit
+Leaving /home/myself/testing in place
+.RE
+.fi
+.SH "AUTHORS"
+Andreas Kusalananda K\[:a]h\[:a]ri <\fIandreas.kahari@nbis.se\fR>
+.SH "CAVEATS"
+For Solaris, the list of valid login shells is taken from the
+shells(4)
+manual on a Solaris 11.3 system.
+This is because Solaris lacks
+\(Lq\fBgetent shells\fR\(Rq
+and may also lack the
+\fI/etc/shells\fR
+file.
