@@ -21,7 +21,7 @@ Tested on:
 # Shell scripts
 ------------------------------------------------------------------------
 
-* "shell":    Creates a shell for testing things in.
+* shell:    Creates a shell for testing things in.
 
      This script is useful for testing things in an interactive
      environment other than your usual shell, or for testing things in a
@@ -32,4 +32,4 @@ Tested on:
      directory) and clean environment.  The working directory is removed
      when the shell exits (unless the "-k" or "-d" flag was used).
 
-     See `man 1 shell` after installation.
+     See "man 1 shell" after installation.
