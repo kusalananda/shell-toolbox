@@ -1,0 +1,97 @@
+SHELL(1)                    General Commands Manual                   SHELL(1)
+
+NNAAMMEE
+     sshheellll – Creates a temporary interactive shell session in a disposable
+     working directory
+
+SSYYNNOOPPSSIISS
+     sshheellll [--dd _d_i_r_e_c_t_o_r_y | --kk] [_s_h_e_l_l]
+
+DDEESSCCRRIIPPTTIIOONN
+     The sshheellll utility creates an interactive shell session with a clean
+     environment and with an empty working directory.
+
+     By specifying a specific _s_h_e_l_l on the command line, a shell other than
+     the user's login shell may be invoked.  If a specific shell is not
+     requested, the SHELL environment variable will be used to infer what
+     shell to start.
+
+     The basename of the named _s_h_e_l_l must correspond to a valid login shell
+     and the actual shell that is started will always be taken from the list
+     of valid login shells (by matching the basename of the specified _s_h_e_l_l,
+     or $SHELL, against the basenames of the allowed login shells).
+
+     The options are as follows:
+
+     --dd _d_i_r_e_c_t_o_r_y
+             Use the specified directory rather than a new temporary
+             directory.  If the directory does not already exist, it will be
+             created.  This directory will not be deleted when the shell
+             session terminates.  This option implies the --kk option.
+
+     --kk      Keep the temprorary directory around after terminating the shell
+             session.
+
+EENNVVIIRROONNMMEENNTT
+     sshheellll uses the following environment variables:
+
+     TMPDIR  Directory in which to create the working directory when the --dd
+             option is not used.
+
+     SHELL   Used to determine what shell to start if a specific _s_h_e_l_l is not
+             specified on the command line.
+
+     sshheellll clears the environment of the interactive shell that it starts, but
+     also sets the following environment variables:
+
+     HOME    Set to the working directory where the shell is started.
+
+     PATH    Set to the output of “ggeettccoonnff PPAATTHH”.
+
+     PS1     Set to the string ‘$ ’ (dollar-sign and space).  Note that some
+             shells ignore this variable if passed from the parent
+             environment.
+
+     SHELL   Set to the absolute path of the real shell executable.  This may
+             be different from the _s_h_e_l_l mentioned on the command line as the
+             actual shell used will always be picked from the list of valid
+             login shells.
+
+     TERM    Carried over from the parent environment.
+
+FFIILLEESS
+     _/_e_t_c_/_s_h_e_l_l_s
+             Used as a source for valid login shells on systems where “ggeetteenntt
+             sshheellllss” does not work.
+
+EEXXAAMMPPLLEESS
+     Start a new shell in a new temporary directory:
+
+           $ shell
+           Starting /bin/ksh in /tmp/shell-ksh.lDv4uX48
+           $ exit
+           Removing /tmp/shell-ksh.lDv4uX48
+
+     Start a new kksshh9933 shell in a temporary directory:
+
+           $ shell ksh93
+           Starting /usr/local/bin/ksh93 in /tmp/shell-ksh93.oct61lxx
+           myself:/tmp/shell-ksh93.oct61lxx:1$ exit
+           Removing /tmp/shell-ksh93.oct61lxx
+
+     Start a new bbaasshh shell in a specific directory:
+
+           $ shell -d "$HOME/testing" bash
+           Starting /usr/local/bin/bash in /home/myself/testing
+           $ exit
+           Leaving /home/myself/testing in place
+
+AAUUTTHHOORRSS
+     Andreas Kusalananda Kähäri <_a_n_d_r_e_a_s_._k_a_h_a_r_i_@_n_b_i_s_._s_e>
+
+CCAAVVEEAATTSS
+     For Solaris, the list of valid login shells is taken from the shells(4)
+     manual on a Solaris 11.3 system.  This is because Solaris lacks “ggeetteenntt
+     sshheellllss” and may also lack the _/_e_t_c_/_s_h_e_l_l_s file.
+
+Unix                             April 2, 2018                            Unix
