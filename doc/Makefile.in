@@ -226,9 +226,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 dist_man1_MANS = shell.man
-dist_doc_DATA = shell.md
+dist_doc_DATA = shell.md shell.txt
 EXTRA_DIST = shell.mdoc
-DISTCLEANFILES = shell.man shell.md
+DISTCLEANFILES = shell.man shell.md shell.txt
 all: all-am
 
 .SUFFIXES:
@@ -489,6 +489,9 @@ shell.man:	$(srcdir)/shell.mdoc
 
 shell.md:	$(srcdir)/shell.mdoc
 	$(mandoc) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
+
+shell.txt:	$(srcdir)/shell.mdoc
+	$(mandoc) -I os=Unix $(srcdir)/shell.mdoc >shell.txt
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
