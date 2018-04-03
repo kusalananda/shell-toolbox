@@ -71,9 +71,9 @@ get_shells ()
         if [ "$( uname -s )" = "SunOS" ]; then
             _get_solaris_shells
         else
-            echo 'Can not get list of shells!' >&2
-            echo 'Please file a bug report at' >&2
-            echo '@PACKAGE_BUGREPORT@' >&2
+            _error 'Can not get list of shells!'
+            _error 'Please file a bug report at'
+            _error '@PACKAGE_BUGREPORT@'
             exit 1
         fi
     fi |
