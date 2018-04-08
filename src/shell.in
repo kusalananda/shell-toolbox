@@ -84,11 +84,12 @@ get_shells ()
     done
 }
 
-while getopts 'd:k' opt; do
+while getopts 'd:ks:' opt; do
     case "$opt" in
         d) tmpwd=$OPTARG
            keep=1 ;;
         k) keep=1 ;;
+        s) skel=$OPTARG ;;
         *) _error 'error while parsing the command line\n'
            exit 1
     esac
@@ -134,6 +135,22 @@ if [ "$keep" -eq 1 ]; then
     trap 'printf "Leaving %s in place\n" "$tmpwd" >&2' EXIT
 else
     trap 'printf "Removing %s\n" "$tmpwd" >&2; cd / && rm -rf "$tmpwd"' EXIT
+fi
+
+if [ -n "$skel" ]; then
+    if [ ! -d "$skel" ]; then
+        _error 'The -s option was used, but "%s" does not exist\n' "$skel"
+        exit 1
+    fi
+
+    if command -v pax >/dev/null 2>&1; then
+        ( cd "$skel" && pax -rw . "$tmpwd" )
+    elif command -v tar >/dev/null 2>&1; then
+        tar -cv -f - -C "$skel" . | tar -x -f - -C "$tmpwd"
+    else
+        _error 'Can not use pax nor tar to copy "%s" to "%s"\n' "$skel" "$tmpwd"
+        exit 1
+    fi
 fi
 
 printf 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
