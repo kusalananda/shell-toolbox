@@ -142,6 +142,12 @@ Start
 as a login shell and pre-populate the temporary directory with the
 contents of
 .Pa /etc/skel .
+Note, starting the
+.Cm ksh
+shell as a login shell will make it execute the
+.Pa .profile
+file copied from
+.Pa /etc/skel .
 .Bd -literal -offset Ds
 $ shell -s /etc/skel ksh -l
 Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr
