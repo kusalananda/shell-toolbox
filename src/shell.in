@@ -71,9 +71,9 @@ get_shells ()
         if [ "$( uname -s )" = "SunOS" ]; then
             _get_solaris_shells
         else
-            _error 'Can not get list of shells!'
-            _error 'Please file a bug report at'
-            _error '@PACKAGE_BUGREPORT@'
+            _error 'Can not get list of shells!\n'
+            _error 'Please file a bug report at\n'
+            _error '@PACKAGE_BUGREPORT@\n'
             exit 1
         fi
     fi |
@@ -89,7 +89,7 @@ while getopts 'd:k' opt; do
         d) tmpwd=$OPTARG
            keep=1 ;;
         k) keep=1 ;;
-        *) _error 'error while parsing the command line'
+        *) _error 'error while parsing the command line\n'
            exit 1
     esac
 done
