@@ -7,7 +7,11 @@
 .Sh SYNOPSIS
 .Nm shell
 .Op Fl d Ar directory | Fl k
-.Op Ar shell
+.Op Ar shell Op Ar ...
+.Nm
+.Op Fl s Ar directory
+.Op Fl k
+.Op Ar shell Op Ar ...
 .Sh DESCRIPTION
 The
 .Nm
@@ -33,6 +37,10 @@ or
 against the basenames of
 the allowed login shells).
 .Pp
+Any operands present after the name of the
+.Ar shell
+will be passed as is to the shell in question.
+.Pp
 The options are as follows:
 .Bl -tag -width Ds
 .It Fl d Ar directory
@@ -41,9 +49,19 @@ If the directory does not already exist, it will be created.
 This directory will not be deleted when the shell session terminates.
 This option implies the
 .Fl k
+option, and conflicts with the
+.Fl s
 option.
 .It Fl k
-Keep the temprorary directory around after terminating the shell session.
+Keep the temporary directory around after terminating the shell session.
+.It Fl s Ar directory
+Pre-populate the temporary directory with the contents of the named
+directory.
+This will copy the whole directory structure rooted in the specified
+directory to the temporary working directory.
+This option conflicts with the
+.Fl d
+option.
 .El
 .Sh ENVIRONMENT
 .Nm
@@ -117,6 +135,28 @@ $ shell -d "$HOME/testing" bash
 Starting /usr/local/bin/bash in /home/myself/testing
 $ exit
 Leaving /home/myself/testing in place
+.Ed
+.Pp
+Start
+.Cm ksh
+as a login shell and pre-populate the temporary directory with the
+contents of
+.Pa /etc/skel .
+.Bd -literal -offset Ds
+$ shell -s /etc/skel ksh -l
+Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr
+$ ls -la
+total 16
+drwx------  3 myself  wheel  512 Feb  9 10:18 .
+drwxrwxrwt  4 root    wheel  512 Apr  8 18:49 ..
+-rw-r--r--  1 myself  wheel   87 Nov  1 19:14 .Xdefaults
+-rw-r--r--  1 myself  wheel  771 Feb  9 10:18 .cshrc
+-rw-r--r--  1 myself  wheel  101 Nov  1 19:14 .cvsrc
+-rw-r--r--  1 myself  wheel  359 Nov  1 19:14 .login
+-rw-r--r--  1 myself  wheel  175 Nov  1 19:14 .mailrc
+-rw-r--r--  1 myself  wheel  215 Feb  9 10:18 .profile
+$ exit
+Removing /tmp/shell-ksh.4DzEG6qr
 .Ed
 .Sh AUTHORS
 .An Andreas Kusalananda K\[:a]h\[:a]ri Aq Mt andreas.kahari@nbis.se
