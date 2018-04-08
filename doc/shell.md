@@ -161,6 +161,12 @@ Start
 as a login shell and pre-populate the temporary directory with the
 contents of
 */etc/skel*.
+Note, starting the
+**ksh**
+shell as a login shell will make it execute the
+*.profile*
+file copied from
+*/etc/skel*.
 
 	$ shell -s /etc/skel ksh -l
 	Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr

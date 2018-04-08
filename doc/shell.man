@@ -159,6 +159,12 @@ Start
 as a login shell and pre-populate the temporary directory with the
 contents of
 \fI/etc/skel\fR.
+Note, starting the
+\fBksh\fR
+shell as a login shell will make it execute the
+\fI.profile\fR
+file copied from
+\fI/etc/skel\fR.
 .nf
 .sp
 .RS 6n
