@@ -8,7 +8,11 @@ SHELL(1) - General Commands Manual
 
 **shell**
 \[**-d**&nbsp;*directory*&nbsp;|&nbsp;**-k**]
-\[*shell*]
+\[*shell*&nbsp;\[*...*]]  
+**shell**
+\[**-s**&nbsp;*directory*]
+\[**-k**]
+\[*shell*&nbsp;\[*...*]]
 
 # DESCRIPTION
 
@@ -36,6 +40,10 @@ or
 against the basenames of
 the allowed login shells).
 
+Any operands present after the name of the
+*shell*
+will be passed as is to the shell in question.
+
 The options are as follows:
 
 **-d** *directory*
@@ -45,11 +53,23 @@ The options are as follows:
 > This directory will not be deleted when the shell session terminates.
 > This option implies the
 > **-k**
+> option, and conflicts with the
+> **-s**
 > option.
 
 **-k**
 
-> Keep the temprorary directory around after terminating the shell session.
+> Keep the temporary directory around after terminating the shell session.
+
+**-s** *directory*
+
+> Pre-populate the temporary directory with the contents of the named
+> directory.
+> This will copy the whole directory structure rooted in the specified
+> directory to the temporary working directory.
+> This option conflicts with the
+> **-d**
+> option.
 
 # ENVIRONMENT
 
@@ -136,6 +156,27 @@ shell in a specific directory:
 	$ exit
 	Leaving /home/myself/testing in place
 
+Start
+**ksh**
+as a login shell and pre-populate the temporary directory with the
+contents of
+*/etc/skel*.
+
+	$ shell -s /etc/skel ksh -l
+	Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr
+	$ ls -la
+	total 16
+	drwx------  3 myself  wheel  512 Feb  9 10:18 .
+	drwxrwxrwt  4 root    wheel  512 Apr  8 18:49 ..
+	-rw-r--r--  1 myself  wheel   87 Nov  1 19:14 .Xdefaults
+	-rw-r--r--  1 myself  wheel  771 Feb  9 10:18 .cshrc
+	-rw-r--r--  1 myself  wheel  101 Nov  1 19:14 .cvsrc
+	-rw-r--r--  1 myself  wheel  359 Nov  1 19:14 .login
+	-rw-r--r--  1 myself  wheel  175 Nov  1 19:14 .mailrc
+	-rw-r--r--  1 myself  wheel  215 Feb  9 10:18 .profile
+	$ exit
+	Removing /tmp/shell-ksh.4DzEG6qr
+
 # AUTHORS
 
 Andreas Kusalananda K&#228;h&#228;ri &lt;[andreas.kahari@nbis.se](mailto:andreas.kahari@nbis.se)&gt;
@@ -151,4 +192,4 @@ and may also lack the
 */etc/shells*
 file.
 
-Unix - April 2, 2018
+Unix - April 8, 2018
