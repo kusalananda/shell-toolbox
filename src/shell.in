@@ -144,9 +144,9 @@ if [ -n "$skel" ]; then
     fi
 
     if command -v pax >/dev/null 2>&1; then
-        ( cd "$skel" && pax -rw . "$tmpwd" )
+        ( cd "$skel" && pax -rw -p p . "$tmpwd" )
     elif command -v tar >/dev/null 2>&1; then
-        tar -cv -f - -C "$skel" . | tar -x -f - -C "$tmpwd"
+        tar -cv -f - -C "$skel" . | tar -x -p -f - -C "$tmpwd"
     else
         _error 'Can not use pax nor tar to copy "%s" to "%s"\n' "$skel" "$tmpwd"
         exit 1
