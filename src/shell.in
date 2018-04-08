@@ -96,6 +96,11 @@ while getopts 'd:ks:' opt; do
 done
 shift "$(( OPTIND - 1 ))"
 
+if [ -n "$tmpwd" ] && [ -n "$skel" ]; then
+    _error 'Can not use both the -d and the -s option at the same time\n'
+    exit 1
+fi
+
 if [ -n "$1" ]; then
     shell="${1##*/}"
     shift
