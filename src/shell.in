@@ -95,7 +95,13 @@ while getopts 'd:k' opt; do
 done
 shift "$(( OPTIND - 1 ))"
 
-shell="$( basename "${1:-$SHELL}" )"
+if [ -n "$1" ]; then
+    shell="${1##*/}"
+    shift
+else
+    shell="${SHELL##*/}"
+fi
+
 if [ -z "$shell" ]; then
     _error 'Can not determine what shell to start\n'
     exit 1
@@ -138,7 +144,7 @@ env -i  HOME="$tmpwd" \
         PS1='$ ' \
         SHELL="$realshell" \
         TERM="$TERM" \
-        "$realshell"
+        "$realshell" "$@"
 
 
 # vim: ft=sh
