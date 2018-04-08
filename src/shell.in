@@ -3,30 +3,19 @@
 # Part of @PACKAGE_STRING@
 # For bug reports, see "@PACKAGE_BUGREPORT@"
 
-# Starts the specified shell in a clean environment (but see below)
-# and with an empty temporary working directory.  The working
-# directory is deleted upon exiting the shell session.  If no shell
-# name is given, the shell is inferred from $SHELL.
-#
-# Environment variable explicitly set:
-#
-#   HOME:           carried over from parent environment
-#   PATH:           set to output of "getconf PATH"
-#   PS1:            set to $ followed by a space
-#   SHELL:          set to the absolute path of the real shell
-#   TERM:           carried over from parent environment
-#   _is_tmp_shell:  set to 'Yes' to avoid recursive calls
-#
-# Example invocations:
-#
-#   $ shell         # Starts a new shell (uses $SHELL).
-#   $ shell bash    # Starts a new bash shell.
-#   $ shell -k      # Starts a new shell (uses $SHELL).
-#                   # The temporary directory will not be deleted when
-#                   # exiting the session.
-#   $ shell -d dir  # Starts a new shell (uses $SHELL) with "dir"
-#                   # as the working directory.  The directory will not be
-#                   # deleted when exiting the session.
+_error ()
+{
+    # Simple function for outputting error messages.  Prefixes the error
+    # message with the name of the utility.
+
+    # Parameters:   same as printf
+    # stdin:        unused
+    # stdout:       unused
+    # stderr:       error message
+
+    printf 'shell: ' >&2
+    printf "$@" >&2
+}
 
 _get_solaris_shells ()
 {
@@ -82,9 +71,9 @@ get_shells ()
         if [ "$( uname -s )" = "SunOS" ]; then
             _get_solaris_shells
         else
-            echo 'Can not get list of shells!' >&2
-            echo 'Please file a bug report at' >&2
-            echo '@PACKAGE_BUGREPORT@' >&2
+            _error 'Can not get list of shells!\n'
+            _error 'Please file a bug report at\n'
+            _error '@PACKAGE_BUGREPORT@\n'
             exit 1
         fi
     fi |
@@ -95,53 +84,89 @@ get_shells ()
     done
 }
 
-if [ "$_is_tmp_shell" = 'Yes' ]; then
-    echo 'Already in temporary shell.  Exit this one first.' >&2
-    exit 1
-fi
-
-while getopts 'd:k' opt; do
+while getopts 'd:ks:' opt; do
     case "$opt" in
-        d) tmpcwd=$OPTARG
+        d) tmpwd=$OPTARG
            keep=1 ;;
         k) keep=1 ;;
-        *) echo 'error in command line parsing' >&2
+        s) skel=$OPTARG ;;
+        *) _error 'error while parsing the command line\n'
            exit 1
     esac
 done
 shift "$(( OPTIND - 1 ))"
 
-shell="$( basename "${1:-$SHELL}" )"
+if [ -n "$tmpwd" ] && [ -n "$skel" ]; then
+    _error 'Can not use both the -d and the -s option at the same time\n'
+    exit 1
+fi
+
+if [ -n "$1" ]; then
+    shell="${1##*/}"
+    shift
+else
+    shell="${SHELL##*/}"
+fi
+
+if [ -z "$shell" ]; then
+    _error 'Can not determine what shell to start\n'
+    exit 1
+fi
 
 realshell="$( get_shells | grep "/$shell\$" )"
 
 if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
-    printf 'No such shell: %s\n' "$shell" >&2
+    _error 'No such shell: %s\n' "$shell"
     echo 'Valid shells:' >&2
     get_shells | awk '{ printf("\t%s\n", $0) }' >&2
     exit 1
 fi
 
-if [ -z "$tmpcwd" ]; then
-    tmpcwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
+if [ -z "$tmpwd" ]; then
+    tmpwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
+elif [ ! -d "$tmpwd" ]; then
+    if [ -e "$tmpwd" ]; then
+        _error '"%s" exists, but is not a directory\n' "$tmpwd"
+        exit 1
+    fi
+
+    if ! mkdir -p "$tmpwd"; then
+        _error 'Failed to create directory "%s"\n' "$tmpwd"
+        exit 1
+    fi
 fi
 
 if [ "$keep" -eq 1 ]; then
-    trap 'printf "Leaving %s in place\n" "$tmpcwd" >&2' EXIT
+    trap 'printf "Leaving %s in place\n" "$tmpwd" >&2' EXIT
 else
-    trap 'printf "Removing %s\n" "$tmpcwd" >&2; cd / && rm -rf "$tmpcwd"' EXIT
+    trap 'printf "Removing %s\n" "$tmpwd" >&2; cd / && rm -rf "$tmpwd"' EXIT
 fi
 
-printf 'Starting %s in %s\n' "$realshell" "$tmpcwd" >&2
+if [ -n "$skel" ]; then
+    if [ ! -d "$skel" ]; then
+        _error 'The -s option was used, but "%s" does not exist\n' "$skel"
+        exit 1
+    fi
 
-cd "$tmpcwd" &&
-env -i  HOME="$HOME" \
+    if command -v pax >/dev/null 2>&1; then
+        ( cd "$skel" && pax -rw -p p . "$tmpwd" )
+    elif command -v tar >/dev/null 2>&1; then
+        tar -cv -f - -C "$skel" . | tar -x -p -f - -C "$tmpwd"
+    else
+        _error 'Can not use pax nor tar to copy "%s" to "%s"\n' "$skel" "$tmpwd"
+        exit 1
+    fi
+fi
+
+printf 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
+
+cd "$tmpwd" &&
+env -i  HOME="$tmpwd" \
         PATH="$( getconf PATH )" \
-        TERM="$TERM" \
-        SHELL="$realshell" \
         PS1='$ ' \
-        _is_tmp_shell='Yes' \
-        "$realshell"
+        SHELL="$realshell" \
+        TERM="$TERM" \
+        "$realshell" "$@"
 
 
 # vim: ft=sh
