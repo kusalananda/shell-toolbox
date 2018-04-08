@@ -32,4 +32,7 @@ Tested on:
      directory) and clean environment.  The working directory is removed
      when the shell exits (unless the "-k" or "-d" flag was used).
 
+     The temporary working directory may also be pre-populated with the
+     contents of an existing directory (using the "-s" flag).
+
      See "man 1 shell" after installation.
