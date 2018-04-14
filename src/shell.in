@@ -48,8 +48,9 @@ END_LIST
 
 get_shells ()
 {
-    # Returns a list of installed shells.  The shells are validated
-    # (it's made sure that they are executable files) before returned.
+    # Returns a list of absolute paths to installed shells.  The shells
+    # are validated (it's made sure that they are executable files)
+    # before returned.  This function won't return symbolic links.
 
     # Rationale: OpenBSD and NetBSD can use "getent shells" to get a
     # list of shells, but this doesn't work on Ubuntu.  Solaris is a
@@ -78,7 +79,7 @@ get_shells ()
         fi
     fi |
     while read realshell; do
-        if [ -x "$realshell" ]; then
+        if [ -x "$realshell" ] && [ ! -h "$realshell" ]; then
             printf '%s\n' "$realshell"
         fi
     done
@@ -113,7 +114,9 @@ if [ -z "$shell" ]; then
     exit 1
 fi
 
-realshell="$( get_shells | grep "/$shell\$" )"
+# Get the absolute path to a real shell.  If multiple shells are
+# returned from get_shells, we will use the first one.
+realshell="$( get_shells | sed -n "/$shell\$/{p;q;}" )"
 
 if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
     _error 'No such shell: %s\n' "$shell"
