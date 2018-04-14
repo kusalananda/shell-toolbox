@@ -81,6 +81,11 @@ uses the following environment variables:
 > Directory in which to create the working directory when the
 > **-d**
 > option is not used.
+> This variable is used by
+> **mktemp**
+> which will revert to use
+> */tmp*
+> if the variable is not set.
 
 `SHELL`
 
@@ -183,6 +188,10 @@ file copied from
 	$ exit
 	Removing /tmp/shell-ksh.4DzEG6qr
 
+# SEE ALSO
+
+mktemp(1)
+
 # AUTHORS
 
 Andreas Kusalananda K&#228;h&#228;ri &lt;[andreas.kahari@nbis.se](mailto:andreas.kahari@nbis.se)&gt;
@@ -198,4 +207,4 @@ and may also lack the
 */etc/shells*
 file.
 
-Unix - April 8, 2018
+Unix - April 14, 2018

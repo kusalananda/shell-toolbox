@@ -47,7 +47,8 @@ ENVIRONMENT
      shell uses the following environment variables:
 
      TMPDIR  Directory in which to create the working directory when the -d
-	     option is not used.
+	     option is not used.  This variable is used by mktemp which will
+	     revert to use /tmp if the variable is not set.
 
      SHELL   Used to determine what shell to start if a specific shell is not
 	     specified on the command line.
@@ -116,6 +117,9 @@ EXAMPLES
 	   $ exit
 	   Removing /tmp/shell-ksh.4DzEG6qr
 
+SEE ALSO
+     mktemp(1)
+
 AUTHORS
      Andreas Kusalananda Kahari <andreas.kahari@nbis.se>
 
@@ -124,4 +128,4 @@ CAVEATS
      manual on a Solaris 11.3 system.  This is because Solaris lacks "getent
      shells" and may also lack the /etc/shells file.
 
-Unix				 April 8, 2018				  Unix
+Unix				April 14, 2018				  Unix
