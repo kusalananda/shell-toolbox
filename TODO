@@ -1,1 +1,5 @@
-Nothing at the moment.
+For "shell":
+
+*       Allow user to execute arbitrary command (bypassing the
+        get_shells function).  This would allow for running shells that
+        are not listed by "getent shells" or in /etc/shells.
