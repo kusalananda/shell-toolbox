@@ -14,7 +14,7 @@ How to install:
     Please see the document called "INSTALL" in the source distribution.
 
 Tested on:
-    OpenBSD 6.3, NetBSD 7.0.2, Ubuntu 16.10, Solaris 11.3
+    OpenBSD 6.3, NetBSD 7.0.2, Ubuntu 16.10, Solaris 11.3, CentOS 7
 
 
 ------------------------------------------------------------------------
