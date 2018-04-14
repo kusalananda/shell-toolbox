@@ -71,6 +71,11 @@ uses the following environment variables:
 Directory in which to create the working directory when the
 .Fl d
 option is not used.
+This variable is used by
+.Cm mktemp
+which will revert to use
+.Pa /tmp
+if the variable is not set.
 .It Ev SHELL
 Used to determine what shell to start if a specific
 .Ar shell
@@ -164,6 +169,8 @@ drwxrwxrwt  4 root    wheel  512 Apr  8 18:49 ..
 $ exit
 Removing /tmp/shell-ksh.4DzEG6qr
 .Ed
+.Sh SEE ALSO
+.Xr mktemp 1
 .Sh AUTHORS
 .An Andreas Kusalananda K\[:a]h\[:a]ri Aq Mt andreas.kahari@nbis.se
 .Sh CAVEATS
