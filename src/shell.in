@@ -85,6 +85,7 @@ get_shells ()
     done
 }
 
+keep=0
 while getopts 'd:ks:' opt; do
     case "$opt" in
         d) tmpwd=$OPTARG
