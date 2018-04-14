@@ -118,7 +118,7 @@ fi
 # returned from get_shells, we will use the first one.
 realshell="$( get_shells | sed -n '\#/'"$shell"'$#{p;q;}' )"
 
-if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
+if [ -z "$realshell" ]; then
     _error 'No such shell: %s\n' "$shell"
     echo 'Valid shells:' >&2
     get_shells | awk '{ printf("\t%s\n", $0) }' >&2
