@@ -202,9 +202,12 @@ Andreas Kusalananda K\[:a]h\[:a]ri <\fIandreas.kahari@nbis.se\fR>
 .SH "CAVEATS"
 For Solaris, the list of valid login shells is taken from the
 shells(4)
-manual on a Solaris 11.3 system.
+manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 \(lq\fBgetent shells\fR\(rq
 and may also lack the
 \fI/etc/shells\fR
 file.
+The
+\fI/etc/shells\fR
+file will still be used if it exists.
