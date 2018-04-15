@@ -6,9 +6,11 @@
 .Nd Creates a temporary interactive shell session in a disposable working directory
 .Sh SYNOPSIS
 .Nm shell
+.Op Fl f
 .Op Fl d Ar directory | Fl k
 .Op Ar shell Op Ar ...
 .Nm
+.Op Fl f
 .Op Fl s Ar directory
 .Op Fl k
 .Op Ar shell Op Ar ...
@@ -52,6 +54,9 @@ This option implies the
 option, and conflicts with the
 .Fl s
 option.
+.It Fl f
+Force the execution of the given command, even if it is not a valid
+login shell on the current system.
 .It Fl k
 Keep the temporary directory around after terminating the shell session.
 .It Fl s Ar directory
@@ -71,6 +76,11 @@ uses the following environment variables:
 Directory in which to create the working directory when the
 .Fl d
 option is not used.
+This variable is used by
+.Cm mktemp
+which will revert to use
+.Pa /tmp
+if the variable is not set.
 .It Ev SHELL
 Used to determine what shell to start if a specific
 .Ar shell
@@ -164,14 +174,19 @@ drwxrwxrwt  4 root    wheel  512 Apr  8 18:49 ..
 $ exit
 Removing /tmp/shell-ksh.4DzEG6qr
 .Ed
+.Sh SEE ALSO
+.Xr mktemp 1
 .Sh AUTHORS
 .An Andreas Kusalananda K\[:a]h\[:a]ri Aq Mt andreas.kahari@nbis.se
 .Sh CAVEATS
 For Solaris, the list of valid login shells is taken from the
 .Xr shells 4
-manual on a Solaris 11.3 system.
+manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 .Dq Cm getent shells
 and may also lack the
 .Pa /etc/shells
 file.
+The
+.Pa /etc/shells
+file will still be used if it exists.

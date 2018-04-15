@@ -7,9 +7,11 @@ SHELL(1) - General Commands Manual
 # SYNOPSIS
 
 **shell**
+\[**-f**]
 \[**-d**&nbsp;*directory*&nbsp;|&nbsp;**-k**]
 \[*shell*&nbsp;\[*...*]]  
 **shell**
+\[**-f**]
 \[**-s**&nbsp;*directory*]
 \[**-k**]
 \[*shell*&nbsp;\[*...*]]
@@ -57,6 +59,11 @@ The options are as follows:
 > **-s**
 > option.
 
+**-f**
+
+> Force the execution of the given command, even if it is not a valid
+> login shell on the current system.
+
 **-k**
 
 > Keep the temporary directory around after terminating the shell session.
@@ -81,6 +88,11 @@ uses the following environment variables:
 > Directory in which to create the working directory when the
 > **-d**
 > option is not used.
+> This variable is used by
+> **mktemp**
+> which will revert to use
+> */tmp*
+> if the variable is not set.
 
 `SHELL`
 
@@ -183,6 +195,10 @@ file copied from
 	$ exit
 	Removing /tmp/shell-ksh.4DzEG6qr
 
+# SEE ALSO
+
+mktemp(1)
+
 # AUTHORS
 
 Andreas Kusalananda K&#228;h&#228;ri &lt;[andreas.kahari@nbis.se](mailto:andreas.kahari@nbis.se)&gt;
@@ -191,11 +207,14 @@ Andreas Kusalananda K&#228;h&#228;ri &lt;[andreas.kahari@nbis.se](mailto:andreas
 
 For Solaris, the list of valid login shells is taken from the
 shells(4)
-manual on a Solaris 11.3 system.
+manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 "**getent shells**"
 and may also lack the
 */etc/shells*
 file.
+The
+*/etc/shells*
+file will still be used if it exists.
 
-Unix - April 8, 2018
+Unix - April 15, 2018

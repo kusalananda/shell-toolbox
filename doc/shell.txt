@@ -5,8 +5,8 @@ NAME
      working directory
 
 SYNOPSIS
-     shell [-d directory | -k] [shell [...]]
-     shell [-s directory] [-k] [shell [...]]
+     shell [-f] [-d directory | -k] [shell [...]]
+     shell [-f] [-s directory] [-k] [shell [...]]
 
 DESCRIPTION
      The shell utility creates an interactive shell session with a clean
@@ -34,6 +34,9 @@ DESCRIPTION
 	     session terminates.  This option implies the -k option, and
 	     conflicts with the -s option.
 
+     -f	     Force the execution of the given command, even if it is not a
+	     valid login shell on the current system.
+
      -k	     Keep the temporary directory around after terminating the shell
 	     session.
 
@@ -47,7 +50,8 @@ ENVIRONMENT
      shell uses the following environment variables:
 
      TMPDIR  Directory in which to create the working directory when the -d
-	     option is not used.
+	     option is not used.  This variable is used by mktemp which will
+	     revert to use /tmp if the variable is not set.
 
      SHELL   Used to determine what shell to start if a specific shell is not
 	     specified on the command line.
@@ -116,12 +120,16 @@ EXAMPLES
 	   $ exit
 	   Removing /tmp/shell-ksh.4DzEG6qr
 
+SEE ALSO
+     mktemp(1)
+
 AUTHORS
      Andreas Kusalananda Kahari <andreas.kahari@nbis.se>
 
 CAVEATS
      For Solaris, the list of valid login shells is taken from the shells(4)
-     manual on a Solaris 11.3 system.  This is because Solaris lacks "getent
-     shells" and may also lack the /etc/shells file.
+     manual on a vanilla Solaris 11.4 system.  This is because Solaris lacks
+     "getent shells" and may also lack the /etc/shells file.  The /etc/shells
+     file will still be used if it exists.
 
-Unix				 April 8, 2018				  Unix
+Unix				April 15, 2018				  Unix

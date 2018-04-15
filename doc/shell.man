@@ -1,4 +1,4 @@
-.TH "SHELL" "1" "April 8, 2018" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "April 15, 2018" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -7,12 +7,14 @@
 .SH "SYNOPSIS"
 .HP 6n
 \fBshell\fR
+[\fB\-f\fR]
 [\fB\-d\fR\ \fIdirectory\fR\ |\ \fB\-k\fR]
 [\fIshell\fR\ [\fI...\fR]]
 .br
 .PD 0
 .HP 6n
 \fBshell\fR
+[\fB\-f\fR]
 [\fB\-s\fR\ \fIdirectory\fR]
 [\fB\-k\fR]
 [\fIshell\fR\ [\fI...\fR]]
@@ -58,6 +60,10 @@ option, and conflicts with the
 \fB\-s\fR
 option.
 .TP 8n
+\fB\-f\fR
+Force the execution of the given command, even if it is not a valid
+login shell on the current system.
+.TP 8n
 \fB\-k\fR
 Keep the temporary directory around after terminating the shell session.
 .TP 8n
@@ -77,6 +83,11 @@ uses the following environment variables:
 Directory in which to create the working directory when the
 \fB\-d\fR
 option is not used.
+This variable is used by
+\fBmktemp\fR
+which will revert to use
+\fI/tmp\fR
+if the variable is not set.
 .TP 8n
 \fRSHELL\fR
 Used to determine what shell to start if a specific
@@ -184,14 +195,19 @@ $ exit
 Removing /tmp/shell-ksh.4DzEG6qr
 .RE
 .fi
+.SH "SEE ALSO"
+mktemp(1)
 .SH "AUTHORS"
 Andreas Kusalananda K\[:a]h\[:a]ri <\fIandreas.kahari@nbis.se\fR>
 .SH "CAVEATS"
 For Solaris, the list of valid login shells is taken from the
 shells(4)
-manual on a Solaris 11.3 system.
+manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 \(lq\fBgetent shells\fR\(rq
 and may also lack the
 \fI/etc/shells\fR
 file.
+The
+\fI/etc/shells\fR
+file will still be used if it exists.

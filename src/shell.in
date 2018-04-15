@@ -19,7 +19,7 @@ _error ()
 
 _get_solaris_shells ()
 {
-    # Returns a list of valid Solaris 11.3 shells.  The list is taken
+    # Returns a list of valid Solaris 11.4 shells.  The list is taken
     # from the shells(4) manual and is shortened to only contain one
     # single instance of each shell.
 
@@ -33,13 +33,9 @@ _get_solaris_shells ()
 /bin/jsh
 /bin/ksh
 /bin/ksh93
-/bin/pfbash
 /bin/pfcsh
 /bin/pfksh
-/bin/pfksh93
 /bin/pfsh
-/bin/pftcsh
-/bin/pfzsh
 /bin/sh
 /bin/tcsh
 /bin/zsh
@@ -48,14 +44,15 @@ END_LIST
 
 get_shells ()
 {
-    # Returns a list of installed shells.  The shells are validated
-    # (it's made sure that they are executable files) before returned.
+    # Returns a list of absolute paths to installed shells.  The shells
+    # are validated (it's made sure that they are executable files)
+    # before returned.
 
     # Rationale: OpenBSD and NetBSD can use "getent shells" to get a
     # list of shells, but this doesn't work on Ubuntu.  Solaris is a
     # problem since "getent shells" doesn't work and /etc/shells may not
     # exist.  The list of valid Solaris shells is instead taken from
-    # the shells(4) manual on a vanilla Solaris 11.3 system.
+    # the shells(4) manual on a vanilla Solaris 11.4 system.
 
     # Parameters:   none
     # stdin:        unused
@@ -84,11 +81,14 @@ get_shells ()
     done
 }
 
-while getopts 'd:ks:' opt; do
+force=0 # when 1, bypasses the call to get_shells
+keep=0  # when 1, does not remove working directory when exiting
+while getopts 'd:fks:' opt; do
     case "$opt" in
         d) tmpwd=$OPTARG
-           keep=1 ;;
-        k) keep=1 ;;
+           keep=1       ;;
+        f) force=1      ;;
+        k) keep=1       ;;
         s) skel=$OPTARG ;;
         *) _error 'error while parsing the command line\n'
            exit 1
@@ -102,10 +102,10 @@ if [ -n "$tmpwd" ] && [ -n "$skel" ]; then
 fi
 
 if [ -n "$1" ]; then
-    shell="${1##*/}"
+    shell="$1"
     shift
 else
-    shell="${SHELL##*/}"
+    shell="$SHELL"
 fi
 
 if [ -z "$shell" ]; then
@@ -113,17 +113,32 @@ if [ -z "$shell" ]; then
     exit 1
 fi
 
-realshell="$( get_shells | grep "/$shell\$" )"
+if [ "$force" -eq 0 ]; then
+    # Get the absolute path to a real shell.  If multiple shells are
+    # returned from get_shells, we will use the first one.
+    realshell="$( get_shells | sed -n '\#/'"${shell##*/}"'$#{p;q;}' )"
 
-if [ -z "$realshell" ] || [ ! -x "$realshell" ]; then
-    _error 'No such shell: %s\n' "$shell"
-    echo 'Valid shells:' >&2
-    get_shells | awk '{ printf("\t%s\n", $0) }' >&2
-    exit 1
+    if [ -z "$realshell" ]; then
+        _error 'No such shell: %s\n' "$shell"
+        echo 'Valid shells:' >&2
+        get_shells | awk '{ printf("\t%s\n", $0) }' >&2
+        exit 1
+    fi
+elif [ ! -x "$shell" ]; then
+        _error 'No such executable: %s\n' "$shell"
+        exit 1
+else
+    realshell="$shell"
 fi
 
 if [ -z "$tmpwd" ]; then
-    tmpwd="$( mktemp -d -t "shell-$shell.XXXXXXXX" )"
+    template="shell-${shell##*/}"
+    case "$( uname )" in
+        NetBSD) ;;      # mktemp(1) on NetBSD 7.1.2 adds '.XXXXXXXX' to
+                        # template when using -t
+        *)      template="$template.XXXXXXXX"
+    esac
+    tmpwd="$( mktemp -d -t "$template" )"
 elif [ ! -d "$tmpwd" ]; then
     if [ -e "$tmpwd" ]; then
         _error '"%s" exists, but is not a directory\n' "$tmpwd"
