@@ -5,8 +5,8 @@ NAME
      working directory
 
 SYNOPSIS
-     shell [-d directory | -k] [shell [...]]
-     shell [-s directory] [-k] [shell [...]]
+     shell [-f] [-d directory | -k] [shell [...]]
+     shell [-f] [-s directory] [-k] [shell [...]]
 
 DESCRIPTION
      The shell utility creates an interactive shell session with a clean
@@ -33,6 +33,9 @@ DESCRIPTION
 	     created.  This directory will not be deleted when the shell
 	     session terminates.  This option implies the -k option, and
 	     conflicts with the -s option.
+
+     -f	     Force the execution of the given command, even if it is not a
+	     valid login shell on the current system.
 
      -k	     Keep the temporary directory around after terminating the shell
 	     session.
@@ -128,4 +131,4 @@ CAVEATS
      manual on a Solaris 11.3 system.  This is because Solaris lacks "getent
      shells" and may also lack the /etc/shells file.
 
-Unix				April 14, 2018				  Unix
+Unix				April 15, 2018				  Unix

@@ -7,9 +7,11 @@ SHELL(1) - General Commands Manual
 # SYNOPSIS
 
 **shell**
+\[**-f**]
 \[**-d**&nbsp;*directory*&nbsp;|&nbsp;**-k**]
 \[*shell*&nbsp;\[*...*]]  
 **shell**
+\[**-f**]
 \[**-s**&nbsp;*directory*]
 \[**-k**]
 \[*shell*&nbsp;\[*...*]]
@@ -56,6 +58,11 @@ The options are as follows:
 > option, and conflicts with the
 > **-s**
 > option.
+
+**-f**
+
+> Force the execution of the given command, even if it is not a valid
+> login shell on the current system.
 
 **-k**
 
@@ -207,4 +214,4 @@ and may also lack the
 */etc/shells*
 file.
 
-Unix - April 14, 2018
+Unix - April 15, 2018
