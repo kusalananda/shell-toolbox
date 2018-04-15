@@ -14,8 +14,7 @@ How to install:
     Please see the document called "INSTALL" in the source distribution.
 
 Tested on:
-    OpenBSD 6.3, NetBSD 7.1.2, Darwin 17.5.0 (macOS High Sierra),
-    Ubuntu 17.10, Solaris 11.4, CentOS 7
+    OpenBSD 6.3, NetBSD 7.1.2, Ubuntu 17.10, Solaris 11.4, CentOS 7
 
 
 ------------------------------------------------------------------------
