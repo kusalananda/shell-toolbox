@@ -132,7 +132,13 @@ else
 fi
 
 if [ -z "$tmpwd" ]; then
-    tmpwd="$( mktemp -d -t "shell-${shell##*/}.XXXXXXXX" )"
+    template="shell-${shell##*/}"
+    case "$( uname )" in
+        NetBSD) ;;      # mktemp(1) on NetBSD 7.1.2 adds '.XXXXXXXX' to
+                        # template when using -t
+        *)      template="$template.XXXXXXXX"
+    esac
+    tmpwd="$( mktemp -d -t "$template" )"
 elif [ ! -d "$tmpwd" ]; then
     if [ -e "$tmpwd" ]; then
         _error '"%s" exists, but is not a directory\n' "$tmpwd"
