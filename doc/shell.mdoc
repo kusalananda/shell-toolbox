@@ -181,9 +181,12 @@ Removing /tmp/shell-ksh.4DzEG6qr
 .Sh CAVEATS
 For Solaris, the list of valid login shells is taken from the
 .Xr shells 4
-manual on a Solaris 11.3 system.
+manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 .Dq Cm getent shells
 and may also lack the
 .Pa /etc/shells
 file.
+The
+.Pa /etc/shells
+file will still be used if it exists.

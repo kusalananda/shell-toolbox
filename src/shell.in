@@ -19,7 +19,7 @@ _error ()
 
 _get_solaris_shells ()
 {
-    # Returns a list of valid Solaris 11.3 shells.  The list is taken
+    # Returns a list of valid Solaris 11.4 shells.  The list is taken
     # from the shells(4) manual and is shortened to only contain one
     # single instance of each shell.
 
@@ -33,13 +33,9 @@ _get_solaris_shells ()
 /bin/jsh
 /bin/ksh
 /bin/ksh93
-/bin/pfbash
 /bin/pfcsh
 /bin/pfksh
-/bin/pfksh93
 /bin/pfsh
-/bin/pftcsh
-/bin/pfzsh
 /bin/sh
 /bin/tcsh
 /bin/zsh
@@ -56,7 +52,7 @@ get_shells ()
     # list of shells, but this doesn't work on Ubuntu.  Solaris is a
     # problem since "getent shells" doesn't work and /etc/shells may not
     # exist.  The list of valid Solaris shells is instead taken from
-    # the shells(4) manual on a vanilla Solaris 11.3 system.
+    # the shells(4) manual on a vanilla Solaris 11.4 system.
 
     # Parameters:   none
     # stdin:        unused

@@ -128,7 +128,8 @@ AUTHORS
 
 CAVEATS
      For Solaris, the list of valid login shells is taken from the shells(4)
-     manual on a Solaris 11.3 system.  This is because Solaris lacks "getent
-     shells" and may also lack the /etc/shells file.
+     manual on a vanilla Solaris 11.4 system.  This is because Solaris lacks
+     "getent shells" and may also lack the /etc/shells file.  The /etc/shells
+     file will still be used if it exists.
 
 Unix				April 15, 2018				  Unix
