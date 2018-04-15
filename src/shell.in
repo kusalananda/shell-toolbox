@@ -132,10 +132,12 @@ else
 fi
 
 if [ -z "$tmpwd" ]; then
+    # mktemp(1) on Darwin 17.5.0 (macOS) and NetBSD 7.1.2 adds
+    # '.XXXXXXXX' to the template when using "mktemp -t".
+
     template="shell-${shell##*/}"
     case "$( uname )" in
-        NetBSD) ;;      # mktemp(1) on NetBSD 7.1.2 adds '.XXXXXXXX' to
-                        # template when using -t
+        Darwin|NetBSD) ;;
         *)      template="$template.XXXXXXXX"
     esac
     tmpwd="$( mktemp -d -t "$template" )"
