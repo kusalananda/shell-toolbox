@@ -1,4 +1,4 @@
-.TH "SHELL" "1" "April 14, 2018" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "April 15, 2018" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -7,12 +7,14 @@
 .SH "SYNOPSIS"
 .HP 6n
 \fBshell\fR
+[\fB\-f\fR]
 [\fB\-d\fR\ \fIdirectory\fR\ |\ \fB\-k\fR]
 [\fIshell\fR\ [\fI...\fR]]
 .br
 .PD 0
 .HP 6n
 \fBshell\fR
+[\fB\-f\fR]
 [\fB\-s\fR\ \fIdirectory\fR]
 [\fB\-k\fR]
 [\fIshell\fR\ [\fI...\fR]]
@@ -57,6 +59,10 @@ This option implies the
 option, and conflicts with the
 \fB\-s\fR
 option.
+.TP 8n
+\fB\-f\fR
+Force the execution of the given command, even if it is not a valid
+login shell on the current system.
 .TP 8n
 \fB\-k\fR
 Keep the temporary directory around after terminating the shell session.
