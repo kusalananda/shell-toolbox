@@ -4,4 +4,3 @@ autom4te.cache
 config.log
 config.status
 shell-toolbox-*.tar.gz
-src/shell
