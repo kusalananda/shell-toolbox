@@ -6,9 +6,11 @@
 .Nd Creates a temporary interactive shell session in a disposable working directory
 .Sh SYNOPSIS
 .Nm shell
+.Op Fl f
 .Op Fl d Ar directory | Fl k
 .Op Ar shell Op Ar ...
 .Nm
+.Op Fl f
 .Op Fl s Ar directory
 .Op Fl k
 .Op Ar shell Op Ar ...
@@ -52,6 +54,9 @@ This option implies the
 option, and conflicts with the
 .Fl s
 option.
+.It Fl f
+Force the execution of the given command, even if it is not a valid
+login shell on the current system.
 .It Fl k
 Keep the temporary directory around after terminating the shell session.
 .It Fl s Ar directory
