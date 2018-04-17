@@ -233,6 +233,7 @@ top_srcdir = @top_srcdir@
 dist_man1_MANS = shell.man
 dist_doc_DATA = shell.md shell.txt
 EXTRA_DIST = shell.mdoc
+DISTCLEANFILES = shell.man shell.md shell.txt
 all: all-am
 
 .SUFFIXES:
@@ -400,6 +401,7 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
