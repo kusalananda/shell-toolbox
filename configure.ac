@@ -8,6 +8,20 @@ AM_MAINTAINER_MODE
 
 AC_CONFIG_SRCDIR([src/shell.in])
 
+AC_PATH_PROG(MKTEMP, [mktemp])
+AS_IF([test -z "$MKTEMP"], [AC_MSG_ERROR([mktemp is missing, can not continue])])
+
+# Test whether mktemp -t adds .XXXXXXXX to the filename template or not
+AC_MSG_CHECKING([whether $MKTEMP -t adds .XXXXXXXX to template])
+_tmppath=$( "$MKTEMP" -t template.XXXXXXXX )
+_tmpname=${_tmppath##*/}
+AS_IF([test "${_tmpname#template.XXXXXXXX}" = "$_tmpname"],
+      [AC_MSG_RESULT([no]); MKTEMP_TEMPLATE=".XXXXXXXX"],
+      [AC_MSG_RESULT([yes]); MKTEMP_TEMPLATE=""])
+rm -f "$_tmppath"
+unset _tmppath _tmpname
+AC_SUBST([MKTEMP_TEMPLATE])
+
 # "mandoc" and "col" are used for generating the manuals.  These are only
 # needed if the distributed manuals are deleted with "make distclean".
 AC_PATH_PROG(MANDOC, [mandoc])
