@@ -1,6 +1,7 @@
 dist_man1_MANS=	shell.man
 dist_doc_DATA=	shell.md shell.txt
 EXTRA_DIST=	shell.mdoc
+DISTCLEANFILES=	shell.man shell.md shell.txt
 
 shell.man:	$(srcdir)/shell.mdoc
 	test -n "$(MANDOC)" && \
