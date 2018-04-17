@@ -3,6 +3,10 @@
 # Part of @PACKAGE_STRING@
 # For bug reports, see "@PACKAGE_BUGREPORT@"
 
+# Variables set by the configure script:
+MKTEMP="@MKTEMP@"
+MKTEMP_TEMPLATE="@MKTEMP_TEMPLATE@"
+
 _error ()
 {
     # Simple function for outputting error messages.  Prefixes the error
@@ -132,15 +136,8 @@ else
 fi
 
 if [ -z "$tmpwd" ]; then
-    # mktemp(1) on Darwin 17.5.0 (macOS) and NetBSD 7.1.2 adds
-    # '.XXXXXXXX' to the template when using "mktemp -t".
-
-    template="shell-${shell##*/}"
-    case "$( uname )" in
-        Darwin|NetBSD) ;;
-        *)      template="$template.XXXXXXXX"
-    esac
-    tmpwd="$( mktemp -d -t "$template" )"
+    template="shell-${shell##*/}$MKTEMP_TEMPLATE"
+    tmpwd="$( "$MKTEMP" -d -t "$template" )"
 elif [ ! -d "$tmpwd" ]; then
     if [ -e "$tmpwd" ]; then
         _error '"%s" exists, but is not a directory\n' "$tmpwd"
