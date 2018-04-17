@@ -2459,8 +2459,9 @@ rm -f "$_tmppath"
 unset _tmppath _tmpname
 
 
-# "mandoc" and "col" are used for generating the manuals.  These are only
-# needed if the distributed manuals are ever deleted with "make distclean".
+# "mandoc" and "col" are used for generating the manuals.  These are
+# only needed if the distributed manuals are ever deleted or if the
+# source manual sources are updated.
 # Extract the first word of "mandoc", so it can be a program name with args.
 set dummy mandoc; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2553,8 +2554,8 @@ fi
 
 if test -z "$MANDOC" || test -z "$COL"
 then :
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: mandoc and/or col is missing, manuals can not be rebuilt after \"make distclean\"" >&5
-printf "%s\n" "$as_me: WARNING: mandoc and/or col is missing, manuals can not be rebuilt after \"make distclean\"" >&2;}
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: mandoc and/or col is missing, manuals can not be rebuilt" >&5
+printf "%s\n" "$as_me: WARNING: mandoc and/or col is missing, manuals can not be rebuilt" >&2;}
 fi
 
 # Test whether "mandoc -T markdown" works.
