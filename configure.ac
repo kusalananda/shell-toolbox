@@ -24,20 +24,17 @@ unset _tmppath _tmpname
 AC_SUBST([MKTEMP_TEMPLATE])
 
 # "mandoc" and "col" are used for generating the manuals.  These are
-# only needed if the distributed manuals are ever deleted or if the
-# source manual sources are updated.
-AC_PATH_PROG(MANDOC, [mandoc])
+# only needed if the distributed manuals are ever deleted (e.g. using
+# "make distclean") or if the source manual sources are updated.
 AC_PATH_PROG(COL, [col])
-AS_IF([test -z "$MANDOC" || test -z "$COL"],
-      [AC_MSG_WARN([mandoc and/or col is missing, manuals can not be rebuilt])])
-
-# Test whether "mandoc -T markdown" works.
-AS_IF([test -n "$MANDOC" && test -n "$COL"],
+AC_PATH_PROG(MANDOC, [mandoc])
+AS_IF([test -n "$MANDOC"],
       [AC_MSG_CHECKING([whether $MANDOC can produce markdown output])
-      AS_IF(["$MANDOC" -T markdown </dev/null],
+      AS_IF(["$MANDOC" -T markdown </dev/null 2>/dev/null],
             [AC_MSG_RESULT([yes]); MANDOC_DOES_MARKDOWN=1],
             [AC_MSG_RESULT([no]);  MANDOC_DOES_MARKDOWN=0])
-      AC_SUBST([MANDOC_DOES_MARKDOWN]) ])
+      AC_SUBST([MANDOC_DOES_MARKDOWN])],
+      [AC_MSG_WARN([mandoc is missing, manuals can not be rebuilt]) ])
 
 AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
