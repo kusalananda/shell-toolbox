@@ -23,12 +23,13 @@ rm -f "$_tmppath"
 unset _tmppath _tmpname
 AC_SUBST([MKTEMP_TEMPLATE])
 
-# "mandoc" and "col" are used for generating the manuals.  These are only
-# needed if the distributed manuals are ever deleted with "make distclean".
+# "mandoc" and "col" are used for generating the manuals.  These are
+# only needed if the distributed manuals are ever deleted or if the
+# source manual sources are updated.
 AC_PATH_PROG(MANDOC, [mandoc])
 AC_PATH_PROG(COL, [col])
 AS_IF([test -z "$MANDOC" || test -z "$COL"],
-      [AC_MSG_WARN([mandoc and/or col is missing, manuals can not be rebuilt after "make distclean"])])
+      [AC_MSG_WARN([mandoc and/or col is missing, manuals can not be rebuilt])])
 
 # Test whether "mandoc -T markdown" works.
 AS_IF([test -n "$MANDOC" && test -n "$COL"],
