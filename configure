@@ -2440,7 +2440,8 @@ then :
   as_fn_error $? "mktemp is missing, can not continue" "$LINENO" 5
 fi
 
-# Test whether mktemp -t adds .XXXXXXXX to the filename template or not
+# Test whether "mktemp -t" adds .XXXXXXXX to the filename template or not.
+# This is better than testing with "uname" in the src/shell.in script.
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether $MKTEMP -t adds .XXXXXXXX to template" >&5
 printf %s "checking whether $MKTEMP -t adds .XXXXXXXX to template... " >&6; }
 _tmppath=$( "$MKTEMP" -t template.XXXXXXXX )
@@ -2458,7 +2459,7 @@ unset _tmppath _tmpname
 
 
 # "mandoc" and "col" are used for generating the manuals.  These are only
-# needed if the distributed manuals are deleted with "make distclean".
+# needed if the distributed manuals are ever deleted with "make distclean".
 # Extract the first word of "mandoc", so it can be a program name with args.
 set dummy mandoc; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
