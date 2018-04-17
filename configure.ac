@@ -30,6 +30,14 @@ AC_PATH_PROG(COL, [col])
 AS_IF([test -z "$MANDOC" || test -z "$COL"],
       [AC_MSG_WARN([mandoc and/or col is missing, manuals can not be rebuilt after "make distclean"])])
 
+# Test whether "mandoc -T markdown" works.
+AS_IF([test -n "$MANDOC" && test -n "$COL"],
+      [AC_MSG_CHECKING([whether $MANDOC can produce markdown output])
+      AS_IF(["$MANDOC" -T markdown </dev/null],
+            [AC_MSG_RESULT([yes]); MANDOC_DOES_MARKDOWN=1],
+            [AC_MSG_RESULT([no]);  MANDOC_DOES_MARKDOWN=0])
+      AC_SUBST([MANDOC_DOES_MARKDOWN]) ])
+
 AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
 AC_OUTPUT

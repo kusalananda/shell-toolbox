@@ -174,6 +174,7 @@ LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANDOC = @MANDOC@
+MANDOC_DOES_MARKDOWN = @MANDOC_DOES_MARKDOWN@
 MKDIR_P = @MKDIR_P@
 MKTEMP = @MKTEMP@
 MKTEMP_TEMPLATE = @MKTEMP_TEMPLATE@
@@ -232,7 +233,6 @@ top_srcdir = @top_srcdir@
 dist_man1_MANS = shell.man
 dist_doc_DATA = shell.md shell.txt
 EXTRA_DIST = shell.mdoc
-DISTCLEANFILES = shell.man shell.md shell.txt
 all: all-am
 
 .SUFFIXES:
@@ -400,7 +400,6 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
-	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -492,16 +491,19 @@ uninstall-man: uninstall-man1
 
 
 shell.man:	$(srcdir)/shell.mdoc
-	test -x "$(MANDOC)" && \
-	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man
+	test -n "$(MANDOC)" && \
+	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man || true
 
 shell.md:	$(srcdir)/shell.mdoc
-	test -x "$(MANDOC)" && \
-	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
+	test -n "$(MANDOC)" && \
+	test "$(MANDOC_DOES_MARKDOWN)" -eq 1 && \
+	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md || true
 
 shell.txt:	$(srcdir)/shell.mdoc
-	test -x "$(MANDOC)" && test -x "$(COL)" && \
-	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | $(COL) -b >shell.txt
+	test -n "$(MANDOC)" && \
+	test -n "$(COL)" && \
+	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | \
+	$(COL) -b >shell.txt || true
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
