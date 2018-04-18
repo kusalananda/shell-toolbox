@@ -87,13 +87,17 @@ get_shells ()
 
 force=0 # when 1, bypasses the call to get_shells
 keep=0  # when 1, does not remove working directory when exiting
-while getopts 'd:fks:' opt; do
+while getopts 'd:fks:v' opt; do
     case "$opt" in
         d) tmpwd=$OPTARG
            keep=1       ;;
         f) force=1      ;;
         k) keep=1       ;;
         s) skel=$OPTARG ;;
+        v) printf 'shell: part of %s (release "%s")\n' \
+                "@PACKAGE_NAME@" "@PACKAGE_VERSION@"
+           printf 'For bug reports, see %s\n' "@PACKAGE_BUGREPORT@"
+           exit 0 ;;
         *) _error 'error while parsing the command line\n'
            exit 1
     esac
