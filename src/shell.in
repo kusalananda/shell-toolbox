@@ -167,7 +167,7 @@ if [ -n "$skel" ]; then
     fi
 
     if command -v pax >/dev/null 2>&1; then
-        ( cd "$skel" && pax -rw -p p . "$tmpwd" )
+        ( cd -- "$skel" && pax -rw -p p . "$tmpwd" )
     elif command -v tar >/dev/null 2>&1; then
         tar -cv -f - -C "$skel" . | tar -x -p -f - -C "$tmpwd"
     else
@@ -178,7 +178,7 @@ fi
 
 printf 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
 
-cd "$tmpwd" &&
+cd -- "$tmpwd" &&
 env -i  HOME="$tmpwd" \
         PATH="$( getconf PATH )" \
         PS1='$ ' \
