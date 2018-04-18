@@ -14,6 +14,8 @@
 .Op Fl s Ar directory
 .Op Fl k
 .Op Ar shell Op Ar ...
+.Nm
+.Fl v
 .Sh DESCRIPTION
 The
 .Nm
@@ -38,6 +40,9 @@ or
 .Ev $SHELL ,
 against the basenames of
 the allowed login shells).
+This behaviour may be bypassed by using the
+.Fl f
+command line option.
 .Pp
 Any operands present after the name of the
 .Ar shell
@@ -67,6 +72,8 @@ directory to the temporary working directory.
 This option conflicts with the
 .Fl d
 option.
+.It Fl v
+Output version information and immediately terminate.
 .El
 .Sh ENVIRONMENT
 .Nm
@@ -107,7 +114,9 @@ Set to the absolute path of the real shell executable.
 This may be different from the
 .Ar shell
 mentioned on the command line as the actual shell used will always be
-picked from the list of valid login shells.
+picked from the list of valid login shells (unless
+.Fl f
+is used).
 .It Ev TERM
 Carried over from the parent environment.
 .El
@@ -151,15 +160,15 @@ Start
 .Cm ksh
 as a login shell and pre-populate the temporary directory with the
 contents of
-.Pa /etc/skel .
+.Pa $HOME/skel .
 Note, starting the
 .Cm ksh
-shell as a login shell will make it execute the
+shell as a login shell will in this case make it execute the
 .Pa .profile
 file copied from
-.Pa /etc/skel .
+.Pa $HOME/skel .
 .Bd -literal -offset Ds
-$ shell -s /etc/skel ksh -l
+$ shell -s "$HOME/skel" ksh -l
 Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr
 $ ls -la
 total 16
