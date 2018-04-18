@@ -2391,6 +2391,9 @@ fi
 
 
 
+# Test whether mktemp exists, and if it does, whether "mktemp -t" adds
+# .XXXXXXXX to the filename template or not.  This is better than
+# testing with "uname" in the src/shell.in script.
 # Extract the first word of "mktemp", so it can be a program name with args.
 set dummy mktemp; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2436,18 +2439,13 @@ printf "%s\n" "no" >&6; }
 fi
 
 
-if test -z "$MKTEMP"
+if test -n "$MKTEMP"
 then :
-  as_fn_error $? "mktemp is missing, can not continue" "$LINENO" 5
-fi
-
-# Test whether "mktemp -t" adds .XXXXXXXX to the filename template or not.
-# This is better than testing with "uname" in the src/shell.in script.
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether $MKTEMP -t adds .XXXXXXXX to template" >&5
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether $MKTEMP -t adds .XXXXXXXX to template" >&5
 printf %s "checking whether $MKTEMP -t adds .XXXXXXXX to template... " >&6; }
-_tmppath=$( "$MKTEMP" -t template.XXXXXXXX )
-_tmpname=${_tmppath##*/}
-if test "${_tmpname#template.XXXXXXXX}" = "$_tmpname"
+      _tmppath=$( "$MKTEMP" -t template.XXXXXXXX )
+      _tmpname=${_tmppath##*/}
+      if test "${_tmpname#template.XXXXXXXX}" = "$_tmpname"
 then :
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }; MKTEMP_TEMPLATE=".XXXXXXXX"
@@ -2455,8 +2453,13 @@ else
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }; MKTEMP_TEMPLATE=""
 fi
-rm -f "$_tmppath"
-unset _tmppath _tmpname
+      rm -f "$_tmppath"
+      unset -v _tmppath
+      unset -v _tmpname
+
+else
+  as_fn_error $? "mktemp is missing, can not continue" "$LINENO" 5
+fi
 
 
 # "mandoc" and "col" are used for generating the manuals.  These are
