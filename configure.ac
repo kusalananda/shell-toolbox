@@ -8,24 +8,28 @@ AM_MAINTAINER_MODE
 
 AC_CONFIG_SRCDIR([src/shell.in])
 
+# Test whether mktemp exists, and if it does, whether "mktemp -t" adds
+# .XXXXXXXX to the filename template or not.  This is better than
+# testing with "uname" in the src/shell.in script.
 AC_PATH_PROG(MKTEMP, [mktemp])
-AS_IF([test -z "$MKTEMP"], [AC_MSG_ERROR([mktemp is missing, can not continue])])
+AS_IF([test -n "$MKTEMP"],
+      [AC_MSG_CHECKING([whether $MKTEMP -t adds .XXXXXXXX to template])
+      _tmppath=$( "$MKTEMP" -t template.XXXXXXXX )
+      _tmpname=${_tmppath##*/}
+      AS_IF([test "${_tmpname#template.XXXXXXXX}" = "$_tmpname"],
+            [AC_MSG_RESULT([no]); MKTEMP_TEMPLATE=".XXXXXXXX"],
+            [AC_MSG_RESULT([yes]); MKTEMP_TEMPLATE=""])
+      rm -f "$_tmppath"
+      unset -v _tmppath
+      unset -v _tmpname
+      AC_SUBST([MKTEMP_TEMPLATE])],
+      [AC_MSG_ERROR([mktemp is missing, can not continue]) ])
 
-# Test whether "mktemp -t" adds .XXXXXXXX to the filename template or not.
-# This is better than testing with "uname" in the src/shell.in script.
-AC_MSG_CHECKING([whether $MKTEMP -t adds .XXXXXXXX to template])
-_tmppath=$( "$MKTEMP" -t template.XXXXXXXX )
-_tmpname=${_tmppath##*/}
-AS_IF([test "${_tmpname#template.XXXXXXXX}" = "$_tmpname"],
-      [AC_MSG_RESULT([no]); MKTEMP_TEMPLATE=".XXXXXXXX"],
-      [AC_MSG_RESULT([yes]); MKTEMP_TEMPLATE=""])
-rm -f "$_tmppath"
-unset _tmppath _tmpname
-AC_SUBST([MKTEMP_TEMPLATE])
 
-# "mandoc" and "col" are used for generating the manuals.  These are
-# only needed if the distributed manuals are ever deleted (e.g. using
-# "make distclean") or if the source manual sources are updated.
+# mandoc is used for generating the manuals.  It's only needed if the
+# distributed manuals are ever deleted (e.g. using "make distclean") or
+# if the source manual sources are updated. col is used for generating
+# the text-only version of the manuals.
 AC_PATH_PROG(COL, [col])
 AC_PATH_PROG(MANDOC, [mandoc])
 AS_IF([test -n "$MANDOC"],
