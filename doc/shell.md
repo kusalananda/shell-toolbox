@@ -14,7 +14,9 @@ SHELL(1) - General Commands Manual
 \[**-f**]
 \[**-s**&nbsp;*directory*]
 \[**-k**]
-\[*shell*&nbsp;\[*...*]]
+\[*shell*&nbsp;\[*...*]]  
+**shell**
+**-v**
 
 # DESCRIPTION
 
@@ -41,6 +43,9 @@ or
 `$SHELL`,
 against the basenames of
 the allowed login shells).
+This behaviour may be bypassed by using the
+**-f**
+command line option.
 
 Any operands present after the name of the
 *shell*
@@ -77,6 +82,10 @@ The options are as follows:
 > This option conflicts with the
 > **-d**
 > option.
+
+**-v**
+
+> Output version information and immediately terminate.
 
 # ENVIRONMENT
 
@@ -127,7 +136,9 @@ also sets the following environment variables:
 > This may be different from the
 > *shell*
 > mentioned on the command line as the actual shell used will always be
-> picked from the list of valid login shells.
+> picked from the list of valid login shells (unless
+> **-f**
+> is used).
 
 `TERM`
 
@@ -172,15 +183,15 @@ Start
 **ksh**
 as a login shell and pre-populate the temporary directory with the
 contents of
-*/etc/skel*.
+*$HOME/skel*.
 Note, starting the
 **ksh**
-shell as a login shell will make it execute the
+shell as a login shell will in this case make it execute the
 *.profile*
 file copied from
-*/etc/skel*.
+*$HOME/skel*.
 
-	$ shell -s /etc/skel ksh -l
+	$ shell -s "$HOME/skel" ksh -l
 	Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr
 	$ ls -la
 	total 16
@@ -217,4 +228,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - April 15, 2018
+Unix - April 18, 2018

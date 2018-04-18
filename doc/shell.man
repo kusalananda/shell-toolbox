@@ -1,4 +1,4 @@
-.TH "SHELL" "1" "April 15, 2018" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "April 18, 2018" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -18,6 +18,10 @@
 [\fB\-s\fR\ \fIdirectory\fR]
 [\fB\-k\fR]
 [\fIshell\fR\ [\fI...\fR]]
+.br
+.HP 6n
+\fBshell\fR
+\fB\-v\fR
 .PD
 .SH "DESCRIPTION"
 The
@@ -43,6 +47,9 @@ or
 \fR$SHELL\fR,
 against the basenames of
 the allowed login shells).
+This behaviour may be bypassed by using the
+\fB\-f\fR
+command line option.
 .PP
 Any operands present after the name of the
 \fIshell\fR
@@ -75,6 +82,9 @@ directory to the temporary working directory.
 This option conflicts with the
 \fB\-d\fR
 option.
+.TP 8n
+\fB\-v\fR
+Output version information and immediately terminate.
 .SH "ENVIRONMENT"
 \fBshell\fR
 uses the following environment variables:
@@ -117,7 +127,9 @@ Set to the absolute path of the real shell executable.
 This may be different from the
 \fIshell\fR
 mentioned on the command line as the actual shell used will always be
-picked from the list of valid login shells.
+picked from the list of valid login shells (unless
+\fB\-f\fR
+is used).
 .TP 8n
 \fRTERM\fR
 Carried over from the parent environment.
@@ -169,17 +181,17 @@ Start
 \fBksh\fR
 as a login shell and pre-populate the temporary directory with the
 contents of
-\fI/etc/skel\fR.
+\fI$HOME/skel\fR.
 Note, starting the
 \fBksh\fR
-shell as a login shell will make it execute the
+shell as a login shell will in this case make it execute the
 \fI.profile\fR
 file copied from
-\fI/etc/skel\fR.
+\fI$HOME/skel\fR.
 .nf
 .sp
 .RS 6n
-$ shell -s /etc/skel ksh -l
+$ shell -s "$HOME/skel" ksh -l
 Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr
 $ ls -la
 total 16

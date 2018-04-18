@@ -7,6 +7,7 @@ NAME
 SYNOPSIS
      shell [-f] [-d directory | -k] [shell [...]]
      shell [-f] [-s directory] [-k] [shell [...]]
+     shell -v
 
 DESCRIPTION
      The shell utility creates an interactive shell session with a clean
@@ -20,7 +21,8 @@ DESCRIPTION
      The basename of the named shell must correspond to a valid login shell
      and the actual shell that is started will always be taken from the list
      of valid login shells (by matching the basename of the specified shell,
-     or $SHELL, against the basenames of the allowed login shells).
+     or $SHELL, against the basenames of the allowed login shells).  This
+     behaviour may be bypassed by using the -f command line option.
 
      Any operands present after the name of the shell will be passed as is to
      the shell in question.
@@ -46,6 +48,8 @@ DESCRIPTION
 	     rooted in the specified directory to the temporary working
 	     directory.	 This option conflicts with the -d option.
 
+     -v	     Output version information and immediately terminate.
+
 ENVIRONMENT
      shell uses the following environment variables:
 
@@ -70,7 +74,7 @@ ENVIRONMENT
      SHELL   Set to the absolute path of the real shell executable.  This may
 	     be different from the shell mentioned on the command line as the
 	     actual shell used will always be picked from the list of valid
-	     login shells.
+	     login shells (unless -f is used).
 
      TERM    Carried over from the parent environment.
 
@@ -102,10 +106,11 @@ EXAMPLES
 	   Leaving /home/myself/testing in place
 
      Start ksh as a login shell and pre-populate the temporary directory with
-     the contents of /etc/skel.	 Note, starting the ksh shell as a login shell
-     will make it execute the .profile file copied from /etc/skel.
+     the contents of $HOME/skel.  Note, starting the ksh shell as a login
+     shell will in this case make it execute the .profile file copied from
+     $HOME/skel.
 
-	   $ shell -s /etc/skel ksh -l
+	   $ shell -s "$HOME/skel" ksh -l
 	   Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr
 	   $ ls -la
 	   total 16
@@ -132,4 +137,4 @@ CAVEATS
      "getent shells" and may also lack the /etc/shells file.  The /etc/shells
      file will still be used if it exists.
 
-Unix				April 15, 2018				  Unix
+Unix				April 18, 2018				  Unix

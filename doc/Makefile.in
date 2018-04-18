@@ -498,7 +498,7 @@ shell.man:	$(srcdir)/shell.mdoc
 
 shell.md:	$(srcdir)/shell.mdoc
 	test -n "$(MANDOC)" && \
-	test "$(MANDOC_DOES_MARKDOWN)" -eq 1 && \
+	test "$(MANDOC_DOES_MARKDOWN)" = "yes" && \
 	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md || true
 
 shell.txt:	$(srcdir)/shell.mdoc
