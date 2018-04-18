@@ -25,7 +25,6 @@ AS_IF([test -n "$MKTEMP"],
       AC_SUBST([MKTEMP_TEMPLATE])],
       [AC_MSG_ERROR([mktemp is missing, can not continue]) ])
 
-
 # mandoc is used for generating the manuals.  It's only needed if the
 # distributed manuals are ever deleted (e.g. using "make distclean") or
 # if the source manual sources are updated. col is used for generating
@@ -35,8 +34,9 @@ AC_PATH_PROG(MANDOC, [mandoc])
 AS_IF([test -n "$MANDOC"],
       [AC_MSG_CHECKING([whether $MANDOC can produce markdown output])
       AS_IF(["$MANDOC" -T markdown </dev/null 2>/dev/null],
-            [AC_MSG_RESULT([yes]); MANDOC_DOES_MARKDOWN=1],
-            [AC_MSG_RESULT([no]);  MANDOC_DOES_MARKDOWN=0])
+            [MANDOC_DOES_MARKDOWN=yes],
+            [MANDOC_DOES_MARKDOWN=no])
+      AC_MSG_RESULT([$MANDOC_DOES_MARKDOWN])
       AC_SUBST([MANDOC_DOES_MARKDOWN])],
       [AC_MSG_WARN([mandoc is missing, manuals can not be rebuilt]) ])
 
