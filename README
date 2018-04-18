@@ -17,11 +17,11 @@ How to install:
 
 Tested on:
 
-    CentOS 7
+    FreeBSD 11.1
     Darwin 17.5.0 (macOS High Sierra)
     NetBSD 7.1.2
     OpenBSD 6.3
-    Solaris 11.4
+    Solaris 11.4-beta
     Ubuntu 17.10
 
 
