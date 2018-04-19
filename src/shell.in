@@ -102,7 +102,7 @@ get_shells ()
     done
 }
 
-_exit_handler () {
+exit_handler () {
     if [ "$keep" -eq 1 ]; then
         printf 'Leaving %s in place\n' "$tmpwd" >&2
     else
@@ -111,7 +111,7 @@ _exit_handler () {
     fi
 }
 
-_usr1_handler () { keep=1; }
+usr1_handler () { keep=1; }
 
 force=0 # when 1, bypasses the call to get_shells
 keep=0  # when 1, does not remove working directory when exiting
@@ -165,30 +165,30 @@ else
     realshell="$shell"
 fi
 
+if [ -n "$skel" ] && [ ! -d "$skel" ]; then
+    errorf 'No such directory: %s\n' "$skel"
+    exit 1
+fi
+
 if [ -z "$tmpwd" ]; then
     template="shell-${shell##*/}$MKTEMP_TEMPLATE"
     tmpwd="$( "$MKTEMP" -d -t "$template" )"
 elif [ ! -d "$tmpwd" ]; then
     if [ -e "$tmpwd" ]; then
-        errorf '"%s" exists, but is not a directory\n' "$tmpwd"
+        errorf 'No such directory: %s\n' "$tmpwd"
         exit 1
     fi
 
     if ! mkdir -p "$tmpwd"; then
-        errorf 'Failed to create directory "%s"\n' "$tmpwd"
+        errorf 'Failed to create directory: %s\n' "$tmpwd"
         exit 1
     fi
 fi
 
-trap _exit_handler EXIT
-trap _usr1_handler USR1
+trap exit_handler EXIT
+trap usr1_handler USR1
 
 if [ -n "$skel" ]; then
-    if [ ! -d "$skel" ]; then
-        errorf 'Can not find skeleton directory "%s"\n' "$skel"
-        exit 1
-    fi
-
     printf 'Copying %s into %s\n' "$skel" "$tmpwd" >&2
     if command -v pax >/dev/null 2>&1; then
         ( cd -- "$skel" && pax -rw -p p . "$tmpwd" )
