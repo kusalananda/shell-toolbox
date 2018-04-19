@@ -48,6 +48,16 @@ Any operands present after the name of the
 .Ar shell
 will be passed as is to the shell in question.
 .Pp
+If
+.Nm
+(this utility,
+.Em not
+the interactive shell process) receives the USR1 signal, the temporary
+working directory will not be deleted when the shell session terminates
+(as if
+.Fl k
+had been used from the start).
+.Pp
 The options are as follows:
 .Bl -tag -width Ds
 .It Fl d Ar directory
