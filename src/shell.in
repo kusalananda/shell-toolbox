@@ -46,7 +46,7 @@ _get_solaris_shells ()
 END_LIST
 }
 
-get_shells ()
+_get_shells ()
 {
     # Returns a list of absolute paths to installed shells.  The shells
     # are validated (it's made sure that they are executable files)
@@ -85,7 +85,7 @@ get_shells ()
     done
 }
 
-force=0 # when 1, bypasses the call to get_shells
+force=0 # when 1, bypasses the call to _get_shells
 keep=0  # when 1, does not remove working directory when exiting
 while getopts 'd:fks:v' opt; do
     case "$opt" in
@@ -123,13 +123,13 @@ fi
 
 if [ "$force" -eq 0 ]; then
     # Get the absolute path to a real shell.  If multiple shells are
-    # returned from get_shells, we will use the first one.
-    realshell="$( get_shells | sed -n '\#/'"${shell##*/}"'$#{p;q;}' )"
+    # returned from _get_shells, we will use the first one.
+    realshell="$( _get_shells | sed -n '\#/'"${shell##*/}"'$#{p;q;}' )"
 
     if [ -z "$realshell" ]; then
         _error 'No such shell: %s\n' "$shell"
         echo 'Valid shells:' >&2
-        get_shells | awk '{ printf("\t%s\n", $0) }' >&2
+        _get_shells | awk '{ printf("\t%s\n", $0) }' >&2
         exit 1
     fi
 elif [ ! -x "$shell" ]; then
@@ -166,10 +166,11 @@ if [ -n "$skel" ]; then
         exit 1
     fi
 
+    printf 'Copying %s into %s\n' "$skel" "$tmpwd" >&2
     if command -v pax >/dev/null 2>&1; then
         ( cd -- "$skel" && pax -rw -p p . "$tmpwd" )
     elif command -v tar >/dev/null 2>&1; then
-        tar -cv -f - -C "$skel" . | tar -x -p -f - -C "$tmpwd"
+        tar -c -f - -C "$skel" . | tar -x -p -f - -C "$tmpwd"
     else
         _error 'Can not use pax nor tar to copy "%s" to "%s"\n' "$skel" "$tmpwd"
         exit 1
