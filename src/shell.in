@@ -94,6 +94,8 @@ _exit_handler () {
     fi
 }
 
+_usr1_handler () { keep=1; }
+
 force=0 # when 1, bypasses the call to _get_shells
 keep=0  # when 1, does not remove working directory when exiting
 while getopts 'd:fks:v' opt; do
@@ -164,6 +166,7 @@ elif [ ! -d "$tmpwd" ]; then
 fi
 
 trap _exit_handler EXIT
+trap _usr1_handler USR1
 
 if [ -n "$skel" ]; then
     if [ ! -d "$skel" ]; then
