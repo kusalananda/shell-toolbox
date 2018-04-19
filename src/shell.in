@@ -85,6 +85,15 @@ _get_shells ()
     done
 }
 
+_exit_handler () {
+    if [ "$keep" -eq 1 ]; then
+        printf "Leaving %s in place\n" "$tmpwd" >&2
+    else
+        printf "Removing %s\n" "$tmpwd" >&2
+        cd / && rm -rf -- "$tmpwd"
+    fi
+}
+
 force=0 # when 1, bypasses the call to _get_shells
 keep=0  # when 1, does not remove working directory when exiting
 while getopts 'd:fks:v' opt; do
@@ -154,11 +163,7 @@ elif [ ! -d "$tmpwd" ]; then
     fi
 fi
 
-if [ "$keep" -eq 1 ]; then
-    trap 'printf "Leaving %s in place\n" "$tmpwd" >&2' EXIT
-else
-    trap 'printf "Removing %s\n" "$tmpwd" >&2; cd / && rm -rf "$tmpwd"' EXIT
-fi
+trap _exit_handler EXIT
 
 if [ -n "$skel" ]; then
     if [ ! -d "$skel" ]; then
