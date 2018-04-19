@@ -1,4 +1,4 @@
-.TH "SHELL" "1" "April 18, 2018" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "April 19, 2018" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -54,6 +54,16 @@ command line option.
 Any operands present after the name of the
 \fIshell\fR
 will be passed as is to the shell in question.
+.PP
+If
+\fBshell\fR
+(this utility,
+\fInot\fR
+the interactive shell process) receives the USR1 signal, the temporary
+working directory will not be deleted when the shell session terminates
+(as if
+\fB\-k\fR
+had been used from the start).
 .PP
 The options are as follows:
 .TP 8n
