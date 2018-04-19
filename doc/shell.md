@@ -192,6 +192,7 @@ file copied from
 *$HOME/skel*.
 
 	$ shell -s "$HOME/skel" ksh -l
+	Copying /home/myself/skel into /tmp/shell-ksh.4DzEG6qr
 	Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr
 	$ ls -la
 	total 16
