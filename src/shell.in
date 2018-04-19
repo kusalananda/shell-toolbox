@@ -18,6 +18,9 @@ _error ()
     # stderr:       error message
 
     printf 'shell: ' >&2
+
+    # We mimic printf here, disable shellcheck test.
+    # shellcheck disable=SC2059
     printf "$@" >&2
 }
 
@@ -78,7 +81,7 @@ _get_shells ()
             exit 1
         fi
     fi |
-    while read realshell; do
+    while read -r realshell; do
         if [ -x "$realshell" ]; then
             printf '%s\n' "$realshell"
         fi
@@ -87,9 +90,9 @@ _get_shells ()
 
 _exit_handler () {
     if [ "$keep" -eq 1 ]; then
-        printf "Leaving %s in place\n" "$tmpwd" >&2
+        printf 'Leaving %s in place\n' "$tmpwd" >&2
     else
-        printf "Removing %s\n" "$tmpwd" >&2
+        printf 'Removing %s\n' "$tmpwd" >&2
         cd / && rm -rf -- "$tmpwd"
     fi
 }
