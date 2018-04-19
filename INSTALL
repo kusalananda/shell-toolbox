@@ -25,7 +25,26 @@ To install using GNU Stow under "$HOME/local":
 
 Then make sure that "$HOME/local/bin" is in your "$PATH".
 
+The following files will be installed unless the default installation
+paths are modified:
+
+    <prefix>/
+    |-- bin
+    |   `-- shell
+    `-- share
+        |-- doc
+        |   `-- shell-toolbox
+        |       |-- LICENSE
+        |       |-- NEWS
+        |       |-- README
+        |       |-- shell.md
+        |       `-- shell.txt
+        `-- man
+            `-- man1
+                `-- shell.1
+
 
 Caveat: If you run "make distclean", the generated manuals, which are
 part of the distribution sources, will be removed.  These won't be
 rebuilt unless you have mandoc(1) installed.
+
