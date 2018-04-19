@@ -1,3 +1,4 @@
 For "shell":
 
-*       Nothing at the moment.
+    * Add USR1 signal handler that stops the temporary directory from
+      being deleted when the script is exiting.
