@@ -51,6 +51,16 @@ Any operands present after the name of the
 *shell*
 will be passed as is to the shell in question.
 
+If
+**shell**
+(this utility,
+*not*
+the interactive shell process) receives the USR1 signal, the temporary
+working directory will not be deleted when the shell session terminates
+(as if
+**-k**
+had been used from the start).
+
 The options are as follows:
 
 **-d** *directory*
@@ -229,4 +239,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - April 18, 2018
+Unix - April 19, 2018
