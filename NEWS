@@ -1,5 +1,6 @@
 Next release
     * Added NEWS file.
+    * Added -q option for quiet operation.
     * Added -v option to output version information.
     * Added USR1 signal handler that will stop the temporary directory
       from being deleted when the shell exits (as if -k had been used from
