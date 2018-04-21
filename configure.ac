@@ -1,5 +1,6 @@
 AC_PREREQ([2.69])
-AC_INIT([shell-toolbox],[post-20180415],[https://github.com/kusalananda/shell-toolbox/issues])
+AC_INIT([shell-toolbox],[post-20180415],
+        [https://github.com/kusalananda/shell-toolbox/issues])
 
 AC_CONFIG_AUX_DIR([build])
 
@@ -11,6 +12,9 @@ AC_CONFIG_SRCDIR([src/shell.in])
 # Test whether mktemp exists, and if it does, whether "mktemp -t" adds
 # .XXXXXXXX to the filename template or not.  This is better than
 # testing with "uname" in the src/shell.in script.
+# Note: The *minimum* number of X's on OpenBSD is six, while the
+# *maximum* number of X's on Solaris is six (Solaris "mktemp -t" will
+# only use the last six of the eight X's we give it here).
 AC_PATH_PROG(MKTEMP, [mktemp])
 AS_IF([test -n "$MKTEMP"],
       [AC_MSG_CHECKING([whether $MKTEMP -t adds .XXXXXXXX to template])
