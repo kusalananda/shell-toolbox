@@ -2394,6 +2394,9 @@ fi
 # Test whether mktemp exists, and if it does, whether "mktemp -t" adds
 # .XXXXXXXX to the filename template or not.  This is better than
 # testing with "uname" in the src/shell.in script.
+# Note: The *minimum* number of X's on OpenBSD is six, while the
+# *maximum* number of X's on Solaris is six (Solaris "mktemp -t" will
+# only use the last six of the eight X's we give it here).
 # Extract the first word of "mktemp", so it can be a program name with args.
 set dummy mktemp; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5

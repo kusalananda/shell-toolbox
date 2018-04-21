@@ -8,10 +8,12 @@ SHELL(1) - General Commands Manual
 
 **shell**
 \[**-f**]
+\[**-q**]
 \[**-d**&nbsp;*directory*&nbsp;|&nbsp;**-k**]
 \[*shell*&nbsp;\[*...*]]  
 **shell**
 \[**-f**]
+\[**-q**]
 \[**-s**&nbsp;*directory*]
 \[**-k**]
 \[*shell*&nbsp;\[*...*]]  
@@ -83,6 +85,11 @@ The options are as follows:
 
 > Keep the temporary directory around after terminating the shell session.
 
+**-q**
+
+> Be quiet.
+> Don't output informational messages.
+
 **-s** *directory*
 
 > Pre-populate the temporary directory with the contents of the named
@@ -145,8 +152,8 @@ also sets the following environment variables:
 > Set to the absolute path of the real shell executable.
 > This may be different from the
 > *shell*
-> mentioned on the command line as the actual shell used will always be
-> picked from the list of valid login shells (unless
+> mentioned on the command line as the actual shell used will be picked
+> from the list of valid login shells (unless
 > **-f**
 > is used).
 
@@ -167,27 +174,28 @@ also sets the following environment variables:
 Start a new shell in a new temporary directory:
 
 	$ shell
-	Starting /bin/ksh in /tmp/shell-ksh.lDv4uX48
+	shell: INFO: Starting /bin/ksh in /tmp/shell-ksh.mJMHFTFE
 	$ exit
-	Removing /tmp/shell-ksh.lDv4uX48
+	shell: INFO: Removing /tmp/shell-ksh.mJMHFTFE
 
 Start a new
-**ksh93**
+**dash**
 shell in a temporary directory:
 
-	$ shell ksh93
-	Starting /usr/local/bin/ksh93 in /tmp/shell-ksh93.oct61lxx
-	myself:/tmp/shell-ksh93.oct61lxx:1$ exit
-	Removing /tmp/shell-ksh93.oct61lxx
+	$ shell dash
+	shell: INFO: Starting /usr/local/bin/dash in /tmp/shell-dash.V7zU6EtZ
+	$ exit
+	shell: INFO: Removing /tmp/shell-dash.V7zU6EtZ
 
 Start a new
 **bash**
 shell in a specific directory:
 
 	$ shell -d "$HOME/testing" bash
-	Starting /usr/local/bin/bash in /home/myself/testing
+	shell: INFO: Starting /usr/local/bin/bash in /home/myself/testing
 	$ exit
-	Leaving /home/myself/testing in place
+	exit
+	shell: INFO: Leaving /home/myself/testing in place
 
 Start
 **ksh**
@@ -202,20 +210,21 @@ file copied from
 *$HOME/skel*.
 
 	$ shell -s "$HOME/skel" ksh -l
-	Copying /home/myself/skel into /tmp/shell-ksh.4DzEG6qr
-	Starting /bin/ksh in /tmp/shell-ksh.4DzEG6qr
+	shell: INFO: Copying /home/myself/skel into /tmp/shell-ksh.ngEwbcpD
+	shell: INFO: Starting /bin/ksh in /tmp/shell-ksh.ngEwbcpD
 	$ ls -la
-	total 16
-	drwx------  3 myself  wheel  512 Feb  9 10:18 .
-	drwxrwxrwt  4 root    wheel  512 Apr  8 18:49 ..
-	-rw-r--r--  1 myself  wheel   87 Nov  1 19:14 .Xdefaults
-	-rw-r--r--  1 myself  wheel  771 Feb  9 10:18 .cshrc
-	-rw-r--r--  1 myself  wheel  101 Nov  1 19:14 .cvsrc
-	-rw-r--r--  1 myself  wheel  359 Nov  1 19:14 .login
-	-rw-r--r--  1 myself  wheel  175 Nov  1 19:14 .mailrc
-	-rw-r--r--  1 myself  wheel  215 Feb  9 10:18 .profile
+	total 36
+	drwxr-xr-x   2 myself  wheel  512 Apr 15 12:55 .
+	drwxrwxrwt  28 root    wheel  512 Apr 21 14:15 ..
+	-rw-r--r--   1 myself  wheel   87 Nov  1 19:14 .Xdefaults
+	-rw-r--r--   1 myself  wheel  771 Feb  9 10:18 .cshrc
+	-rw-r--r--   1 myself  wheel  101 Nov  1 19:14 .cvsrc
+	-rw-r--r--   1 myself  wheel  359 Nov  1 19:14 .login
+	-rw-r--r--   1 myself  wheel  175 Nov  1 19:14 .mailrc
+	-rw-r--r--   1 myself  wheel  215 Feb  9 10:18 .profile
+	-rw-r--r--   1 myself  wheel  108 Apr 15 12:50 .vimrc
 	$ exit
-	Removing /tmp/shell-ksh.4DzEG6qr
+	shell: INFO: Removing /tmp/shell-ksh.ngEwbcpD
 
 # SEE ALSO
 
@@ -239,4 +248,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - April 19, 2018
+Unix - April 21, 2018
