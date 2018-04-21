@@ -3,13 +3,14 @@
 # Part of @PACKAGE_STRING@
 # For bug reports, see "@PACKAGE_BUGREPORT@"
 
-UTIL=shell
+utility_name=shell      # used in perrorf() and pinfo()
+main_pid=$$             # used in get_shells()
 
 # Variables set by the configure script:
 MKTEMP="@MKTEMP@"
 MKTEMP_TEMPLATE="@MKTEMP_TEMPLATE@"
 
-errorf ()
+perrorf ()
 {
     # Simple function for outputting error messages.  Prefixes the error
     # message with the name of the utility.
@@ -22,7 +23,18 @@ errorf ()
     # We mimic printf here, disable shellcheck warnings.
     # See https://unix.stackexchange.com/questions/438694
     # shellcheck disable=SC2059,SC2145
-    printf "$UTIL: ERROR: $@" >&2
+    printf "$utility_name: ERROR: $@" >&2
+}
+
+pinfof ()
+{
+    # Same as above, but with 'INFO:' instead of 'ERROR:'.  Also
+    # disables output if the global variable $quiet is 1.
+
+    if [ "${quiet:-0}" -ne 1 ]; then
+        # shellcheck disable=SC2059,SC2145
+        printf "$utility_name: INFO: $@" >&2
+    fi
 }
 
 output_version ()
@@ -34,9 +46,8 @@ output_version ()
     # stdout:       unused
     # stderr:       version information
 
-    printf '%s: part of %s (release "%s")\n' \
-        "$UTIL" "@PACKAGE_NAME@" "@PACKAGE_VERSION@"
-    printf 'For bug reports, see %s\n' "@PACKAGE_BUGREPORT@"
+    pinfof 'Part of %s (release "%s")\n' "@PACKAGE_NAME@" "@PACKAGE_VERSION@"
+    pinfof 'For bug reports, see %s\n' "@PACKAGE_BUGREPORT@"
 }
 
 get_solaris_shells ()
@@ -90,9 +101,12 @@ get_shells ()
         if [ "$( uname -s )" = "SunOS" ]; then
             get_solaris_shells
         else
-            errorf 'Can not get list of shells!\n'
-            errorf 'Please file a bug report at\n%s\n' "@PACKAGE_BUGREPORT@"
-            exit 1
+            perrorf 'Can not get list of shells!\n'
+            perrorf 'Please file a bug report at %s\n' "@PACKAGE_BUGREPORT@"
+            # We HUP the script here since if we "exit 1" instead, we
+            # will be left it the main part of the script and get further
+            # error messages before properly terminating.
+            kill -s HUP "$main_pid"
         fi
     fi |
     while read -r realshell; do
@@ -104,9 +118,9 @@ get_shells ()
 
 exit_handler () {
     if [ "$keep" -eq 1 ]; then
-        printf 'Leaving %s in place\n' "$tmpwd" >&2
+        pinfof 'Leaving %s in place\n' "$tmpwd" >&2
     else
-        printf 'Removing %s\n' "$tmpwd" >&2
+        pinfof 'Removing %s\n' "$tmpwd" >&2
         cd / && rm -rf -- "$tmpwd"
     fi
 }
@@ -115,23 +129,25 @@ usr1_handler () { keep=1; }
 
 force=0 # when 1, bypasses the call to get_shells
 keep=0  # when 1, does not remove working directory when exiting
-while getopts 'd:fks:v' opt; do
+quiet=0 # when 1, informational messages are not outputted
+while getopts 'd:fks:qv' opt; do
     case "$opt" in
         d) tmpwd=$OPTARG
            keep=1       ;;
         f) force=1      ;;
         k) keep=1       ;;
+        q) quiet=1      ;;
         s) skel=$OPTARG ;;
         v) output_version
            exit 0       ;;
-        *) errorf 'Unknown option on command line\n'
+        *) perrorf 'Unknown option on command line\n'
            exit 1
     esac
 done
 shift "$(( OPTIND - 1 ))"
 
 if [ -n "$tmpwd" ] && [ -n "$skel" ]; then
-    errorf 'Can not use both the -d and the -s option at the same time\n'
+    perrorf 'Can not use both the -d and the -s option at the same time\n'
     exit 1
 fi
 
@@ -143,7 +159,7 @@ else
 fi
 
 if [ -z "$shell" ]; then
-    errorf 'Can not determine what shell to start\n'
+    perrorf 'Can not determine what shell to start\n'
     exit 1
 fi
 
@@ -153,20 +169,20 @@ if [ "$force" -eq 0 ]; then
     realshell="$( get_shells | sed -n '\#/'"${shell##*/}"'$#{p;q;}' )"
 
     if [ -z "$realshell" ]; then
-        errorf 'No such shell: %s\n' "$shell"
+        perrorf 'No such shell: %s\n' "$shell"
         echo 'Valid shells:' >&2
         get_shells | awk '{ printf("\t%s\n", $0) }' >&2
         exit 1
     fi
 elif [ ! -x "$shell" ]; then
-        errorf 'No such executable: %s\n' "$shell"
+        perrorf 'No such executable: %s\n' "$shell"
         exit 1
 else
     realshell="$shell"
 fi
 
 if [ -n "$skel" ] && [ ! -d "$skel" ]; then
-    errorf 'No such directory: %s\n' "$skel"
+    perrorf 'No such directory: %s\n' "$skel"
     exit 1
 fi
 
@@ -175,12 +191,12 @@ if [ -z "$tmpwd" ]; then
     tmpwd="$( "$MKTEMP" -d -t "$template" )"
 elif [ ! -d "$tmpwd" ]; then
     if [ -e "$tmpwd" ]; then
-        errorf 'No such directory: %s\n' "$tmpwd"
+        perrorf 'No such directory: %s\n' "$tmpwd"
         exit 1
     fi
 
     if ! mkdir -p "$tmpwd"; then
-        errorf 'Failed to create directory: %s\n' "$tmpwd"
+        perrorf 'Failed to create directory: %s\n' "$tmpwd"
         exit 1
     fi
 fi
@@ -189,18 +205,19 @@ trap exit_handler EXIT
 trap usr1_handler USR1
 
 if [ -n "$skel" ]; then
-    printf 'Copying %s into %s\n' "$skel" "$tmpwd" >&2
+    pinfof 'Copying %s into %s\n' "$skel" "$tmpwd" >&2
     if command -v pax >/dev/null 2>&1; then
         ( cd -- "$skel" && pax -rw -p p . "$tmpwd" )
     elif command -v tar >/dev/null 2>&1; then
         tar -c -f - -C "$skel" . | tar -x -p -f - -C "$tmpwd"
     else
-        errorf 'Can not use pax nor tar to copy "%s" to "%s"\n' "$skel" "$tmpwd"
+        perrorf 'Can not use pax nor tar to copy "%s" to "%s"\n' \
+            "$skel" "$tmpwd"
         exit 1
     fi
 fi
 
-printf 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
+pinfof 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
 
 cd -- "$tmpwd" &&
 env -i  HOME="$tmpwd" \
