@@ -43,19 +43,7 @@ paths are modified:
             `-- man1
                 `-- shell.1
 
-
 Caveat: If you run "make distclean", the generated manuals, which are
 part of the distribution sources, will be removed.  These won't be
 rebuilt unless you have mandoc(1) installed.
 
-Using the tools without access to "make":
-
-After running the configure script, the generated Makefiles are actually
-just (currently) used for installing the various files in the correct
-locations.  If you are on a system where "make" is not available (due to
-arbitrary decisions/omissions by the system administrators), assuming
-you have run the configure script, then you may just copy the generated
-scripts from the "src" folder (and possibly the manuals from "doc") to
-wherever you want to keep them.
-
-Note that the tools have not been thoroughly tested to work this way.
