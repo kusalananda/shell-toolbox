@@ -3,7 +3,14 @@
 # Part of @PACKAGE_STRING@
 # For bug reports, see "@PACKAGE_BUGREPORT@"
 
-_error ()
+utility_name=shell      # used in perrorf() and pinfo()
+main_pid=$$             # used in get_shells()
+
+# Variables set by the configure script:
+MKTEMP="@MKTEMP@"
+MKTEMP_TEMPLATE="@MKTEMP_TEMPLATE@"
+
+perrorf ()
 {
     # Simple function for outputting error messages.  Prefixes the error
     # message with the name of the utility.
@@ -13,11 +20,37 @@ _error ()
     # stdout:       unused
     # stderr:       error message
 
-    printf 'shell: ' >&2
-    printf "$@" >&2
+    # We mimic printf here, disable shellcheck warnings.
+    # See https://unix.stackexchange.com/questions/438694
+    # shellcheck disable=SC2059,SC2145
+    printf "$utility_name: ERROR: $@" >&2
 }
 
-_get_solaris_shells ()
+pinfof ()
+{
+    # Same as above, but with 'INFO:' instead of 'ERROR:'.  Also
+    # disables output if the global variable $quiet is 1.
+
+    if [ "${quiet:-0}" -ne 1 ]; then
+        # shellcheck disable=SC2059,SC2145
+        printf "$utility_name: INFO: $@" >&2
+    fi
+}
+
+output_version ()
+{
+    # Simple function for outputting version information.
+
+    # Parameters:   none
+    # stdin:        unused
+    # stdout:       unused
+    # stderr:       version information
+
+    pinfof 'Part of %s (release "%s")\n' "@PACKAGE_NAME@" "@PACKAGE_VERSION@"
+    pinfof 'For bug reports, see %s\n' "@PACKAGE_BUGREPORT@"
+}
+
+get_solaris_shells ()
 {
     # Returns a list of valid Solaris 11.4 shells.  The list is taken
     # from the shells(4) manual and is shortened to only contain one
@@ -66,38 +99,55 @@ get_shells ()
        ! grep '^[^#]' /etc/shells 2>/dev/null
     then
         if [ "$( uname -s )" = "SunOS" ]; then
-            _get_solaris_shells
+            get_solaris_shells
         else
-            _error 'Can not get list of shells!\n'
-            _error 'Please file a bug report at\n'
-            _error '@PACKAGE_BUGREPORT@\n'
-            exit 1
+            perrorf 'Can not get list of shells!\n'
+            perrorf 'Please file a bug report at %s\n' "@PACKAGE_BUGREPORT@"
+            # We HUP the script here since if we "exit 1" instead, we
+            # will be left it the main part of the script and get further
+            # error messages before properly terminating.
+            kill -s HUP "$main_pid"
         fi
     fi |
-    while read realshell; do
+    while read -r realshell; do
         if [ -x "$realshell" ]; then
             printf '%s\n' "$realshell"
         fi
     done
 }
 
+exit_handler () {
+    if [ "$keep" -eq 1 ]; then
+        pinfof 'Leaving %s in place\n' "$tmpwd" >&2
+    else
+        pinfof 'Removing %s\n' "$tmpwd" >&2
+        cd / && rm -rf -- "$tmpwd"
+    fi
+}
+
+usr1_handler () { keep=1; }
+
 force=0 # when 1, bypasses the call to get_shells
 keep=0  # when 1, does not remove working directory when exiting
-while getopts 'd:fks:' opt; do
+quiet=0 # when 1, informational messages are not outputted
+while getopts 'd:fks:qv' opt; do
     case "$opt" in
         d) tmpwd=$OPTARG
            keep=1       ;;
         f) force=1      ;;
         k) keep=1       ;;
+        q) quiet=1      ;;
         s) skel=$OPTARG ;;
-        *) _error 'error while parsing the command line\n'
+        v) output_version
+           exit 0       ;;
+        *) perrorf 'Unknown option on command line\n'
            exit 1
     esac
 done
 shift "$(( OPTIND - 1 ))"
 
 if [ -n "$tmpwd" ] && [ -n "$skel" ]; then
-    _error 'Can not use both the -d and the -s option at the same time\n'
+    perrorf 'Can not use both the -d and the -s option at the same time\n'
     exit 1
 fi
 
@@ -109,7 +159,7 @@ else
 fi
 
 if [ -z "$shell" ]; then
-    _error 'Can not determine what shell to start\n'
+    perrorf 'Can not determine what shell to start\n'
     exit 1
 fi
 
@@ -119,65 +169,57 @@ if [ "$force" -eq 0 ]; then
     realshell="$( get_shells | sed -n '\#/'"${shell##*/}"'$#{p;q;}' )"
 
     if [ -z "$realshell" ]; then
-        _error 'No such shell: %s\n' "$shell"
+        perrorf 'No such shell: %s\n' "$shell"
         echo 'Valid shells:' >&2
         get_shells | awk '{ printf("\t%s\n", $0) }' >&2
         exit 1
     fi
 elif [ ! -x "$shell" ]; then
-        _error 'No such executable: %s\n' "$shell"
+        perrorf 'No such executable: %s\n' "$shell"
         exit 1
 else
     realshell="$shell"
 fi
 
-if [ -z "$tmpwd" ]; then
-    # mktemp(1) on Darwin 17.5.0 (macOS) and NetBSD 7.1.2 adds
-    # '.XXXXXXXX' to the template when using "mktemp -t".
+if [ -n "$skel" ] && [ ! -d "$skel" ]; then
+    perrorf 'No such directory: %s\n' "$skel"
+    exit 1
+fi
 
-    template="shell-${shell##*/}"
-    case "$( uname )" in
-        Darwin|NetBSD) ;;
-        *)      template="$template.XXXXXXXX"
-    esac
-    tmpwd="$( mktemp -d -t "$template" )"
+if [ -z "$tmpwd" ]; then
+    template="shell-${shell##*/}$MKTEMP_TEMPLATE"
+    tmpwd="$( "$MKTEMP" -d -t "$template" )"
 elif [ ! -d "$tmpwd" ]; then
     if [ -e "$tmpwd" ]; then
-        _error '"%s" exists, but is not a directory\n' "$tmpwd"
+        perrorf 'No such directory: %s\n' "$tmpwd"
         exit 1
     fi
 
     if ! mkdir -p "$tmpwd"; then
-        _error 'Failed to create directory "%s"\n' "$tmpwd"
+        perrorf 'Failed to create directory: %s\n' "$tmpwd"
         exit 1
     fi
 fi
 
-if [ "$keep" -eq 1 ]; then
-    trap 'printf "Leaving %s in place\n" "$tmpwd" >&2' EXIT
-else
-    trap 'printf "Removing %s\n" "$tmpwd" >&2; cd / && rm -rf "$tmpwd"' EXIT
-fi
+trap exit_handler EXIT
+trap usr1_handler USR1
 
 if [ -n "$skel" ]; then
-    if [ ! -d "$skel" ]; then
-        _error 'The -s option was used, but "%s" does not exist\n' "$skel"
-        exit 1
-    fi
-
+    pinfof 'Copying %s into %s\n' "$skel" "$tmpwd" >&2
     if command -v pax >/dev/null 2>&1; then
-        ( cd "$skel" && pax -rw -p p . "$tmpwd" )
+        ( cd -- "$skel" && pax -rw -p p . "$tmpwd" )
     elif command -v tar >/dev/null 2>&1; then
-        tar -cv -f - -C "$skel" . | tar -x -p -f - -C "$tmpwd"
+        tar -c -f - -C "$skel" . | tar -x -p -f - -C "$tmpwd"
     else
-        _error 'Can not use pax nor tar to copy "%s" to "%s"\n' "$skel" "$tmpwd"
+        perrorf 'Can not use pax nor tar to copy "%s" to "%s"\n' \
+            "$skel" "$tmpwd"
         exit 1
     fi
 fi
 
-printf 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
+pinfof 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
 
-cd "$tmpwd" &&
+cd -- "$tmpwd" &&
 env -i  HOME="$tmpwd" \
         PATH="$( getconf PATH )" \
         PS1='$ ' \

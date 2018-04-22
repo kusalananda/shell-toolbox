@@ -5,35 +5,44 @@
 Useful shell scripts
 
 How to use:
+
     The scripts are documented with their own manuals.  The same manuals
     are also available as plain text and Markdown in the "doc" directory
     of the source distribution.  These will also be installed in
     "<prefix>/share/doc/shell-toolbox" by default.
 
 How to install:
+
     Please see the document called "INSTALL" in the source distribution.
 
 Tested on:
-    OpenBSD 6.3, NetBSD 7.1.2, Darwin 17.5.0 (macOS High Sierra),
-    Ubuntu 17.10, Solaris 11.4, CentOS 7
+
+    FreeBSD 11.1
+    Darwin 17.5.0 (macOS High Sierra)
+    NetBSD 7.1.2
+    OpenBSD 6.3
+    Solaris 11.4-beta
+    Ubuntu 17.10
 
 
 ------------------------------------------------------------------------
 # Shell scripts
 ------------------------------------------------------------------------
 
-* shell:    Creates a shell for testing things in.
+* shell:
 
-     This script is useful for testing things in an interactive
-     environment other than your usual shell, or for testing things in a
-     clean environment with automatic cleanup of any files left behind.
+    Creates a shell for testing things in.
 
-     Creates a "temporary interactive shell" with a temporary working
-     directory (unless the "-d" flag is used to specify an existing
-     directory) and clean environment.  The working directory is removed
-     when the shell exits (unless the "-k" or "-d" flag was used).
+    This script is useful for testing things in an interactive
+    environment other than your usual shell, or for testing things in a
+    clean environment with automatic cleanup of any files left behind.
 
-     The temporary working directory may also be pre-populated with the
-     contents of an existing directory (using the "-s" flag).
+    Creates a "temporary interactive shell" with a temporary working
+    directory (unless the "-d" flag is used to specify an existing
+    directory) and clean environment.  The working directory is removed
+    when the shell exits (unless the "-k" or "-d" flag was used).
 
-     See "man 1 shell" after installation.
+    The temporary working directory may also be pre-populated with the
+    contents of an existing directory (using the "-s" flag).
+
+    See "man 1 shell" after installation.

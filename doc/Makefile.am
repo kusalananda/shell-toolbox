@@ -4,13 +4,16 @@ EXTRA_DIST=	shell.mdoc
 DISTCLEANFILES=	shell.man shell.md shell.txt
 
 shell.man:	$(srcdir)/shell.mdoc
-	test -x "$(MANDOC)" && \
-	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man
+	test -n "$(MANDOC)" && \
+	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man || true
 
 shell.md:	$(srcdir)/shell.mdoc
-	test -x "$(MANDOC)" && \
-	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md
+	test -n "$(MANDOC)" && \
+	test "$(MANDOC_DOES_MARKDOWN)" = "yes" && \
+	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md || true
 
 shell.txt:	$(srcdir)/shell.mdoc
-	test -x "$(MANDOC)" && test -x "$(COL)" && \
-	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | $(COL) -b >shell.txt
+	test -n "$(MANDOC)" && \
+	test -n "$(COL)" && \
+	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | \
+	$(COL) -b >shell.txt || true

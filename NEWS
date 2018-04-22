@@ -1,0 +1,27 @@
+Release 20180422
+    * Added NEWS file.
+    * Added -q option for quiet operation.
+    * Added -v option to output version information.
+    * Added USR1 signal handler that will stop the temporary directory
+      from being deleted when the shell exits (as if -k had been used from
+      the start).
+    * Let the configure script figure out whether "mktemp -t" adds
+      ".XXXXXXXX" to the end of the given template or not.
+    * Don't choke on directories whose name start with a dash.
+    * Now properly tested on FreeBSD 11.1.
+
+Release 20180415
+    * Fixed GitHub issue #1, "Centos 7 several shells with the same name".
+    * Fixed GitHub issue #2, "Comparison null string to zero (int)"
+    * Added manual.
+    * Added -f option to force running the given command (bypasses check
+      for valid login shell).
+    * Added -s option for specifying a "skeleton" directory whose
+      contents will be (recursively) copied into the newly created
+      temporary directory.
+    * Updated static list of shells on Solaris with shells from the
+      shells(4) manual on a Solaris 11.4-beta system.
+    * Set HOME to the temporary directory.
+
+Release 20180401
+    * First real release.
