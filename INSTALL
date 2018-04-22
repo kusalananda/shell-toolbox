@@ -46,4 +46,3 @@ paths are modified:
 Caveat: If you run "make distclean", the generated manuals, which are
 part of the distribution sources, will be removed.  These won't be
 rebuilt unless you have mandoc(1) installed.
-
