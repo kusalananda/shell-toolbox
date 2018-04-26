@@ -138,7 +138,8 @@ while getopts 'd:fks:qv' opt; do
         k) keep=1       ;;
         q) quiet=1      ;;
         s) skel=$OPTARG ;;
-        v) output_version
+        v) quiet=0
+           output_version
            exit 0       ;;
         *) perrorf 'Unknown option on command line\n'
            exit 1
