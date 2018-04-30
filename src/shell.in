@@ -23,17 +23,17 @@ perrorf ()
     # We mimic printf here, disable shellcheck warnings.
     # See https://unix.stackexchange.com/questions/438694
     # shellcheck disable=SC2059,SC2145
-    printf "$utility_name: ERROR: $@" >&2
+    printf "$utility_name: error: $@" >&2
 }
 
 pinfof ()
 {
-    # Same as above, but with 'INFO:' instead of 'ERROR:'.  Also
+    # Same as above, but with 'info:' instead of 'info:'.  Also
     # disables output if the global variable $quiet is 1.
 
     if [ "${quiet:-0}" -ne 1 ]; then
         # shellcheck disable=SC2059,SC2145
-        printf "$utility_name: INFO: $@" >&2
+        printf "$utility_name: info: $@" >&2
     fi
 }
 
