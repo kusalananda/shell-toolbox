@@ -109,6 +109,21 @@ The options are as follows:
 **shell**
 uses the following environment variables:
 
+`SHELL`
+
+> Used to determine what shell to start if a specific
+> *shell*
+> is not specified on the command line.
+
+`SHELL_SKELETON_DIRECTORY`
+
+> Directory to automatically pre-populate the temporary working directory with.
+> This environment variable is not used if any of the
+> **-d**
+> or
+> **-s**
+> options are used on the command line.
+
 `TMPDIR`
 
 > Directory in which to create the working directory when the
@@ -119,12 +134,6 @@ uses the following environment variables:
 > which will revert to use
 > */tmp*
 > if the variable is not set.
-
-`SHELL`
-
-> Used to determine what shell to start if a specific
-> *shell*
-> is not specified on the command line.
 
 **shell**
 clears the environment of the interactive shell that it starts, but
@@ -248,4 +257,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - April 22, 2018
+Unix - May 4, 2018
