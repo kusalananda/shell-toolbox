@@ -94,13 +94,17 @@ Output version information and immediately terminate.
 .Nm
 uses the following environment variables:
 .Bl -tag -width Ds
+.It Ev SHELL
+Used to determine what shell to start if a specific
+.Ar shell
+is not specified on the command line.
 .It Ev SHELL_SKELETON_DIRECTORY
 Directory to automatically pre-populate the temporary working directory with.
 This environment variable is not used if any of the
 .Fl d
 or
 .Fl s
-options are given on the command line.
+options are used on the command line.
 .It Ev TMPDIR
 Directory in which to create the working directory when the
 .Fl d
@@ -110,10 +114,6 @@ This variable is used by
 which will revert to use
 .Pa /tmp
 if the variable is not set.
-.It Ev SHELL
-Used to determine what shell to start if a specific
-.Ar shell
-is not specified on the command line.
 .El
 .Pp
 .Nm
