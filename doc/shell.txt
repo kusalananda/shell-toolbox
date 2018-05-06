@@ -59,12 +59,17 @@ DESCRIPTION
 ENVIRONMENT
      shell uses the following environment variables:
 
+     SHELL   Used to determine what shell to start if a specific shell is not
+	     specified on the command line.
+
+     SHELL_SKELETON_DIRECTORY
+	     Directory to automatically pre-populate the temporary working
+	     directory with.  This environment variable is not used if any of
+	     the -d or -s options are used on the command line.
+
      TMPDIR  Directory in which to create the working directory when the -d
 	     option is not used.  This variable is used by mktemp which will
 	     revert to use /tmp if the variable is not set.
-
-     SHELL   Used to determine what shell to start if a specific shell is not
-	     specified on the command line.
 
      shell clears the environment of the interactive shell that it starts, but
      also sets the following environment variables:
@@ -146,4 +151,4 @@ CAVEATS
      "getent shells" and may also lack the /etc/shells file.  The /etc/shells
      file will still be used if it exists.
 
-Unix				April 22, 2018				  Unix
+Unix				  May 4, 2018				  Unix
