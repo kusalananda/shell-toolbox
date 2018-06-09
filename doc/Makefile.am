@@ -13,7 +13,7 @@ if BUILD_MARKDOWN_MANUALS
 shell.md:	$(srcdir)/shell.mdoc
 	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md || true
 
-endif
+endif	# BUILD_MARKDOWN_MANUALS
 
 if BUILD_TEXT_MANUALS
 
@@ -21,6 +21,6 @@ shell.txt:	$(srcdir)/shell.mdoc
 	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | \
 	$(COL) -b >shell.txt || true
 
-endif
+endif	# BUILD_TEXT_MANUALS
 
-endif # BUILD_MANUALS
+endif	# BUILD_MANUALS

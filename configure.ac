@@ -43,7 +43,8 @@ AM_COND_IF([BUILD_MANUALS],
       AM_COND_IF([BUILD_MARKDOWN_MANUALS],
                  [AC_MSG_RESULT([yes])],
                  [AC_MSG_RESULT([no])]) ],
-      [AC_MSG_WARN([mandoc is missing, manuals can not be rebuilt]) ])
+      [AC_MSG_WARN([mandoc is missing, manuals can not be rebuilt])
+      AM_CONDITIONAL([BUILD_MARKDOWN_MANUALS], [false]) ])
 
 AC_PATH_PROG(COL, [col])
 AM_CONDITIONAL([BUILD_TEXT_MANUALS], [test -n "$COL"])
