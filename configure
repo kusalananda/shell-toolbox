@@ -2548,6 +2548,14 @@ fi
 else
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: mandoc is missing, manuals can not be rebuilt" >&5
 printf "%s\n" "$as_me: WARNING: mandoc is missing, manuals can not be rebuilt" >&2;}
+       if false; then
+  BUILD_MARKDOWN_MANUALS_TRUE=
+  BUILD_MARKDOWN_MANUALS_FALSE='#'
+else
+  BUILD_MARKDOWN_MANUALS_TRUE='#'
+  BUILD_MARKDOWN_MANUALS_FALSE=
+fi
+
 fi
 
 # Extract the first word of "col", so it can be a program name with args.
@@ -2768,6 +2776,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${BUILD_MANUALS_TRUE}" && test -z "${BUILD_MANUALS_FALSE}"; then
   as_fn_error $? "conditional \"BUILD_MANUALS\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${BUILD_MARKDOWN_MANUALS_TRUE}" && test -z "${BUILD_MARKDOWN_MANUALS_FALSE}"; then
+  as_fn_error $? "conditional \"BUILD_MARKDOWN_MANUALS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${BUILD_MARKDOWN_MANUALS_TRUE}" && test -z "${BUILD_MARKDOWN_MANUALS_FALSE}"; then
