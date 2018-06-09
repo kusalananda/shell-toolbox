@@ -33,16 +33,20 @@ AS_IF([test -n "$MKTEMP"],
 # distributed manuals are ever deleted (e.g. using "make distclean") or
 # if the source manual sources are updated. col is used for generating
 # the text-only version of the manuals.
-AC_PATH_PROG(COL, [col])
 AC_PATH_PROG(MANDOC, [mandoc])
-AS_IF([test -n "$MANDOC"],
+AM_CONDITIONAL([BUILD_MANUALS], [test -n "$MANDOC"])
+
+AM_COND_IF([BUILD_MANUALS],
       [AC_MSG_CHECKING([whether $MANDOC can produce markdown output])
-      AS_IF(["$MANDOC" -T markdown </dev/null 2>/dev/null],
-            [MANDOC_DOES_MARKDOWN=yes],
-            [MANDOC_DOES_MARKDOWN=no])
-      AC_MSG_RESULT([$MANDOC_DOES_MARKDOWN])
-      AC_SUBST([MANDOC_DOES_MARKDOWN])],
+      AM_CONDITIONAL([BUILD_MARKDOWN_MANUALS],
+                     ["$MANDOC" -T markdown </dev/null 2>/dev/null])
+      AM_COND_IF([BUILD_MARKDOWN_MANUALS],
+                 [AC_MSG_RESULT([yes])],
+                 [AC_MSG_RESULT([no])]) ],
       [AC_MSG_WARN([mandoc is missing, manuals can not be rebuilt]) ])
+
+AC_PATH_PROG(COL, [col])
+AM_CONDITIONAL([BUILD_TEXT_MANUALS], [test -n "$COL"])
 
 AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
