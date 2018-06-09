@@ -3,6 +3,7 @@ Makefile
 autom4te.cache
 config.log
 config.status
+local.env
 release-checklist.txt
 shell-toolbox-*.tar.gz
 src/shell
