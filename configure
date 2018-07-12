@@ -573,13 +573,9 @@ PACKAGE_URL=''
 ac_unique_file="src/shell.in"
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-BUILD_TEXT_MANUALS_FALSE
-BUILD_TEXT_MANUALS_TRUE
-COL
-BUILD_MARKDOWN_MANUALS_FALSE
-BUILD_MARKDOWN_MANUALS_TRUE
 BUILD_MANUALS_FALSE
 BUILD_MANUALS_TRUE
+COL
 MANDOC
 MKTEMP_TEMPLATE
 MKTEMP
@@ -2518,46 +2514,6 @@ printf "%s\n" "no" >&6; }
 fi
 
 
- if test -n "$MANDOC"; then
-  BUILD_MANUALS_TRUE=
-  BUILD_MANUALS_FALSE='#'
-else
-  BUILD_MANUALS_TRUE='#'
-  BUILD_MANUALS_FALSE=
-fi
-
-
-if test -z "$BUILD_MANUALS_TRUE"; then :
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether $MANDOC can produce markdown output" >&5
-printf %s "checking whether $MANDOC can produce markdown output... " >&6; }
-       if "$MANDOC" -T markdown </dev/null 2>/dev/null; then
-  BUILD_MARKDOWN_MANUALS_TRUE=
-  BUILD_MARKDOWN_MANUALS_FALSE='#'
-else
-  BUILD_MARKDOWN_MANUALS_TRUE='#'
-  BUILD_MARKDOWN_MANUALS_FALSE=
-fi
-
-      if test -z "$BUILD_MARKDOWN_MANUALS_TRUE"; then :
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-printf "%s\n" "yes" >&6; }
-else
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-fi
-else
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: mandoc is missing, manuals can not be rebuilt" >&5
-printf "%s\n" "$as_me: WARNING: mandoc is missing, manuals can not be rebuilt" >&2;}
-       if false; then
-  BUILD_MARKDOWN_MANUALS_TRUE=
-  BUILD_MARKDOWN_MANUALS_FALSE='#'
-else
-  BUILD_MARKDOWN_MANUALS_TRUE='#'
-  BUILD_MARKDOWN_MANUALS_FALSE=
-fi
-
-fi
-
 # Extract the first word of "col", so it can be a program name with args.
 set dummy col; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2603,14 +2559,40 @@ printf "%s\n" "no" >&6; }
 fi
 
 
- if test -n "$COL"; then
-  BUILD_TEXT_MANUALS_TRUE=
-  BUILD_TEXT_MANUALS_FALSE='#'
+ if test -n "$MANDOC" && test -n "$COL"; then
+  BUILD_MANUALS_TRUE=
+  BUILD_MANUALS_FALSE='#'
 else
-  BUILD_TEXT_MANUALS_TRUE='#'
-  BUILD_TEXT_MANUALS_FALSE=
+  BUILD_MANUALS_TRUE='#'
+  BUILD_MANUALS_FALSE=
 fi
 
+
+if test -z "$BUILD_MANUALS_TRUE"; then :
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether $MANDOC can produce markdown output" >&5
+printf %s "checking whether $MANDOC can produce markdown output... " >&6; }
+       if "$MANDOC" -T markdown </dev/null 2>/dev/null; then
+  BUILD_MANUALS_TRUE=
+  BUILD_MANUALS_FALSE='#'
+else
+  BUILD_MANUALS_TRUE='#'
+  BUILD_MANUALS_FALSE=
+fi
+
+      if test -z "$BUILD_MANUALS_TRUE"; then :
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+else
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+fi
+fi
+
+if test -z "$BUILD_MANUALS_TRUE"; then :
+  else
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: col or usable mandoc is missing, manuals can not be rebuilt" >&5
+printf "%s\n" "$as_me: WARNING: col or usable mandoc is missing, manuals can not be rebuilt" >&2;}
+fi
 
 ac_config_files="$ac_config_files Makefile src/Makefile doc/Makefile"
 
@@ -2778,16 +2760,8 @@ if test -z "${BUILD_MANUALS_TRUE}" && test -z "${BUILD_MANUALS_FALSE}"; then
   as_fn_error $? "conditional \"BUILD_MANUALS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${BUILD_MARKDOWN_MANUALS_TRUE}" && test -z "${BUILD_MARKDOWN_MANUALS_FALSE}"; then
-  as_fn_error $? "conditional \"BUILD_MARKDOWN_MANUALS\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${BUILD_MARKDOWN_MANUALS_TRUE}" && test -z "${BUILD_MARKDOWN_MANUALS_FALSE}"; then
-  as_fn_error $? "conditional \"BUILD_MARKDOWN_MANUALS\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${BUILD_TEXT_MANUALS_TRUE}" && test -z "${BUILD_TEXT_MANUALS_FALSE}"; then
-  as_fn_error $? "conditional \"BUILD_TEXT_MANUALS\" was never defined.
+if test -z "${BUILD_MANUALS_TRUE}" && test -z "${BUILD_MANUALS_FALSE}"; then
+  as_fn_error $? "conditional \"BUILD_MANUALS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 

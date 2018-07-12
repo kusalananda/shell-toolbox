@@ -491,15 +491,20 @@ uninstall-man: uninstall-man1
 .PRECIOUS: Makefile
 
 
+@BUILD_MANUALS_FALSE@all:
+@BUILD_MANUALS_FALSE@	echo 'You lack the mandoc utility' >&2
+@BUILD_MANUALS_FALSE@	echo 'Can not rebuild manuals' >&2
+@BUILD_MANUALS_FALSE@	exit 1
+
 @BUILD_MANUALS_TRUE@shell.man:	$(srcdir)/shell.mdoc
 @BUILD_MANUALS_TRUE@	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man || true
 
-@BUILD_MANUALS_TRUE@@BUILD_MARKDOWN_MANUALS_TRUE@shell.md:	$(srcdir)/shell.mdoc
-@BUILD_MANUALS_TRUE@@BUILD_MARKDOWN_MANUALS_TRUE@	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md || true
+@BUILD_MANUALS_TRUE@shell.md:	$(srcdir)/shell.mdoc
+@BUILD_MANUALS_TRUE@	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md || true
 
-@BUILD_MANUALS_TRUE@@BUILD_TEXT_MANUALS_TRUE@shell.txt:	$(srcdir)/shell.mdoc
-@BUILD_MANUALS_TRUE@@BUILD_TEXT_MANUALS_TRUE@	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | \
-@BUILD_MANUALS_TRUE@@BUILD_TEXT_MANUALS_TRUE@	$(COL) -b >shell.txt || true
+@BUILD_MANUALS_TRUE@shell.txt:	$(srcdir)/shell.mdoc
+@BUILD_MANUALS_TRUE@	$(MANDOC) -T ascii -I os=Unix $(srcdir)/shell.mdoc | \
+@BUILD_MANUALS_TRUE@	$(COL) -b >shell.txt || true
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
