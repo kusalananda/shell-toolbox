@@ -1,6 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([shell-toolbox],[post-20180422],
-        [https://github.com/kusalananda/shell-toolbox/issues])
+AC_INIT([shell-toolbox],[post-20180422],[https://github.com/kusalananda/shell-toolbox/issues])
 
 AC_CONFIG_AUX_DIR([build])
 
@@ -34,20 +33,19 @@ AS_IF([test -n "$MKTEMP"],
 # if the source manual sources are updated. col is used for generating
 # the text-only version of the manuals.
 AC_PATH_PROG(MANDOC, [mandoc])
-AM_CONDITIONAL([BUILD_MANUALS], [test -n "$MANDOC"])
+AC_PATH_PROG(COL, [col])
+AM_CONDITIONAL([BUILD_MANUALS], [test -n "$MANDOC" && test -n "$COL"])
 
 AM_COND_IF([BUILD_MANUALS],
       [AC_MSG_CHECKING([whether $MANDOC can produce markdown output])
-      AM_CONDITIONAL([BUILD_MARKDOWN_MANUALS],
+      AM_CONDITIONAL([BUILD_MANUALS],
                      ["$MANDOC" -T markdown </dev/null 2>/dev/null])
-      AM_COND_IF([BUILD_MARKDOWN_MANUALS],
+      AM_COND_IF([BUILD_MANUALS],
                  [AC_MSG_RESULT([yes])],
-                 [AC_MSG_RESULT([no])]) ],
-      [AC_MSG_WARN([mandoc is missing, manuals can not be rebuilt])
-      AM_CONDITIONAL([BUILD_MARKDOWN_MANUALS], [false]) ])
+                 [AC_MSG_RESULT([no])]) ])
 
-AC_PATH_PROG(COL, [col])
-AM_CONDITIONAL([BUILD_TEXT_MANUALS], [test -n "$COL"])
+AM_COND_IF([BUILD_MANUALS], [],
+      [AC_MSG_WARN([col or usable mandoc is missing, manuals can not be rebuilt])])
 
 AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
