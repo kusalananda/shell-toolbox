@@ -491,10 +491,9 @@ uninstall-man: uninstall-man1
 .PRECIOUS: Makefile
 
 
-@BUILD_MANUALS_FALSE@all:
-@BUILD_MANUALS_FALSE@	echo 'You lack the mandoc utility' >&2
-@BUILD_MANUALS_FALSE@	echo 'Can not rebuild manuals' >&2
-@BUILD_MANUALS_FALSE@	exit 1
+@BUILD_MANUALS_FALSE@$(dist_man1_MANS) $(dist_doc_DATA):
+@BUILD_MANUALS_FALSE@	@echo 'You lack the mandoc utility. Can not rebuild manuals' >&2
+@BUILD_MANUALS_FALSE@	@exit 1
 
 @BUILD_MANUALS_TRUE@shell.man:	$(srcdir)/shell.mdoc
 @BUILD_MANUALS_TRUE@	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man || true
