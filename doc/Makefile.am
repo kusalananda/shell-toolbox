@@ -4,10 +4,10 @@ EXTRA_DIST=	shell.mdoc
 DISTCLEANFILES=	shell.man shell.md shell.txt
 
 if !BUILD_MANUALS
-all:
-	echo 'You lack the mandoc utility' >&2
-	echo 'Can not rebuild manuals' >&2
-	exit 1
+
+$(dist_man1_MANS) $(dist_doc_DATA):
+	@echo 'You lack the mandoc utility. Can not rebuild manuals' >&2
+	@exit 1
 
 else
 
