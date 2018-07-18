@@ -98,6 +98,9 @@ uses the following environment variables:
 Used to determine what shell to start if a specific
 .Ar shell
 is not specified on the command line.
+If this variable is unset or empty, then
+.Cm /bin/sh
+will be used instead.
 .It Ev SHELL_SKELETON_DIRECTORY
 Directory to automatically pre-populate the temporary working directory with.
 This environment variable is not used if any of the

@@ -159,12 +159,7 @@ if [ -n "$1" ]; then
     shell="$1"
     shift
 else
-    shell="$SHELL"
-fi
-
-if [ -z "$shell" ]; then
-    perrorf 'Can not determine what shell to start\n'
-    exit 1
+    shell="${SHELL:-/bin/sh}"
 fi
 
 if [ "$force" -eq 0 ]; then
