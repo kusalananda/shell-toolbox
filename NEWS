@@ -4,6 +4,8 @@ Next release:
       SHELL_SKELETON_DIRECTORY environment variable to the path of a
       directory.  This environment variable is not used if the command
       line option -s or -d is used.
+    * /bin/sh is used if SHELL is empty or unset and no other shell is
+      specified.
 
 Release 20180422
     * Added NEWS file.
