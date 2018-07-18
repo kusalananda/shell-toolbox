@@ -114,6 +114,9 @@ uses the following environment variables:
 > Used to determine what shell to start if a specific
 > *shell*
 > is not specified on the command line.
+> If this variable is unset or empty, then
+> **/bin/sh**
+> will be used instead.
 
 `SHELL_SKELETON_DIRECTORY`
 
@@ -257,4 +260,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - May 31, 2018
+Unix - July 18, 2018

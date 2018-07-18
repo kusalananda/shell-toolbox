@@ -1,5 +1,5 @@
 .\" Automatically generated from an mdoc input file.  Do not edit.
-.TH "SHELL" "1" "May 31, 2018" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "July 18, 2018" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -110,6 +110,9 @@ uses the following environment variables:
 Used to determine what shell to start if a specific
 \fIshell\fR
 is not specified on the command line.
+If this variable is unset or empty, then
+\fB/bin/sh\fR
+will be used instead.
 .TP 8n
 \fRSHELL_SKELETON_DIRECTORY\fR
 Directory to automatically pre-populate the temporary working directory with.
