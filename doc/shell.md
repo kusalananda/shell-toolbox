@@ -80,6 +80,7 @@ The options are as follows:
 
 > Force the execution of the given command, even if it is not a valid
 > login shell on the current system.
+> The command needs to be specified with an absolute path.
 
 **-k**
 
