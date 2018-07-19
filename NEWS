@@ -1,4 +1,4 @@
-Next release:
+Release 20180719
     * A skeleton directory (to pre-populate the temporary working
       directory with) may be specified by setting the SHELL_SKEL
       environment variable to the path of a directory.  This environment
