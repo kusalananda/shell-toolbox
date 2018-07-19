@@ -80,6 +80,7 @@ The options are as follows:
 
 > Force the execution of the given command, even if it is not a valid
 > login shell on the current system.
+> The command needs to be specified with an absolute path.
 
 **-k**
 
@@ -109,6 +110,24 @@ The options are as follows:
 **shell**
 uses the following environment variables:
 
+`SHELL`
+
+> Used to determine what shell to start if a specific
+> *shell*
+> is not specified on the command line.
+> If this variable is unset or empty, then
+> **/bin/sh**
+> will be used instead.
+
+`SHELL_SKEL`
+
+> Directory to automatically pre-populate the temporary working directory with.
+> This environment variable is not used if any of the
+> **-d**
+> or
+> **-s**
+> options are used on the command line.
+
 `TMPDIR`
 
 > Directory in which to create the working directory when the
@@ -119,12 +138,6 @@ uses the following environment variables:
 > which will revert to use
 > */tmp*
 > if the variable is not set.
-
-`SHELL`
-
-> Used to determine what shell to start if a specific
-> *shell*
-> is not specified on the command line.
 
 **shell**
 clears the environment of the interactive shell that it starts, but
@@ -174,28 +187,28 @@ also sets the following environment variables:
 Start a new shell in a new temporary directory:
 
 	$ shell
-	shell: INFO: Starting /bin/ksh in /tmp/shell-ksh.mJMHFTFE
+	shell: info: Starting /bin/ksh in /tmp/shell-ksh.mJMHFTFE
 	$ exit
-	shell: INFO: Removing /tmp/shell-ksh.mJMHFTFE
+	shell: info: Removing /tmp/shell-ksh.mJMHFTFE
 
 Start a new
 **dash**
 shell in a temporary directory:
 
 	$ shell dash
-	shell: INFO: Starting /usr/local/bin/dash in /tmp/shell-dash.V7zU6EtZ
+	shell: info: Starting /usr/local/bin/dash in /tmp/shell-dash.V7zU6EtZ
 	$ exit
-	shell: INFO: Removing /tmp/shell-dash.V7zU6EtZ
+	shell: info: Removing /tmp/shell-dash.V7zU6EtZ
 
 Start a new
 **bash**
 shell in a specific directory:
 
 	$ shell -d "$HOME/testing" bash
-	shell: INFO: Starting /usr/local/bin/bash in /home/myself/testing
+	shell: info: Starting /usr/local/bin/bash in /home/myself/testing
 	$ exit
 	exit
-	shell: INFO: Leaving /home/myself/testing in place
+	shell: info: Leaving /home/myself/testing in place
 
 Start
 **ksh**
@@ -210,8 +223,8 @@ file copied from
 *$HOME/skel*.
 
 	$ shell -s "$HOME/skel" ksh -l
-	shell: INFO: Copying /home/myself/skel into /tmp/shell-ksh.ngEwbcpD
-	shell: INFO: Starting /bin/ksh in /tmp/shell-ksh.ngEwbcpD
+	shell: info: Copying /home/myself/skel into /tmp/shell-ksh.ngEwbcpD
+	shell: info: Starting /bin/ksh in /tmp/shell-ksh.ngEwbcpD
 	$ ls -la
 	total 36
 	drwxr-xr-x   2 myself  wheel  512 Apr 15 12:55 .
@@ -224,7 +237,7 @@ file copied from
 	-rw-r--r--   1 myself  wheel  215 Feb  9 10:18 .profile
 	-rw-r--r--   1 myself  wheel  108 Apr 15 12:50 .vimrc
 	$ exit
-	shell: INFO: Removing /tmp/shell-ksh.ngEwbcpD
+	shell: info: Removing /tmp/shell-ksh.ngEwbcpD
 
 # SEE ALSO
 
@@ -248,4 +261,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - April 22, 2018
+Unix - July 19, 2018

@@ -1,48 +1,60 @@
-This project uses GNU autotools.
+1. Installing from the distribution tar archive or a GitHub clone:
 
-To install the scripts under "/usr/local" (scripts will always go in the
-"bin" subdirectory):
+    This project uses GNU autotools.
 
-    ./configure
-    make
-    make install
+    To install the scripts under "/usr/local" (scripts will always go in
+    the "bin" subdirectory):
 
-Then make sure that "/usr/local/bin" is in your "$PATH".
+        ./configure
+        make
+        make install
 
-To install under "$HOME/local":
+    Then make sure that "/usr/local/bin" is in your "$PATH".
 
-    ./configure --prefix="$HOME/local"
-    make
-    make install
+    To install under "$HOME/local":
 
-To install using GNU Stow under "$HOME/local":
+        ./configure --prefix="$HOME/local"
+        make
+        make install
 
-    ./configure --prefix="$HOME/local/stow/shell-toolbox"
-    make
-    make install
-    cd "$HOME/local/stow"
-    stow shell-toolbox
+    To install using GNU Stow under "$HOME/local":
 
-Then make sure that "$HOME/local/bin" is in your "$PATH".
+        ./configure --prefix="$HOME/local/stow/shell-toolbox"
+        make
+        make install
+        cd "$HOME/local/stow"
+        stow shell-toolbox
 
-The following files will be installed unless the default installation
-paths are modified:
+    Then make sure that "$HOME/local/bin" is in your "$PATH".
 
-    <prefix>
-    |-- bin
-    |   `-- shell
-    `-- share
-        |-- doc
-        |   `-- shell-toolbox
-        |       |-- LICENSE
-        |       |-- NEWS
-        |       |-- README
-        |       |-- shell.md
-        |       `-- shell.txt
-        `-- man
-            `-- man1
-                `-- shell.1
+    The following files will be installed unless the default
+    installation paths are modified:
 
-Caveat: If you run "make distclean", the generated manuals, which are
-part of the distribution sources, will be removed.  These won't be
-rebuilt unless you have mandoc(1) installed.
+        <prefix>
+        |-- bin
+        |   `-- shell
+        `-- share
+            |-- doc
+            |   `-- shell-toolbox
+            |       |-- LICENSE
+            |       |-- NEWS
+            |       |-- README
+            |       |-- shell.md
+            |       `-- shell.txt
+            `-- man
+                `-- man1
+                    `-- shell.1
+
+    Caveat: If you run "make distclean", the generated manuals, which
+    are part of the distribution sources, will be removed.  These won't
+    be rebuilt unless you have mandoc(1) installed.
+
+2. Installing on FreeBSD:
+
+    The devel/shell-toolbox port:
+
+        cd /usr/ports/devel/shell-toolbox/ && make install clean
+
+    The shell-toolbox package:
+
+        pkg install shell-toolbox

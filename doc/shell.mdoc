@@ -74,6 +74,7 @@ option.
 .It Fl f
 Force the execution of the given command, even if it is not a valid
 login shell on the current system.
+The command needs to be specified with an absolute path.
 .It Fl k
 Keep the temporary directory around after terminating the shell session.
 .It Fl q
@@ -94,6 +95,20 @@ Output version information and immediately terminate.
 .Nm
 uses the following environment variables:
 .Bl -tag -width Ds
+.It Ev SHELL
+Used to determine what shell to start if a specific
+.Ar shell
+is not specified on the command line.
+If this variable is unset or empty, then
+.Cm /bin/sh
+will be used instead.
+.It Ev SHELL_SKEL
+Directory to automatically pre-populate the temporary working directory with.
+This environment variable is not used if any of the
+.Fl d
+or
+.Fl s
+options are used on the command line.
 .It Ev TMPDIR
 Directory in which to create the working directory when the
 .Fl d
@@ -103,10 +118,6 @@ This variable is used by
 which will revert to use
 .Pa /tmp
 if the variable is not set.
-.It Ev SHELL
-Used to determine what shell to start if a specific
-.Ar shell
-is not specified on the command line.
 .El
 .Pp
 .Nm
@@ -146,9 +157,9 @@ does not work.
 Start a new shell in a new temporary directory:
 .Bd -literal -offset Ds
 $ shell
-shell: INFO: Starting /bin/ksh in /tmp/shell-ksh.mJMHFTFE
+shell: info: Starting /bin/ksh in /tmp/shell-ksh.mJMHFTFE
 $ exit
-shell: INFO: Removing /tmp/shell-ksh.mJMHFTFE
+shell: info: Removing /tmp/shell-ksh.mJMHFTFE
 .Ed
 .Pp
 Start a new
@@ -156,9 +167,9 @@ Start a new
 shell in a temporary directory:
 .Bd -literal -offset Ds
 $ shell dash
-shell: INFO: Starting /usr/local/bin/dash in /tmp/shell-dash.V7zU6EtZ
+shell: info: Starting /usr/local/bin/dash in /tmp/shell-dash.V7zU6EtZ
 $ exit
-shell: INFO: Removing /tmp/shell-dash.V7zU6EtZ
+shell: info: Removing /tmp/shell-dash.V7zU6EtZ
 .Ed
 .Pp
 Start a new
@@ -166,10 +177,10 @@ Start a new
 shell in a specific directory:
 .Bd -literal -offset Ds
 $ shell -d "$HOME/testing" bash
-shell: INFO: Starting /usr/local/bin/bash in /home/myself/testing
+shell: info: Starting /usr/local/bin/bash in /home/myself/testing
 $ exit
 exit
-shell: INFO: Leaving /home/myself/testing in place
+shell: info: Leaving /home/myself/testing in place
 .Ed
 .Pp
 Start
@@ -185,8 +196,8 @@ file copied from
 .Pa $HOME/skel .
 .Bd -literal -offset Ds
 $ shell -s "$HOME/skel" ksh -l
-shell: INFO: Copying /home/myself/skel into /tmp/shell-ksh.ngEwbcpD
-shell: INFO: Starting /bin/ksh in /tmp/shell-ksh.ngEwbcpD
+shell: info: Copying /home/myself/skel into /tmp/shell-ksh.ngEwbcpD
+shell: info: Starting /bin/ksh in /tmp/shell-ksh.ngEwbcpD
 $ ls -la
 total 36
 drwxr-xr-x   2 myself  wheel  512 Apr 15 12:55 .
@@ -199,7 +210,7 @@ drwxrwxrwt  28 root    wheel  512 Apr 21 14:15 ..
 -rw-r--r--   1 myself  wheel  215 Feb  9 10:18 .profile
 -rw-r--r--   1 myself  wheel  108 Apr 15 12:50 .vimrc
 $ exit
-shell: INFO: Removing /tmp/shell-ksh.ngEwbcpD
+shell: info: Removing /tmp/shell-ksh.ngEwbcpD
 .Ed
 .Sh SEE ALSO
 .Xr mktemp 1

@@ -1,3 +1,11 @@
+Release 20180719
+    * A skeleton directory (to pre-populate the temporary working
+      directory with) may be specified by setting the SHELL_SKEL
+      environment variable to the path of a directory.  This environment
+      variable is not used if the command line option -s or -d is used.
+    * /bin/sh is used if SHELL is empty or unset and no other shell is
+      specified.
+
 Release 20180422
     * Added NEWS file.
     * Added -q option for quiet operation.

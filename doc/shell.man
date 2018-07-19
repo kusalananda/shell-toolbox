@@ -1,5 +1,5 @@
 .\" Automatically generated from an mdoc input file.  Do not edit.
-.TH "SHELL" "1" "April 22, 2018" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "July 19, 2018" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -83,6 +83,7 @@ option.
 \fB\-f\fR
 Force the execution of the given command, even if it is not a valid
 login shell on the current system.
+The command needs to be specified with an absolute path.
 .TP 8n
 \fB\-k\fR
 Keep the temporary directory around after terminating the shell session.
@@ -106,6 +107,22 @@ Output version information and immediately terminate.
 \fBshell\fR
 uses the following environment variables:
 .TP 8n
+\fRSHELL\fR
+Used to determine what shell to start if a specific
+\fIshell\fR
+is not specified on the command line.
+If this variable is unset or empty, then
+\fB/bin/sh\fR
+will be used instead.
+.TP 8n
+\fRSHELL_SKEL\fR
+Directory to automatically pre-populate the temporary working directory with.
+This environment variable is not used if any of the
+\fB\-d\fR
+or
+\fB\-s\fR
+options are used on the command line.
+.TP 8n
 \fRTMPDIR\fR
 Directory in which to create the working directory when the
 \fB\-d\fR
@@ -115,11 +132,6 @@ This variable is used by
 which will revert to use
 \fI/tmp\fR
 if the variable is not set.
-.TP 8n
-\fRSHELL\fR
-Used to determine what shell to start if a specific
-\fIshell\fR
-is not specified on the command line.
 .PP
 \fBshell\fR
 clears the environment of the interactive shell that it starts, but
@@ -162,9 +174,9 @@ Start a new shell in a new temporary directory:
 .sp
 .RS 6n
 $ shell
-shell: INFO: Starting /bin/ksh in /tmp/shell-ksh.mJMHFTFE
+shell: info: Starting /bin/ksh in /tmp/shell-ksh.mJMHFTFE
 $ exit
-shell: INFO: Removing /tmp/shell-ksh.mJMHFTFE
+shell: info: Removing /tmp/shell-ksh.mJMHFTFE
 .RE
 .fi
 .PP
@@ -175,9 +187,9 @@ shell in a temporary directory:
 .sp
 .RS 6n
 $ shell dash
-shell: INFO: Starting /usr/local/bin/dash in /tmp/shell-dash.V7zU6EtZ
+shell: info: Starting /usr/local/bin/dash in /tmp/shell-dash.V7zU6EtZ
 $ exit
-shell: INFO: Removing /tmp/shell-dash.V7zU6EtZ
+shell: info: Removing /tmp/shell-dash.V7zU6EtZ
 .RE
 .fi
 .PP
@@ -188,10 +200,10 @@ shell in a specific directory:
 .sp
 .RS 6n
 $ shell -d "$HOME/testing" bash
-shell: INFO: Starting /usr/local/bin/bash in /home/myself/testing
+shell: info: Starting /usr/local/bin/bash in /home/myself/testing
 $ exit
 exit
-shell: INFO: Leaving /home/myself/testing in place
+shell: info: Leaving /home/myself/testing in place
 .RE
 .fi
 .PP
@@ -210,8 +222,8 @@ file copied from
 .sp
 .RS 6n
 $ shell -s "$HOME/skel" ksh -l
-shell: INFO: Copying /home/myself/skel into /tmp/shell-ksh.ngEwbcpD
-shell: INFO: Starting /bin/ksh in /tmp/shell-ksh.ngEwbcpD
+shell: info: Copying /home/myself/skel into /tmp/shell-ksh.ngEwbcpD
+shell: info: Starting /bin/ksh in /tmp/shell-ksh.ngEwbcpD
 $ ls -la
 total 36
 drwxr-xr-x   2 myself  wheel  512 Apr 15 12:55 .
@@ -224,7 +236,7 @@ drwxrwxrwt  28 root    wheel  512 Apr 21 14:15 ..
 -rw-r--r--   1 myself  wheel  215 Feb  9 10:18 .profile
 -rw-r--r--   1 myself  wheel  108 Apr 15 12:50 .vimrc
 $ exit
-shell: INFO: Removing /tmp/shell-ksh.ngEwbcpD
+shell: info: Removing /tmp/shell-ksh.ngEwbcpD
 .RE
 .fi
 .SH "SEE ALSO"
