@@ -150,9 +150,8 @@ shift "$(( OPTIND - 1 ))"
 if [ -n "$tmpwd" ] && [ -n "$skel" ]; then
     perrorf 'Can not use both the -d and the -s option at the same time\n'
     exit 1
-elif [ -z "$tmpwd" ] && [ -z "$skel" ] && [ -n "$SHELL_SKELETON_DIRECTORY" ]
-then
-    skel=$SHELL_SKELETON_DIRECTORY
+elif [ -z "$tmpwd" ] && [ -z "$skel" ] && [ -n "$SHELL_SKEL" ]; then
+    skel=$SHELL_SKEL
 fi
 
 if [ -n "$1" ]; then
