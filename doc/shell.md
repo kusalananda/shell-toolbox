@@ -118,7 +118,7 @@ uses the following environment variables:
 > **/bin/sh**
 > will be used instead.
 
-`SHELL_SKELETON_DIRECTORY`
+`SHELL_SKEL`
 
 > Directory to automatically pre-populate the temporary working directory with.
 > This environment variable is not used if any of the
@@ -260,4 +260,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - July 18, 2018
+Unix - July 19, 2018
