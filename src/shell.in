@@ -9,6 +9,7 @@ main_pid=$$             # used in get_shells()
 # Variables set by the configure script:
 MKTEMP="@MKTEMP@"
 MKTEMP_TEMPLATE="@MKTEMP_TEMPLATE@"
+PAX="@PAX@"
 
 perrorf ()
 {
@@ -204,15 +205,17 @@ trap usr1_handler USR1
 
 if [ -n "$skel" ]; then
     pinfof 'Copying %s into %s\n' "$skel" "$tmpwd" >&2
-    if command -v pax >/dev/null 2>&1; then
-        ( cd -- "$skel" && pax -rw -p p . "$tmpwd" )
-    elif command -v tar >/dev/null 2>&1; then
-        tar -c -f - -C "$skel" . | tar -x -p -f - -C "$tmpwd"
-    else
-        perrorf 'Can not use pax nor tar to copy "%s" to "%s"\n' \
-            "$skel" "$tmpwd"
-        exit 1
-    fi
+    case $PAX in
+        */pax)
+            ( cd -- "$skel" && "$PAX" -rw -p p . "$tmpwd" )
+            ;;
+        */cp)
+            ( cd -- "$skel" && "$PAX" -R -p . "$tmpwd" )
+            ;;
+        *)
+            perrorf 'pax/cp not available\n'
+            exit 1
+    esac
 fi
 
 pinfof 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
