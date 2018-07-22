@@ -47,6 +47,11 @@ AM_COND_IF([BUILD_MANUALS],
 AM_COND_IF([BUILD_MANUALS], [],
       [AC_MSG_WARN([col or usable mandoc is missing, manuals can not be rebuilt])])
 
+# Test whether we should use pax or cp to copy directories.
+AC_PATH_PROGS(PAX, [pax cp])
+AS_IF([test -z "$PAX"],
+      [AC_MSG_ERROR([Did not find pax nor cp])])
+
 AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
 AC_OUTPUT
