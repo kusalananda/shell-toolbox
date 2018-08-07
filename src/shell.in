@@ -21,21 +21,28 @@ perrorf ()
     # stdout:       unused
     # stderr:       error message
 
-    # We mimic printf here, disable shellcheck warnings.
+    _fmt=$1; shift
+
+    # We mimic printf here, disable shellcheck warnings about using
+    # variables in the printf format string..
     # See https://unix.stackexchange.com/questions/438694
-    # shellcheck disable=SC2059,SC2145
-    printf "$utility_name: error: $@" >&2
+    # shellcheck disable=SC2059
+    printf "$utility_name: error: $_fmt" "$@" >&2
+    unset _fmt
 }
 
 pinfof ()
 {
-    # Same as above, but with 'info:' instead of 'info:'.  Also
-    # disables output if the global variable $quiet is 1.
+    # Same as above, but with 'info:' instead of 'error:'.
+    # Also disables output if the global variable $quiet is 1.
+
+    _fmt=$1; shift
 
     if [ "${quiet:-0}" -ne 1 ]; then
-        # shellcheck disable=SC2059,SC2145
-        printf "$utility_name: info: $@" >&2
+        # shellcheck disable=SC2059
+        printf "$utility_name: info: $_fmt" "$@" >&2
     fi
+    unset _fmt
 }
 
 output_version ()
