@@ -156,7 +156,7 @@ done
 shift "$(( OPTIND - 1 ))"
 
 if [ -n "$tmpwd" ] && [ -n "$skel" ]; then
-    perrorf 'Can not use both the -d and the -s option at the same time\n'
+    perrorf 'Can not use the -d and the -s option at the same time\n'
     exit 1
 elif [ -z "$tmpwd" ] && [ -z "$skel" ] && [ -n "$SHELL_SKEL" ]; then
     skel=$SHELL_SKEL
