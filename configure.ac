@@ -1,7 +1,7 @@
 AC_PREREQ([2.69])
 AC_INIT([shell-toolbox],[20180719+],[https://github.com/kusalananda/shell-toolbox/issues])
 
-AC_CONFIG_AUX_DIR([build])
+AC_CONFIG_AUX_DIR([autotools])
 
 AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
