@@ -245,7 +245,7 @@ mktemp(1)
 
 # AUTHORS
 
-Andreas Kusalananda K&#228;h&#228;ri &lt;[andreas.kahari@nbis.se](mailto:andreas.kahari@nbis.se)&gt;
+Andreas Kusalananda K&#228;h&#228;ri &lt;[andreas.kahari@abc.se](mailto:andreas.kahari@abc.se)&gt;
 
 # CAVEATS
 
@@ -261,4 +261,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - July 19, 2018
+Unix - December 10, 2018

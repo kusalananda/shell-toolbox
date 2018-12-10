@@ -145,7 +145,7 @@ SEE ALSO
      mktemp(1)
 
 AUTHORS
-     Andreas Kusalananda Kahari <andreas.kahari@nbis.se>
+     Andreas Kusalananda Kahari <andreas.kahari@abc.se>
 
 CAVEATS
      For Solaris, the list of valid login shells is taken from the shells(4)
@@ -153,4 +153,4 @@ CAVEATS
      "getent shells" and may also lack the /etc/shells file.  The /etc/shells
      file will still be used if it exists.
 
-Unix				 July 19, 2018				  Unix
+Unix			       December 10, 2018			  Unix
