@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -eu
 
 # Part of @PACKAGE_STRING@
 # For bug reports, see "@PACKAGE_BUGREPORT@"
@@ -135,17 +135,22 @@ exit_handler () {
 
 usr1_handler () { keep=1; }
 
-force=0 # when 1, bypasses the call to get_shells
-keep=0  # when 1, does not remove working directory when exiting
-quiet=0 # when 1, informational messages are not outputted
+force=0     # when 1, bypasses the call to get_shells
+keep=0      # when 1, does not remove working directory when exiting
+quiet=0     # when 1, informational messages are not outputted
+
+skel=${SHELL_SKEL-} # skeleton directory
+
 while getopts 'd:fks:qv' opt; do
     case "$opt" in
         d) tmpwd=$OPTARG
-           keep=1       ;;
+           keep=1
+           unset skel   ;;
         f) force=1      ;;
         k) keep=1       ;;
         q) quiet=1      ;;
-        s) skel=$OPTARG ;;
+        s) skel=$OPTARG
+           unset tmpwd  ;;
         v) quiet=0
            output_version
            exit 0       ;;
@@ -155,14 +160,7 @@ while getopts 'd:fks:qv' opt; do
 done
 shift "$(( OPTIND - 1 ))"
 
-if [ -n "$tmpwd" ] && [ -n "$skel" ]; then
-    perrorf 'Can not use the -d and the -s option at the same time\n'
-    exit 1
-elif [ -z "$tmpwd" ] && [ -z "$skel" ] && [ -n "$SHELL_SKEL" ]; then
-    skel=$SHELL_SKEL
-fi
-
-if [ -n "$1" ]; then
+if [ -n "${1-}" ]; then
     shell="$1"
     shift
 else
@@ -187,30 +185,25 @@ else
     realshell="$shell"
 fi
 
-if [ -n "$skel" ] && [ ! -d "$skel" ]; then
+if [ -n "${skel-}" ] && [ ! -d "$skel" ]; then
     perrorf 'No such directory: %s\n' "$skel"
     exit 1
 fi
 
-if [ -z "$tmpwd" ]; then
-    template="shell-${shell##*/}$MKTEMP_TEMPLATE"
-    tmpwd="$( "$MKTEMP" -d -t "$template" )"
-elif [ ! -d "$tmpwd" ]; then
-    if [ -e "$tmpwd" ]; then
-        perrorf 'No such directory: %s\n' "$tmpwd"
-        exit 1
-    fi
-
+if [ -n "${tmpwd-}" ] && [ ! -d "$tmpwd" ]; then
     if ! mkdir -p "$tmpwd"; then
         perrorf 'Failed to create directory: %s\n' "$tmpwd"
         exit 1
     fi
+else
+    template="shell-${shell##*/}$MKTEMP_TEMPLATE"
+    tmpwd="${tmpwd:-$( "$MKTEMP" -d -t "$template" )}"
 fi
 
 trap exit_handler EXIT
 trap usr1_handler USR1
 
-if [ -n "$skel" ]; then
+if [ -n "${skel-}" ]; then
     pinfof 'Copying %s into %s\n' "$skel" "$tmpwd" >&2
     case $PAX in
         */pax)
