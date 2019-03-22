@@ -1,5 +1,5 @@
 .\" Automatically generated from an mdoc input file.  Do not edit.
-.TH "SHELL" "1" "December 10, 2018" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "March 22, 2019" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -76,7 +76,7 @@ If the directory does not already exist, it will be created.
 This directory will not be deleted when the shell session terminates.
 This option implies the
 \fB\-k\fR
-option, and conflicts with the
+option, and overrides any earlier
 \fB\-s\fR
 option.
 .TP 8n
@@ -97,7 +97,7 @@ Pre-populate the temporary directory with the contents of the named
 directory.
 This will copy the whole directory structure rooted in the specified
 directory to the temporary working directory.
-This option conflicts with the
+This option overrides any earlier
 \fB\-d\fR
 option.
 .TP 8n

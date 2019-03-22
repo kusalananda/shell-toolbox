@@ -72,7 +72,7 @@ The options are as follows:
 > This directory will not be deleted when the shell session terminates.
 > This option implies the
 > **-k**
-> option, and conflicts with the
+> option, and overrides any earlier
 > **-s**
 > option.
 
@@ -97,7 +97,7 @@ The options are as follows:
 > directory.
 > This will copy the whole directory structure rooted in the specified
 > directory to the temporary working directory.
-> This option conflicts with the
+> This option overrides any earlier
 > **-d**
 > option.
 
@@ -261,4 +261,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - December 10, 2018
+Unix - March 22, 2019
