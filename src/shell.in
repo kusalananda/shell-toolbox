@@ -200,8 +200,7 @@ if [ -n "${tmpwd-}" ] && [ ! -d "$tmpwd" ]; then
         exit 1
     fi
 else
-    template="shell-${shell##*/}$MKTEMP_TEMPLATE"
-    tmpwd="${tmpwd:-$( "$MKTEMP" -d -t "$template" )}"
+    tmpwd="${tmpwd:-$( "$MKTEMP" -d -t "shell-${shell##*/}$MKTEMP_TEMPLATE" )}"
 fi
 
 trap exit_handler EXIT
