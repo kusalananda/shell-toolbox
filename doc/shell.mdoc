@@ -212,6 +212,19 @@ drwxrwxrwt  28 root    wheel  512 Apr 21 14:15 ..
 $ exit
 shell: info: Removing /tmp/shell-ksh.ngEwbcpD
 .Ed
+.Pp
+Start a POSIX-ly correct
+.Cm yash
+shell as another user.
+.Bd -literal -offset Ds
+$ su testuser -c 'shell yash --posixly-correct'
+Password:
+shell: info: Starting /usr/local/bin/yash in /tmp/shell-yash.yrSSGISG
+$ id
+uid=1001(testuser) gid=1001(testuser) groups=1001(testuser)
+$ exit
+shell: info: Removing /tmp/shell-yash.yrSSGISG
+.Ed
 .Sh SEE ALSO
 .Xr mktemp 1
 .Sh AUTHORS
