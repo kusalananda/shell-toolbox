@@ -1,5 +1,5 @@
 .\" Automatically generated from an mdoc input file.  Do not edit.
-.TH "SHELL" "1" "March 22, 2019" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "April 8, 2019" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -237,6 +237,22 @@ drwxrwxrwt  28 root    wheel  512 Apr 21 14:15 ..
 -rw-r--r--   1 myself  wheel  108 Apr 15 12:50 .vimrc
 $ exit
 shell: info: Removing /tmp/shell-ksh.ngEwbcpD
+.RE
+.fi
+.PP
+Start a POSIX-ly correct
+\fByash\fR
+shell as another user.
+.nf
+.sp
+.RS 6n
+$ su testuser -c 'shell yash --posixly-correct'
+Password:
+shell: info: Starting /usr/local/bin/yash in /tmp/shell-yash.yrSSGISG
+$ id
+uid=1001(testuser) gid=1001(testuser) groups=1001(testuser)
+$ exit
+shell: info: Removing /tmp/shell-yash.yrSSGISG
 .RE
 .fi
 .SH "SEE ALSO"

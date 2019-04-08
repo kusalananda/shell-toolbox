@@ -239,6 +239,18 @@ file copied from
 	$ exit
 	shell: info: Removing /tmp/shell-ksh.ngEwbcpD
 
+Start a POSIX-ly correct
+**yash**
+shell as another user.
+
+	$ su testuser -c 'shell yash --posixly-correct'
+	Password:
+	shell: info: Starting /usr/local/bin/yash in /tmp/shell-yash.yrSSGISG
+	$ id
+	uid=1001(testuser) gid=1001(testuser) groups=1001(testuser)
+	$ exit
+	shell: info: Removing /tmp/shell-yash.yrSSGISG
+
 # SEE ALSO
 
 mktemp(1)
@@ -261,4 +273,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - March 22, 2019
+Unix - April 8, 2019
