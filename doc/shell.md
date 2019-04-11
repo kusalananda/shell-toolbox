@@ -155,7 +155,7 @@ also sets the following environment variables:
 `PS1`
 
 > Set to the string
-> '$&#160;'
+> '$ '
 > (dollar-sign and space).
 > Note that some shells ignore this variable if passed from the parent
 > environment.
@@ -262,7 +262,7 @@ Andreas Kusalananda K&#228;h&#228;ri &lt;[andreas.kahari@abc.se](mailto:andreas.
 # CAVEATS
 
 For Solaris, the list of valid login shells is taken from the
-shells(4)
+"**shells(4)**"
 manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 "**getent shells**"
@@ -273,4 +273,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - April 8, 2019
+Unix - April 11, 2019

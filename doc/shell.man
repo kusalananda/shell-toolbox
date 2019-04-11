@@ -1,5 +1,5 @@
 .\" Automatically generated from an mdoc input file.  Do not edit.
-.TH "SHELL" "1" "April 8, 2019" "Unix" "General Commands Manual"
+.TH "SHELL" "1" "April 11, 2019" "Unix" "General Commands Manual"
 .nh
 .if n .ad l
 .SH "NAME"
@@ -146,7 +146,7 @@ Set to the output of
 .TP 8n
 \fRPS1\fR
 Set to the string
-\(oq$\ \(cq
+\(oq$ \(cq
 (dollar-sign and space).
 Note that some shells ignore this variable if passed from the parent
 environment.
@@ -261,7 +261,7 @@ mktemp(1)
 Andreas Kusalananda K\[:a]h\[:a]ri <\fIandreas.kahari@abc.se\fR>
 .SH "CAVEATS"
 For Solaris, the list of valid login shells is taken from the
-shells(4)
+\(lq\fBshells(4)\fR\(rq
 manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 \(lq\fBgetent shells\fR\(rq
