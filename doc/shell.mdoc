@@ -1,4 +1,4 @@
-.Dd $Mdocdate$
+.Dd April 11, 2019
 .Dt SHELL 1
 .Os
 .Sh NAME
@@ -131,7 +131,7 @@ Set to the output of
 .Dq Ic getconf PATH .
 .It Ev PS1
 Set to the string
-.Sq $\ 
+.Sq "$ "
 .Pq dollar-sign and space .
 Note that some shells ignore this variable if passed from the parent
 environment.
@@ -231,7 +231,7 @@ shell: info: Removing /tmp/shell-yash.yrSSGISG
 .An Andreas Kusalananda K\[:a]h\[:a]ri Aq Mt andreas.kahari@abc.se
 .Sh CAVEATS
 For Solaris, the list of valid login shells is taken from the
-.Xr shells 4
+.Dq Cm shells(4)
 manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 .Dq Cm getent shells
