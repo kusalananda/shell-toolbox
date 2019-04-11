@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -- $srcdir/shell.mdoc shell.man
+set -- "$srcdir/shell.mdoc" shell.man
 
 printf '1..%d\n' "$#"
 
