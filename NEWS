@@ -1,3 +1,13 @@
+Development version
+    * "pax" or "cp" will be used to copy the skeleton directory, rather
+      than "tar" or "cp".
+    * "shell" now runs under "set -eu" restrictions.
+    * "make check" now now runs shellcheck (https://www.shellcheck.net/)
+      on the shell script, and "mandoc -T lint" on the manuals.
+      The tests are disabled if the needed tools are not found by
+      "configure" (this part not implemented yet).
+    * Several simplifications and cosmetic changes to the code.
+
 Release 20180719
     * A skeleton directory (to pre-populate the temporary working
       directory with) may be specified by setting the SHELL_SKEL
