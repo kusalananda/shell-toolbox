@@ -6,6 +6,7 @@ AC_CONFIG_AUX_DIR([autotools])
 AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
 
+AC_REQUIRE_AUX_FILE([tap-driver.sh])
 AC_CONFIG_SRCDIR([src/shell.in])
 
 # Test whether mktemp exists, and if it does, whether "mktemp -t" adds
