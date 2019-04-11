@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -- $srcdir/shell.mdoc shell.man
+
+printf '1..%d\n' "$#"
+
+n=0
+for script do
+    n=$(( n + 1 ))
+
+    case $script in
+        *.mdoc) doctype=doc ;;
+        *.man)  doctype=an
+    esac
+
+    if mandoc -T lint -I os=Unix -m"$doctype" "$script"; then
+        printf 'ok %d - mandoc lint %s\n' "$n" "$script"
+    else
+        printf 'not ok %d - mandoc lint %s\n' "$n" "$script"
+    fi
+done

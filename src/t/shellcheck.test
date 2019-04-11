@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -- shell
+
+printf '1..%d\n' "$#"
+
+n=0
+for script do
+    n=$(( n + 1 ))
+    if shellcheck "$script"; then
+        printf 'ok %d - shellcheck %s\n' "$n" "$script"
+    else
+        printf 'not ok %d - shellcheck %s\n' "$n" "$script"
+    fi
+done
