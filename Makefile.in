@@ -185,7 +185,8 @@ CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/autotools/install-sh \
-	$(top_srcdir)/autotools/missing INSTALL NEWS README TODO \
+	$(top_srcdir)/autotools/missing \
+	$(top_srcdir)/autotools/tap-driver.sh INSTALL NEWS README TODO \
 	autotools/install-sh autotools/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)

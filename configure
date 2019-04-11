@@ -2356,6 +2356,7 @@ fi
 
 
 
+
 # Test whether mktemp exists, and if it does, whether "mktemp -t" adds
 # .XXXXXXXX to the filename template or not.  This is better than
 # testing with "uname" in the src/shell.in script.
