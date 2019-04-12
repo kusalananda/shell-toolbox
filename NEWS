@@ -4,7 +4,7 @@ Development version
     * "shell" now runs under "set -eu" restrictions.
     * "make check" now now runs shellcheck (https://www.shellcheck.net/)
       on the shell script, and "mandoc -T lint" on the manuals.
-      The tests are disabled if the needed tools are not found by
+      The tests are skipped if the needed tools are not found by
       "configure".
     * Several simplifications and cosmetic changes to the code.
 
