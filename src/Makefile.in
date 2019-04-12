@@ -403,10 +403,11 @@ bin_SCRIPTS = shell
 check_SCRIPTS = t/shellcheck.test
 EXTRA_DIST = $(check_SCRIPTS)
 CLEANFILES = $(bin_SCRIPTS)
-@HAVE_SHELLCHECK_TRUE@TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' \
-@HAVE_SHELLCHECK_TRUE@					$(SHELL) $(top_srcdir)/autotools/tap-driver.sh
+TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' \
+					$(SHELL) $(top_srcdir)/autotools/tap-driver.sh
 
-@HAVE_SHELLCHECK_TRUE@TESTS = $(check_SCRIPTS)
+TESTS = $(check_SCRIPTS)
+@HAVE_SHELLCHECK_FALSE@XFAIL_TESTS = $(check_SCRIPTS)
 all: all-am
 
 .SUFFIXES:
@@ -791,10 +792,6 @@ uninstall-am: uninstall-binSCRIPTS
 
 .PRECIOUS: Makefile
 
-
-@HAVE_SHELLCHECK_FALSE@check:
-@HAVE_SHELLCHECK_FALSE@	@echo 'You lack the shellcheck utility. Source checks disabled.' >&2
-@HAVE_SHELLCHECK_FALSE@	@exit
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

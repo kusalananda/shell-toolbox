@@ -410,10 +410,11 @@ EXTRA_DIST = shell.mdoc \
 			$(check_SCRIPTS)
 
 DISTCLEANFILES = shell.man shell.md shell.txt
-@HAVE_MANDOC_TRUE@TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' \
-@HAVE_MANDOC_TRUE@					$(SHELL) $(top_srcdir)/autotools/tap-driver.sh
+TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' \
+					$(SHELL) $(top_srcdir)/autotools/tap-driver.sh
 
-@HAVE_MANDOC_TRUE@TESTS = $(check_SCRIPTS)
+TESTS = $(check_SCRIPTS)
+@HAVE_MANDOC_FALSE@XFAIL_TESTS = $(check_SCRIPTS)
 all: all-am
 
 .SUFFIXES:
@@ -830,10 +831,6 @@ uninstall-man: uninstall-man1
 @HAVE_MANDOC_FALSE@$(dist_man1_MANS) $(dist_doc_DATA):
 @HAVE_MANDOC_FALSE@	@echo 'You lack the mandoc utility. Can not rebuild manuals.' >&2
 @HAVE_MANDOC_FALSE@	@exit 1
-
-@HAVE_MANDOC_FALSE@check:
-@HAVE_MANDOC_FALSE@	@echo 'You lack the mandoc utility. Documentation checks disabled.' >&2
-@HAVE_MANDOC_FALSE@	@exit
 
 @HAVE_MANDOC_TRUE@shell.man:	$(srcdir)/shell.mdoc
 @HAVE_MANDOC_TRUE@	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man || true
