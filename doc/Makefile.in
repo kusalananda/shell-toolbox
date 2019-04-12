@@ -361,6 +361,7 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PAX = @PAX@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SHELLCHECK = @SHELLCHECK@
 STRIP = @STRIP@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
@@ -409,10 +410,10 @@ EXTRA_DIST = shell.mdoc \
 			$(check_SCRIPTS)
 
 DISTCLEANFILES = shell.man shell.md shell.txt
-TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' \
-					$(SHELL) $(top_srcdir)/autotools/tap-driver.sh
+@HAVE_MANDOC_TRUE@TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' \
+@HAVE_MANDOC_TRUE@					$(SHELL) $(top_srcdir)/autotools/tap-driver.sh
 
-TESTS = $(check_SCRIPTS)
+@HAVE_MANDOC_TRUE@TESTS = $(check_SCRIPTS)
 all: all-am
 
 .SUFFIXES:
@@ -826,19 +827,23 @@ uninstall-man: uninstall-man1
 .PRECIOUS: Makefile
 
 
-@BUILD_MANUALS_FALSE@$(dist_man1_MANS) $(dist_doc_DATA):
-@BUILD_MANUALS_FALSE@	@echo 'You lack the mandoc utility. Can not rebuild manuals' >&2
-@BUILD_MANUALS_FALSE@	@exit 1
+@HAVE_MANDOC_FALSE@$(dist_man1_MANS) $(dist_doc_DATA):
+@HAVE_MANDOC_FALSE@	@echo 'You lack the mandoc utility. Can not rebuild manuals.' >&2
+@HAVE_MANDOC_FALSE@	@exit 1
 
-@BUILD_MANUALS_TRUE@shell.man:	$(srcdir)/shell.mdoc
-@BUILD_MANUALS_TRUE@	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man || true
+@HAVE_MANDOC_FALSE@check:
+@HAVE_MANDOC_FALSE@	@echo 'You lack the mandoc utility. Documentation checks disabled.' >&2
+@HAVE_MANDOC_FALSE@	@exit
 
-@BUILD_MANUALS_TRUE@shell.md:	$(srcdir)/shell.mdoc
-@BUILD_MANUALS_TRUE@	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md || true
+@HAVE_MANDOC_TRUE@shell.man:	$(srcdir)/shell.mdoc
+@HAVE_MANDOC_TRUE@	$(MANDOC) -T man -I os=Unix $(srcdir)/shell.mdoc >shell.man || true
 
-@BUILD_MANUALS_TRUE@shell.txt:	$(srcdir)/shell.mdoc
-@BUILD_MANUALS_TRUE@	$(MANDOC) -T ascii -I os=Unix  $(srcdir)/shell.mdoc | \
-@BUILD_MANUALS_TRUE@	$(COL) -b >shell.txt || true
+@HAVE_MANDOC_TRUE@shell.md:	$(srcdir)/shell.mdoc
+@HAVE_MANDOC_TRUE@	$(MANDOC) -T markdown -I os=Unix $(srcdir)/shell.mdoc >shell.md || true
+
+@HAVE_MANDOC_TRUE@shell.txt:	$(srcdir)/shell.mdoc
+@HAVE_MANDOC_TRUE@	$(MANDOC) -T ascii -I os=Unix  $(srcdir)/shell.mdoc | \
+@HAVE_MANDOC_TRUE@	$(COL) -b >shell.txt || true
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
