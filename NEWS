@@ -5,7 +5,7 @@ Development version
     * "make check" now now runs shellcheck (https://www.shellcheck.net/)
       on the shell script, and "mandoc -T lint" on the manuals.
       The tests are disabled if the needed tools are not found by
-      "configure" (this part not implemented yet).
+      "configure".
     * Several simplifications and cosmetic changes to the code.
 
 Release 20180719

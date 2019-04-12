@@ -29,24 +29,33 @@ AS_IF([test -n "$MKTEMP"],
       AC_SUBST([MKTEMP_TEMPLATE])],
       [AC_MSG_ERROR([mktemp is missing, can not continue]) ])
 
-# mandoc is used for generating the manuals.  It's only needed if the
-# distributed manuals are ever deleted (e.g. using "make distclean") or
-# if the source manual sources are updated. col is used for generating
-# the text-only version of the manuals.
+# mandoc is used for generating the manuals and in the doc "check"
+# target.  It's only needed if the distributed manuals are ever deleted
+# (e.g. using "make distclean") or if the source manual sources are
+# updated. col is used for generating the text-only version of the
+# manuals.
 AC_PATH_PROG(MANDOC, [mandoc])
 AC_PATH_PROG(COL, [col])
-AM_CONDITIONAL([BUILD_MANUALS], [test -n "$MANDOC" && test -n "$COL"])
+AM_CONDITIONAL([HAVE_MANDOC], [test -n "$MANDOC" && test -n "$COL"])
 
-AM_COND_IF([BUILD_MANUALS],
+AM_COND_IF([HAVE_MANDOC],
       [AC_MSG_CHECKING([whether $MANDOC can produce markdown output])
-      AM_CONDITIONAL([BUILD_MANUALS],
+      AM_CONDITIONAL([HAVE_MANDOC],
                      ["$MANDOC" -T markdown </dev/null 2>/dev/null])
-      AM_COND_IF([BUILD_MANUALS],
+      AM_COND_IF([HAVE_MANDOC],
                  [AC_MSG_RESULT([yes])],
                  [AC_MSG_RESULT([no])]) ])
 
-AM_COND_IF([BUILD_MANUALS], [],
-      [AC_MSG_WARN([col or usable mandoc is missing, manuals can not be rebuilt])])
+AM_COND_IF([HAVE_MANDOC], [],
+      [AC_MSG_WARN([col or usable mandoc is missing, manuals can not be rebuilt])
+       AC_MSG_WARN([mandoc is missing, "make check" disabled for documentation])])
+
+# shellcheck is only used in the src "check" target.
+AC_PATH_PROG(SHELLCHECK, [shellcheck])
+AM_CONDITIONAL([HAVE_SHELLCHECK], [test -n "$SHELLCHECK"])
+
+AM_COND_IF([HAVE_SHELLCHECK], [],
+    [AC_MSG_WARN([shellcheck is missing, "make check" disabled for source])])
 
 # Test whether we should use pax or cp to copy directories.
 AC_PATH_PROGS(PAX, [pax cp])
