@@ -7,7 +7,7 @@ CLEANFILES=	$(bin_SCRIPTS)
 if !HAVE_SHELLCHECK
 
 check:
-	@echo 'You lack the shellcheck utility. Source tests disabled.' >&2
+	@echo 'You lack the shellcheck utility. Source checks disabled.' >&2
 	@exit
 
 else
