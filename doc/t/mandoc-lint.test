@@ -14,8 +14,8 @@ for script do
     esac
 
     if mandoc -T lint -I os=Unix -m"$doctype" "$script"; then
-        printf 'ok %d - mandoc lint %s\n' "$n" "$script"
+        printf 'ok %d\t- mandoc lint %s\n' "$n" "$script"
     else
-        printf 'not ok %d - mandoc lint %s\n' "$n" "$script"
+        printf 'not ok %d\t- mandoc lint %s\n' "$n" "$script"
     fi
 done
