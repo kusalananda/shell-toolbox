@@ -793,7 +793,7 @@ uninstall-am: uninstall-binSCRIPTS
 
 
 @HAVE_SHELLCHECK_FALSE@check:
-@HAVE_SHELLCHECK_FALSE@	@echo 'You lack the shellcheck utility. Source tests disabled.' >&2
+@HAVE_SHELLCHECK_FALSE@	@echo 'You lack the shellcheck utility. Source checks disabled.' >&2
 @HAVE_SHELLCHECK_FALSE@	@exit
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
