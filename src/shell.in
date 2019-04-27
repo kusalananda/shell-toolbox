@@ -177,13 +177,13 @@ if [ "$force" -ne 1 ]; then
         get_shells | awk '{ printf("\t%s\n", $0) }' >&2
         exit 1
     fi
+else
+    realshell=$shell
 fi
 
-if [ ! -x "$shell" ]; then
+if [ ! -x "$realshell" ]; then
     perrorf 'No such executable: %s\n' "$shell"
     exit 1
-else
-    realshell="$shell"
 fi
 
 if  [ -n "$tmpwd" ]; then
