@@ -35,8 +35,7 @@ DESCRIPTION
 
      -d directory
 	     Use the specified directory rather than a new temporary
-	     directory.	 If the directory does not already exist, it will be
-	     created.  This directory will not be deleted when the shell
+	     directory.	 This directory will not be deleted when the shell
 	     session terminates.  This option implies the -k option, and
 	     overrides any earlier -s option.
 

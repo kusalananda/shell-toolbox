@@ -72,7 +72,6 @@ The options are as follows:
 .TP 8n
 \fB\-d\fR \fIdirectory\fR
 Use the specified directory rather than a new temporary directory.
-If the directory does not already exist, it will be created.
 This directory will not be deleted when the shell session terminates.
 This option implies the
 \fB\-k\fR
