@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -e
 
 # Part of @PACKAGE_STRING@
 # For bug reports, see "@PACKAGE_BUGREPORT@"
@@ -139,7 +139,7 @@ force=0     # when 1, bypasses the call to get_shells
 keep=0      # when 1, does not remove working directory when exiting
 quiet=0     # when 1, informational messages are not outputted
 
-skel=${SHELL_SKEL-} # skeleton directory
+skel=${SHELL_SKEL:-} # skeleton directory
 
 while getopts 'd:fks:qv' opt; do
     case "$opt" in
@@ -159,19 +159,14 @@ while getopts 'd:fks:qv' opt; do
 done
 shift "$(( OPTIND - 1 ))"
 
-# Using -d implies -k
-if [ -n "${tmpmd-}" ]; then
-    keep=1
-fi
-
-if [ -n "${1-}" ]; then
+if [ -n "$1" ]; then
     shell="$1"
     shift
 else
     shell="${SHELL:-/bin/sh}"
 fi
 
-if [ "$force" -eq 0 ]; then
+if [ "$force" -ne 1 ]; then
     # Get the absolute path to a real shell.  If multiple shells are
     # returned from get_shells, we will use the first one.
     realshell="$( get_shells | sed -n '\#/'"${shell##*/}"'$#{p;q;}' )"
@@ -182,23 +177,23 @@ if [ "$force" -eq 0 ]; then
         get_shells | awk '{ printf("\t%s\n", $0) }' >&2
         exit 1
     fi
-elif [ ! -x "$shell" ]; then
-        perrorf 'No such executable: %s\n' "$shell"
-        exit 1
+fi
+
+if [ ! -x "$shell" ]; then
+    perrorf 'No such executable: %s\n' "$shell"
+    exit 1
 else
     realshell="$shell"
 fi
 
-if [ -n "${skel-}" ] && [ ! -d "$skel" ]; then
-    perrorf 'No such directory: %s\n' "$skel"
-    exit 1
-fi
-
-if [ -n "${tmpwd-}" ] && [ ! -d "$tmpwd" ]; then
-    if ! mkdir -p "$tmpwd"; then
-        perrorf 'Failed to create directory: %s\n' "$tmpwd"
+if  [ -n "$tmpwd" ]; then
+    if [ ! -d "$tmpwd" ]; then
+        perrorf 'No such directory: %s\n' "$tmpwd"
         exit 1
     fi
+
+    # Using -d implies -k
+    keep=1
 else
     tmpwd="${tmpwd:-$( "$MKTEMP" -d -t "shell-${shell##*/}$MKTEMP_TEMPLATE" )}"
 fi
@@ -206,7 +201,12 @@ fi
 trap exit_handler EXIT
 trap usr1_handler USR1
 
-if [ -n "${skel-}" ]; then
+if [ -n "$skel" ]; then
+    if [ ! -d "$skel" ]; then
+        perrorf 'No such directory: %s\n' "$skel"
+        exit 1
+    fi
+
     pinfof 'Copying %s into %s\n' "$skel" "$tmpwd" >&2
     case $PAX in
         */pax)
