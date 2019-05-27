@@ -195,7 +195,7 @@ if  [ -n "$tmpwd" ]; then
     # Using -d implies -k
     keep=1
 else
-    tmpwd="${tmpwd:-$( "$MKTEMP" -d -t "shell-${shell##*/}$MKTEMP_TEMPLATE" )}"
+    tmpwd="$("$MKTEMP" -d -t "shell-${shell##*/}$MKTEMP_TEMPLATE" )"
 fi
 
 trap exit_handler EXIT
