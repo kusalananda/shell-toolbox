@@ -6,8 +6,9 @@ EXTRA_DIST=	shell.mdoc \
 			$(check_SCRIPTS)
 DISTCLEANFILES=	shell.man shell.md shell.txt
 
-TEST_LOG_DRIVER=	env AM_TAP_AWK='$(AWK)' \
-					$(SHELL) $(top_srcdir)/autotools/tap-driver.sh
+TEST_LOG_DRIVER=	\
+	env AM_TAP_AWK='$(AWK)' \
+	$(SHELL) $(top_srcdir)/autotools/tap-driver.sh
 
 TESTS=	$(check_SCRIPTS)
 
