@@ -153,7 +153,7 @@ while getopts 'd:fks:qv' opt; do
         v) quiet=false
            output_version
            exit 0       ;;
-        *) perrorf 'Unknown option on command line\n'
+        *) perrorf 'Unable to parse command line\n'
            exit 1
     esac
 done
