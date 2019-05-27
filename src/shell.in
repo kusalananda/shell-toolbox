@@ -13,8 +13,8 @@ PAX="@PAX@"
 
 perrorf ()
 {
-    # Simple function for outputting error messages.  Prefixes the error
-    # message with the name of the utility.
+    # Simple function for outputting error messages.
+    # Prefixes the error message with the name of the utility.
 
     # Parameters:   same as printf
     # stdin:        unused
@@ -24,7 +24,7 @@ perrorf ()
     _fmt=$1; shift
 
     # We mimic printf here, disable shellcheck warnings about using
-    # variables in the printf format string..
+    # variables in the printf format string.
     # See https://unix.stackexchange.com/questions/438694
     # shellcheck disable=SC2059
     printf "$utility_name: error: $_fmt" "$@" >&2
