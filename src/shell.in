@@ -34,11 +34,11 @@ perrorf ()
 pinfof ()
 {
     # Same as above, but with 'info:' instead of 'error:'.
-    # Also disables output if the global variable $quiet is 1.
+    # Also disables output if the global variable $quiet is true.
 
     _fmt=$1; shift
 
-    if [ "${quiet:-0}" -ne 1 ]; then
+    if ! "$quiet"; then
         # shellcheck disable=SC2059
         printf "$utility_name: info: $_fmt" "$@" >&2
     fi
@@ -125,7 +125,7 @@ get_shells ()
 }
 
 exit_handler () {
-    if [ "$keep" -eq 1 ]; then
+    if "$keep"; then
         pinfof 'Leaving %s in place\n' "$tmpwd" >&2
     else
         pinfof 'Removing %s\n' "$tmpwd" >&2
@@ -133,24 +133,24 @@ exit_handler () {
     fi
 }
 
-usr1_handler () { keep=1; }
+usr1_handler () { keep=true; }
 
-force=0     # when 1, bypasses the call to get_shells
-keep=0      # when 1, does not remove working directory when exiting
-quiet=0     # when 1, informational messages are not outputted
+force=false     # when true, bypasses the call to get_shells
+keep=false      # when true, does not remove working directory when exiting
+quiet=false     # when true, informational messages are not outputted
 
-skel=${SHELL_SKEL:-} # skeleton directory
+skel=${SHELL_SKEL:-}    # skeleton directory
 
 while getopts 'd:fks:qv' opt; do
     case "$opt" in
         d) tmpwd=$OPTARG
            unset skel   ;;
-        f) force=1      ;;
-        k) keep=1       ;;
-        q) quiet=1      ;;
+        f) force=true   ;;
+        k) keep=true    ;;
+        q) quiet=true   ;;
         s) skel=$OPTARG
            unset tmpwd  ;;
-        v) quiet=0
+        v) quiet=false
            output_version
            exit 0       ;;
         *) perrorf 'Unknown option on command line\n'
@@ -166,7 +166,7 @@ else
     shell="${SHELL:-/bin/sh}"
 fi
 
-if [ "$force" -ne 1 ]; then
+if ! "$force"; then
     # Get the absolute path to a real shell.  If multiple shells are
     # returned from get_shells, we will use the first one.
     realshell="$( get_shells | sed -n '\#/'"${shell##*/}"'$#{p;q;}' )"
@@ -193,7 +193,7 @@ if  [ -n "$tmpwd" ]; then
     fi
 
     # Using -d implies -k
-    keep=1
+    keep=true
 else
     tmpwd="$("$MKTEMP" -d -t "shell-${shell##*/}$MKTEMP_TEMPLATE" )"
 fi
