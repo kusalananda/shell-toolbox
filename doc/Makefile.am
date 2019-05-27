@@ -2,8 +2,10 @@ dist_man1_MANS=	shell.man
 dist_doc_DATA=	shell.md shell.txt
 check_SCRIPTS=	t/mandoc-lint.test
 
-EXTRA_DIST=	shell.mdoc \
-			$(check_SCRIPTS)
+EXTRA_DIST=	\
+	shell.mdoc \
+	$(check_SCRIPTS)
+
 DISTCLEANFILES=	shell.man shell.md shell.txt
 
 TEST_LOG_DRIVER=	\
