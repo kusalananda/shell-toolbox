@@ -216,7 +216,7 @@ if [ -n "$skel" ]; then
             ( cd -- "$skel" && "$PAX" -R -p . "$tmpwd" )
             ;;
         *)
-            perrorf 'pax/cp not available\n'
+            perrorf 'Neither pax or cp is available\n'
             exit 1
     esac
 fi
