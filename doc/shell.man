@@ -8,18 +8,15 @@
 .SH "SYNOPSIS"
 .HP 6n
 \fBshell\fR
-[\fB\-f\fR]
-[\fB\-q\fR]
-[\fB\-d\fR\ \fIdirectory\fR\ |\ \fB\-k\fR]
+[\fB\-fq\fR]
+[\fB\-d\fR\ \fIdirectory\fR]
 [\fIshell\fR\ [\fI...\fR]]
 .br
 .PD 0
 .HP 6n
 \fBshell\fR
-[\fB\-f\fR]
-[\fB\-q\fR]
+[\fB\-fkqS\fR]
 [\fB\-s\fR\ \fIdirectory\fR]
-[\fB\-k\fR]
 [\fIshell\fR\ [\fI...\fR]]
 .br
 .HP 6n
@@ -93,12 +90,21 @@ Don't output informational messages.
 .TP 8n
 \fB\-s\fR \fIdirectory\fR
 Pre-populate the temporary directory with the contents of the named
-directory.
+\(lqskeleton directory\(rq.
 This will copy the whole directory structure rooted in the specified
 directory to the temporary working directory.
 This option overrides any earlier
 \fB\-d\fR
 option.
+.TP 8n
+\fB\-S\fR
+Do not pre-populate the temporary directory with the contents of a
+\(lqskeleton directory\(rq,
+even if the
+\fB\-s\fR
+option was used earlier on the command line or the
+\fRSHELL_SKEL\fR
+environment variable is set.
 .TP 8n
 \fB\-v\fR
 Output version information and immediately terminate.

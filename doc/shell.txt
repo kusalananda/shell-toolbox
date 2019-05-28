@@ -5,8 +5,8 @@ NAME
      working directory
 
 SYNOPSIS
-     shell [-f] [-q] [-d directory | -k] [shell [...]]
-     shell [-f] [-q] [-s directory] [-k] [shell [...]]
+     shell [-fq] [-d directory] [shell [...]]
+     shell [-fkqS] [-s directory] [shell [...]]
      shell -v
 
 DESCRIPTION
@@ -50,9 +50,13 @@ DESCRIPTION
 
      -s directory
 	     Pre-populate the temporary directory with the contents of the
-	     named directory.  This will copy the whole directory structure
-	     rooted in the specified directory to the temporary working
-	     directory.	 This option overrides any earlier -d option.
+	     named "skeleton directory".  This will copy the whole directory
+	     structure rooted in the specified directory to the temporary
+	     working directory.	 This option overrides any earlier -d option.
+
+     -S	     Do not pre-populate the temporary directory with the contents of
+	     a "skeleton directory", even if the -s option was used earlier on
+	     the command line or the SHELL_SKEL environment variable is set.
 
      -v	     Output version information and immediately terminate.
 

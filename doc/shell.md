@@ -7,15 +7,12 @@ SHELL(1) - General Commands Manual
 # SYNOPSIS
 
 **shell**
-\[**-f**]
-\[**-q**]
-\[**-d**&nbsp;*directory*&nbsp;|&nbsp;**-k**]
+\[**-fq**]
+\[**-d**&nbsp;*directory*]
 \[*shell*&nbsp;\[*...*]]  
 **shell**
-\[**-f**]
-\[**-q**]
+\[**-fkqS**]
 \[**-s**&nbsp;*directory*]
-\[**-k**]
 \[*shell*&nbsp;\[*...*]]  
 **shell**
 **-v**
@@ -93,12 +90,22 @@ The options are as follows:
 **-s** *directory*
 
 > Pre-populate the temporary directory with the contents of the named
-> directory.
+> "skeleton directory".
 > This will copy the whole directory structure rooted in the specified
 > directory to the temporary working directory.
 > This option overrides any earlier
 > **-d**
 > option.
+
+**-S**
+
+> Do not pre-populate the temporary directory with the contents of a
+> "skeleton directory",
+> even if the
+> **-s**
+> option was used earlier on the command line or the
+> `SHELL_SKEL`
+> environment variable is set.
 
 **-v**
 
