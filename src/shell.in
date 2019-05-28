@@ -141,7 +141,7 @@ quiet=false     # when true, informational messages are not outputted
 
 skel=${SHELL_SKEL:-}    # skeleton directory
 
-while getopts 'd:fks:qv' opt; do
+while getopts 'd:fks:Sqv' opt; do
     case "$opt" in
         d) tmpwd=$OPTARG
            unset skel   ;;
@@ -150,6 +150,7 @@ while getopts 'd:fks:qv' opt; do
         q) quiet=true   ;;
         s) skel=$OPTARG
            unset tmpwd  ;;
+        S) unset skel   ;;
         v) quiet=false
            output_version
            exit 0       ;;

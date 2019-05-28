@@ -7,6 +7,7 @@ Development version
       "configure".
     * Several simplifications and cosmetic changes to the code.
     * When using "-d", require that the given directory exists.
+    * Add "-S" to disable the copying of the skeleton directory.
 
 Release 20180719
     * A skeleton directory (to pre-populate the temporary working

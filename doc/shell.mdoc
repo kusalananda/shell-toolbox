@@ -6,15 +6,12 @@
 .Nd Creates a temporary interactive shell session in a disposable working directory
 .Sh SYNOPSIS
 .Nm shell
-.Op Fl f
-.Op Fl q
-.Op Fl d Ar directory | Fl k
+.Op Fl fq
+.Op Fl d Ar directory
 .Op Ar shell Op Ar ...
 .Nm
-.Op Fl f
-.Op Fl q
+.Op Fl fkqS
 .Op Fl s Ar directory
-.Op Fl k
 .Op Ar shell Op Ar ...
 .Nm
 .Fl v
@@ -81,12 +78,20 @@ Be quiet.
 Don't output informational messages.
 .It Fl s Ar directory
 Pre-populate the temporary directory with the contents of the named
-directory.
+.Dq skeleton directory .
 This will copy the whole directory structure rooted in the specified
 directory to the temporary working directory.
 This option overrides any earlier
 .Fl d
 option.
+.It Fl S
+Do not pre-populate the temporary directory with the contents of a
+.Dq skeleton directory ,
+even if the
+.Fl s
+option was used earlier on the command line or the
+.Ev SHELL_SKEL
+environment variable is set.
 .It Fl v
 Output version information and immediately terminate.
 .El
