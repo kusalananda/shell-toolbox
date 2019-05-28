@@ -1,3 +1,14 @@
+Release 20190528
+    * "pax" or "cp" will be used to copy the skeleton directory, rather
+      than "tar" or "cp".
+    * "make check" now now runs shellcheck (https://www.shellcheck.net/)
+      on the shell script, and "mandoc -T lint" on the manuals.
+      The tests are skipped if the needed tools are not found by
+      "configure".
+    * Several simplifications and cosmetic changes to the code.
+    * When using "-d", require that the given directory exists.
+    * Add "-S" to disable the copying of the skeleton directory.
+
 Release 20180719
     * A skeleton directory (to pre-populate the temporary working
       directory with) may be specified by setting the SHELL_SKEL

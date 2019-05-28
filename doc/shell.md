@@ -7,15 +7,12 @@ SHELL(1) - General Commands Manual
 # SYNOPSIS
 
 **shell**
-\[**-f**]
-\[**-q**]
-\[**-d**&nbsp;*directory*&nbsp;|&nbsp;**-k**]
+\[**-fq**]
+\[**-d**&nbsp;*directory*]
 \[*shell*&nbsp;\[*...*]]  
 **shell**
-\[**-f**]
-\[**-q**]
+\[**-fkqS**]
 \[**-s**&nbsp;*directory*]
-\[**-k**]
 \[*shell*&nbsp;\[*...*]]  
 **shell**
 **-v**
@@ -68,11 +65,10 @@ The options are as follows:
 **-d** *directory*
 
 > Use the specified directory rather than a new temporary directory.
-> If the directory does not already exist, it will be created.
 > This directory will not be deleted when the shell session terminates.
 > This option implies the
 > **-k**
-> option, and conflicts with the
+> option, and overrides any earlier
 > **-s**
 > option.
 
@@ -94,12 +90,22 @@ The options are as follows:
 **-s** *directory*
 
 > Pre-populate the temporary directory with the contents of the named
-> directory.
+> "skeleton directory".
 > This will copy the whole directory structure rooted in the specified
 > directory to the temporary working directory.
-> This option conflicts with the
+> This option overrides any earlier
 > **-d**
 > option.
+
+**-S**
+
+> Do not pre-populate the temporary directory with the contents of a
+> "skeleton directory",
+> even if the
+> **-s**
+> option was used earlier on the command line or the
+> `SHELL_SKEL`
+> environment variable is set.
 
 **-v**
 
@@ -155,7 +161,7 @@ also sets the following environment variables:
 `PS1`
 
 > Set to the string
-> '$&#160;'
+> '$ '
 > (dollar-sign and space).
 > Note that some shells ignore this variable if passed from the parent
 > environment.
@@ -239,18 +245,30 @@ file copied from
 	$ exit
 	shell: info: Removing /tmp/shell-ksh.ngEwbcpD
 
+Start a POSIX-ly correct
+**yash**
+shell as another user.
+
+	$ su testuser -c 'shell yash --posixly-correct'
+	Password:
+	shell: info: Starting /usr/local/bin/yash in /tmp/shell-yash.yrSSGISG
+	$ id
+	uid=1001(testuser) gid=1001(testuser) groups=1001(testuser)
+	$ exit
+	shell: info: Removing /tmp/shell-yash.yrSSGISG
+
 # SEE ALSO
 
 mktemp(1)
 
 # AUTHORS
 
-Andreas Kusalananda K&#228;h&#228;ri &lt;[andreas.kahari@nbis.se](mailto:andreas.kahari@nbis.se)&gt;
+Andreas Kusalananda K&#228;h&#228;ri &lt;[andreas.kahari@abc.se](mailto:andreas.kahari@abc.se)&gt;
 
 # CAVEATS
 
 For Solaris, the list of valid login shells is taken from the
-shells(4)
+"**shells(4)**"
 manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 "**getent shells**"
@@ -261,4 +279,4 @@ The
 */etc/shells*
 file will still be used if it exists.
 
-Unix - July 19, 2018
+Unix - May 28, 2019

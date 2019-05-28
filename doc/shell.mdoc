@@ -1,4 +1,4 @@
-.Dd $Mdocdate$
+.Dd May 28, 2019
 .Dt SHELL 1
 .Os
 .Sh NAME
@@ -6,15 +6,12 @@
 .Nd Creates a temporary interactive shell session in a disposable working directory
 .Sh SYNOPSIS
 .Nm shell
-.Op Fl f
-.Op Fl q
-.Op Fl d Ar directory | Fl k
+.Op Fl fq
+.Op Fl d Ar directory
 .Op Ar shell Op Ar ...
 .Nm
-.Op Fl f
-.Op Fl q
+.Op Fl fkqS
 .Op Fl s Ar directory
-.Op Fl k
 .Op Ar shell Op Ar ...
 .Nm
 .Fl v
@@ -64,11 +61,10 @@ The options are as follows:
 .Bl -tag -width Ds
 .It Fl d Ar directory
 Use the specified directory rather than a new temporary directory.
-If the directory does not already exist, it will be created.
 This directory will not be deleted when the shell session terminates.
 This option implies the
 .Fl k
-option, and conflicts with the
+option, and overrides any earlier
 .Fl s
 option.
 .It Fl f
@@ -82,12 +78,20 @@ Be quiet.
 Don't output informational messages.
 .It Fl s Ar directory
 Pre-populate the temporary directory with the contents of the named
-directory.
+.Dq skeleton directory .
 This will copy the whole directory structure rooted in the specified
 directory to the temporary working directory.
-This option conflicts with the
+This option overrides any earlier
 .Fl d
 option.
+.It Fl S
+Do not pre-populate the temporary directory with the contents of a
+.Dq skeleton directory ,
+even if the
+.Fl s
+option was used earlier on the command line or the
+.Ev SHELL_SKEL
+environment variable is set.
 .It Fl v
 Output version information and immediately terminate.
 .El
@@ -131,7 +135,7 @@ Set to the output of
 .Dq Ic getconf PATH .
 .It Ev PS1
 Set to the string
-.Sq $\ 
+.Sq "$ "
 .Pq dollar-sign and space .
 Note that some shells ignore this variable if passed from the parent
 environment.
@@ -212,13 +216,26 @@ drwxrwxrwt  28 root    wheel  512 Apr 21 14:15 ..
 $ exit
 shell: info: Removing /tmp/shell-ksh.ngEwbcpD
 .Ed
+.Pp
+Start a POSIX-ly correct
+.Cm yash
+shell as another user.
+.Bd -literal -offset Ds
+$ su testuser -c 'shell yash --posixly-correct'
+Password:
+shell: info: Starting /usr/local/bin/yash in /tmp/shell-yash.yrSSGISG
+$ id
+uid=1001(testuser) gid=1001(testuser) groups=1001(testuser)
+$ exit
+shell: info: Removing /tmp/shell-yash.yrSSGISG
+.Ed
 .Sh SEE ALSO
 .Xr mktemp 1
 .Sh AUTHORS
-.An Andreas Kusalananda K\[:a]h\[:a]ri Aq Mt andreas.kahari@nbis.se
+.An Andreas Kusalananda K\[:a]h\[:a]ri Aq Mt andreas.kahari@abc.se
 .Sh CAVEATS
 For Solaris, the list of valid login shells is taken from the
-.Xr shells 4
+.Dq Cm shells(4)
 manual on a vanilla Solaris 11.4 system.
 This is because Solaris lacks
 .Dq Cm getent shells

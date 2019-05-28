@@ -5,8 +5,8 @@ NAME
      working directory
 
 SYNOPSIS
-     shell [-f] [-q] [-d directory | -k] [shell [...]]
-     shell [-f] [-q] [-s directory] [-k] [shell [...]]
+     shell [-fq] [-d directory] [shell [...]]
+     shell [-fkqS] [-s directory] [shell [...]]
      shell -v
 
 DESCRIPTION
@@ -35,10 +35,9 @@ DESCRIPTION
 
      -d directory
 	     Use the specified directory rather than a new temporary
-	     directory.	 If the directory does not already exist, it will be
-	     created.  This directory will not be deleted when the shell
+	     directory.	 This directory will not be deleted when the shell
 	     session terminates.  This option implies the -k option, and
-	     conflicts with the -s option.
+	     overrides any earlier -s option.
 
      -f	     Force the execution of the given command, even if it is not a
 	     valid login shell on the current system.  The command needs to be
@@ -51,9 +50,13 @@ DESCRIPTION
 
      -s directory
 	     Pre-populate the temporary directory with the contents of the
-	     named directory.  This will copy the whole directory structure
-	     rooted in the specified directory to the temporary working
-	     directory.	 This option conflicts with the -d option.
+	     named "skeleton directory".  This will copy the whole directory
+	     structure rooted in the specified directory to the temporary
+	     working directory.	 This option overrides any earlier -d option.
+
+     -S	     Do not pre-populate the temporary directory with the contents of
+	     a "skeleton directory", even if the -s option was used earlier on
+	     the command line or the SHELL_SKEL environment variable is set.
 
      -v	     Output version information and immediately terminate.
 
@@ -141,16 +144,26 @@ EXAMPLES
 	   $ exit
 	   shell: info: Removing /tmp/shell-ksh.ngEwbcpD
 
+     Start a POSIX-ly correct yash shell as another user.
+
+	   $ su testuser -c 'shell yash --posixly-correct'
+	   Password:
+	   shell: info: Starting /usr/local/bin/yash in /tmp/shell-yash.yrSSGISG
+	   $ id
+	   uid=1001(testuser) gid=1001(testuser) groups=1001(testuser)
+	   $ exit
+	   shell: info: Removing /tmp/shell-yash.yrSSGISG
+
 SEE ALSO
      mktemp(1)
 
 AUTHORS
-     Andreas Kusalananda Kahari <andreas.kahari@nbis.se>
+     Andreas Kusalananda Kahari <andreas.kahari@abc.se>
 
 CAVEATS
-     For Solaris, the list of valid login shells is taken from the shells(4)
+     For Solaris, the list of valid login shells is taken from the "shells(4)"
      manual on a vanilla Solaris 11.4 system.  This is because Solaris lacks
      "getent shells" and may also lack the /etc/shells file.  The /etc/shells
      file will still be used if it exists.
 
-Unix				 July 19, 2018				  Unix
+Unix				 May 28, 2019				  Unix
