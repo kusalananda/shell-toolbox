@@ -7,15 +7,9 @@ SHELL(1) - General Commands Manual
 # SYNOPSIS
 
 **shell**
-\[**-fq**]
-\[**-d**&nbsp;*directory*]
-\[*shell*&nbsp;\[*...*]]  
-**shell**
-\[**-fkqS**]
-\[**-s**&nbsp;*directory*]
-\[*shell*&nbsp;\[*...*]]  
-**shell**
-**-v**
+\[**-fkqSv**]
+\[**-d**&nbsp;*directory*&nbsp;|&nbsp;**-s**&nbsp;*directory*]
+\[*shell*&nbsp;\[*...*]]
 
 # DESCRIPTION
 
@@ -60,7 +54,8 @@ working directory will not be deleted when the shell session terminates
 **-k**
 had been used from the start).
 
-The options are as follows:
+The options are as follows (note that some are dependent on their
+relative position on the command line):
 
 **-d** *directory*
 
@@ -76,7 +71,7 @@ The options are as follows:
 
 > Force the execution of the given command, even if it is not a valid
 > login shell on the current system.
-> The command needs to be specified with an absolute path.
+> The shell executable needs to be specified with an absolute path.
 
 **-k**
 

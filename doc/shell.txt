@@ -5,9 +5,7 @@ NAME
      working directory
 
 SYNOPSIS
-     shell [-fq] [-d directory] [shell [...]]
-     shell [-fkqS] [-s directory] [shell [...]]
-     shell -v
+     shell [-fkqSv] [-d directory | -s directory] [shell [...]]
 
 DESCRIPTION
      The shell utility creates an interactive shell session with a clean
@@ -31,7 +29,8 @@ DESCRIPTION
      USR1 signal, the temporary working directory will not be deleted when the
      shell session terminates (as if -k had been used from the start).
 
-     The options are as follows:
+     The options are as follows (note that some are dependent on their
+     relative position on the command line):
 
      -d directory
 	     Use the specified directory rather than a new temporary
@@ -40,8 +39,8 @@ DESCRIPTION
 	     overrides any earlier -s option.
 
      -f	     Force the execution of the given command, even if it is not a
-	     valid login shell on the current system.  The command needs to be
-	     specified with an absolute path.
+	     valid login shell on the current system.  The shell executable
+	     needs to be specified with an absolute path.
 
      -k	     Keep the temporary directory around after terminating the shell
 	     session.

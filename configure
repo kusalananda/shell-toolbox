@@ -2419,8 +2419,8 @@ else
 $as_echo "yes" >&6; }; MKTEMP_TEMPLATE=""
 fi
       rm -f "$_tmppath"
-      unset -v _tmppath
-      unset -v _tmpname
+      { _tmppath=; unset _tmppath;}
+      { _tmpname=; unset _tmpname;}
 
 else
   as_fn_error $? "mktemp is missing, can not continue" "$LINENO" 5

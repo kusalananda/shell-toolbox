@@ -8,21 +8,9 @@
 .SH "SYNOPSIS"
 .HP 6n
 \fBshell\fR
-[\fB\-fq\fR]
-[\fB\-d\fR\ \fIdirectory\fR]
+[\fB\-fkqSv\fR]
+[\fB\-d\fR\ \fIdirectory\fR\ |\ \fB\-s\fR\ \fIdirectory\fR]
 [\fIshell\fR\ [\fI...\fR]]
-.br
-.PD 0
-.HP 6n
-\fBshell\fR
-[\fB\-fkqS\fR]
-[\fB\-s\fR\ \fIdirectory\fR]
-[\fIshell\fR\ [\fI...\fR]]
-.br
-.HP 6n
-\fBshell\fR
-\fB\-v\fR
-.PD
 .SH "DESCRIPTION"
 The
 \fBshell\fR
@@ -65,7 +53,8 @@ working directory will not be deleted when the shell session terminates
 \fB\-k\fR
 had been used from the start).
 .PP
-The options are as follows:
+The options are as follows (note that some are dependent on their
+relative position on the command line):
 .TP 8n
 \fB\-d\fR \fIdirectory\fR
 Use the specified directory rather than a new temporary directory.
@@ -79,7 +68,7 @@ option.
 \fB\-f\fR
 Force the execution of the given command, even if it is not a valid
 login shell on the current system.
-The command needs to be specified with an absolute path.
+The shell executable needs to be specified with an absolute path.
 .TP 8n
 \fB\-k\fR
 Keep the temporary directory around after terminating the shell session.
