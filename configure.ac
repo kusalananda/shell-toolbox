@@ -24,8 +24,8 @@ AS_IF([test -n "$MKTEMP"],
             [AC_MSG_RESULT([no]); MKTEMP_TEMPLATE=".XXXXXXXX"],
             [AC_MSG_RESULT([yes]); MKTEMP_TEMPLATE=""])
       rm -f "$_tmppath"
-      unset -v _tmppath
-      unset -v _tmpname
+      AS_UNSET([_tmppath])
+      AS_UNSET([_tmpname])
       AC_SUBST([MKTEMP_TEMPLATE])],
       [AC_MSG_ERROR([mktemp is missing, can not continue]) ])
 
