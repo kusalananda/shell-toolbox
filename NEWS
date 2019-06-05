@@ -1,5 +1,5 @@
 Development version
-    * Nothing yet.
+    * Separated some utility functions off into a library.
 
 Release 20190528
     * "pax" or "cp" will be used to copy the skeleton directory, rather
