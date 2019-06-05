@@ -136,7 +136,8 @@ if ! "$force"; then
     if [ -z "$realshell" ]; then
         perrorf 'No such shell: %s\n' "$shell"
         echo 'Valid shells:' >&2
-        get_shells | awk '{ printf("\t%s\n", $0) }' >&2
+        get_shells |
+        awk '{s=$0;sub(".*/","",s);printf("\t%s\t(%s)\n",s,$0)}' >&2
         exit 1
     fi
 else
