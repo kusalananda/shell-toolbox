@@ -86,9 +86,9 @@ get_shells ()
 
 exit_handler () {
     if "$keep"; then
-        pinfof ${quiet:+-q} 'Leaving %s in place\n' "$tmpwd"
+        ! "$quiet" && pinfof 'Leaving %s in place\n' "$tmpwd"
     else
-        pinfof ${quiet:+-q} 'Removing %s\n' "$tmpwd"
+        ! "$quiet" && pinfof 'Removing %s\n' "$tmpwd"
         cd / && rm -rf -- "$tmpwd"
     fi
 }
@@ -97,7 +97,7 @@ usr1_handler () { keep=true; }
 
 force=false     # when true, bypasses the call to get_shells
 keep=false      # when true, does not remove working directory when exiting
-quiet=          # when non-empty, informational messages are not outputted
+quiet=false     # when true, informational messages are not outputted
 
 skel=${SHELL_SKEL:-}    # skeleton directory
 
@@ -111,8 +111,7 @@ while getopts 'd:fks:Sqv' opt; do
         s) skel=$OPTARG
            unset tmpwd  ;;
         S) unset skel   ;;
-        v) quiet=
-           output_version
+        v) output_version
            exit 0       ;;
         *) command_line_error
            exit 1
@@ -168,7 +167,7 @@ if [ -n "$skel" ]; then
         exit 1
     fi
 
-    pinfof ${quiet:+-q} 'Copying %s into %s\n' "$skel" "$tmpwd"
+    ! "$quiet" && pinfof 'Copying %s into %s\n' "$skel" "$tmpwd"
     case $PAX in
         */pax)
             ( cd -- "$skel" && "$PAX" -rw -p p . "$tmpwd" )
@@ -182,7 +181,7 @@ if [ -n "$skel" ]; then
     esac
 fi
 
-pinfof ${quiet:+-q} 'Starting %s in %s\n' "$realshell" "$tmpwd"
+! "$quiet" && pinfof 'Starting %s in %s\n' "$realshell" "$tmpwd"
 
 cd -- "$tmpwd" &&
 env -i  HOME="$tmpwd" \

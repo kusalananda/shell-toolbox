@@ -23,33 +23,12 @@ perrorf ()
 pinfof ()
 {
     # Same as above, but with 'info:' instead of 'error:'.
-    # Also disables output if given the option -q.
-
-    _quiet=false
-
-    OPTIND=1
-    while getopts 'q' _opt; do
-        case $_opt in
-            q)
-                _quiet=true
-                ;;
-            *)
-                command_line_error
-                exit 1
-        esac
-    done
-    shift "$(( OPTIND - 1 ))"
 
     _fmt=$1; shift
 
-    if ! "$_quiet"; then
-        # shellcheck disable=SC2059
-        printf "$UTILITY_NAME: info: $_fmt" "$@" >&2
-    fi
-
+    # shellcheck disable=SC2059
+    printf "$UTILITY_NAME: info: $_fmt" "$@" >&2
     unset _fmt
-    unset _quiet
-    unset _opt
 }
 
 output_version ()
