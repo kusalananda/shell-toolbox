@@ -1,7 +1,9 @@
-#!/bin/sh -e
+#!@SH@
 
 # Part of @PACKAGE_STRING@
 # For bug reports, see "@PACKAGE_BUGREPORT@"
+
+set -o errexit
 
 # Variables set by the configure script:
 prefix="@prefix@"
