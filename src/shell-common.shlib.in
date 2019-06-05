@@ -1,5 +1,8 @@
 # shellcheck shell=sh
 
+# Part of @PACKAGE_STRING@
+# For bug reports, see "@PACKAGE_BUGREPORT@"
+
 perrorf ()
 {
     # Simple function for outputting error messages.
@@ -46,7 +49,7 @@ output_version ()
 
 command_line_error ()
 {
-    perrorf 'Error while parsing the cammond line arguments\n'
+    perrorf 'Error while parsing the command line arguments\n'
 }
 
 # We expect that $UTILITY_NAME is set and non-empty.
