@@ -33,6 +33,8 @@
         <prefix>
         |-- bin
         |   `-- shell
+        |-- libexec
+        |   `-- shell-common.shlib
         `-- share
             |-- doc
             |   `-- shell-toolbox

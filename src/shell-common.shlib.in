@@ -1,0 +1,62 @@
+# shellcheck shell=sh
+
+# Part of @PACKAGE_STRING@
+# For bug reports, see "@PACKAGE_BUGREPORT@"
+
+perrorf ()
+{
+    # Simple function for outputting error messages.
+    # Prefixes the error message with the name of the utility.
+
+    # Parameters:   same as printf
+    # stdin:        unused
+    # stdout:       unused
+    # stderr:       error message
+
+    _fmt=$1; shift
+
+    # We mimic printf here, disable shellcheck warnings about using
+    # variables in the printf format string.
+    # See https://unix.stackexchange.com/questions/438694
+    # shellcheck disable=SC2059
+    printf "$UTILITY_NAME: error: $_fmt" "$@" >&2
+    unset _fmt
+}
+
+pinfof ()
+{
+    # Same as above, but with 'info:' instead of 'error:'.
+
+    _fmt=$1; shift
+
+    # shellcheck disable=SC2059
+    printf "$UTILITY_NAME: info: $_fmt" "$@" >&2
+    unset _fmt
+}
+
+output_version ()
+{
+    # Simple function for outputting version information.
+
+    # Parameters:   none
+    # stdin:        unused
+    # stdout:       unused
+    # stderr:       version information
+
+    pinfof 'Part of %s (release "%s")\n' "@PACKAGE_NAME@" "@PACKAGE_VERSION@"
+    pinfof 'For bug reports, see %s\n' "@PACKAGE_BUGREPORT@"
+}
+
+command_line_error ()
+{
+    perrorf 'Error while parsing the command line arguments\n'
+}
+
+# We expect that $UTILITY_NAME is set and non-empty.
+if [ -z "$UTILITY_NAME" ]; then
+    UTILITY_NAME="@PACKAGE_NAME@"
+    perrorf 'shell-common.shlib not loaded properly\n'
+    exit 1
+fi
+
+# vim: ft=sh
