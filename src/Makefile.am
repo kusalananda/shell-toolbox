@@ -1,5 +1,8 @@
 bin_SCRIPTS=	shell
-libexec_SCRIPTS=	shell-common.shlib
+
+libexec_SCRIPTS=	\
+	shell-common.shlib
+
 check_SCRIPTS=	t/shellcheck.test
 
 EXTRA_DIST=	$(check_SCRIPTS)
