@@ -13,20 +13,25 @@ AC_CONFIG_SRCDIR([src/shell.in])
 # of the scripts.
 AC_PATH_PROG(SH, [sh])
 
-# OpenBSD sh(1) and ksh(1) has a wierd behaviour that allows
-#   eval false || true
-# to terminate the shell if running with the errexit shell option set
-# (which these scripts do), even though it's an AND-OR list.  Test this
-# for the $SH found above.
-# See https://unix.stackexchange.com/questions/523098 and
-#     https://marc.info/?l=openbsd-misc&m=155975799609668
-AC_MSG_CHECKING([for faulty eval if errexit is set])
-AS_IF([$SH -e -c 'eval false || true'],
-      [AC_MSG_RESULT([no])],
-      [AC_MSG_RESULT([yes])
-       AC_MSG_ERROR(
-[$SH is not usable, consider selecting another shell \
-using SH=/path/to/shell as an argument to the configure script]) ])
+# Note: This bit is currently not used.  It was required for another
+# project that was going to be part of the same source distribution as
+# "shell", but that project was later abandoned.  Most of it is left
+# commented out here.
+#
+## OpenBSD sh(1) and ksh(1) has a wierd behaviour that allows
+##   eval false || true
+## to terminate the shell if running with the errexit shell option set
+## (which these scripts do), even though it's an AND-OR list.  Test this
+## for the $SH found above.
+## See https://unix.stackexchange.com/questions/523098 and
+##     https://marc.info/?l=openbsd-misc&m=155975799609668
+#AC_MSG_CHECKING([for faulty eval if errexit is set])
+#AS_IF([$SH -e -c 'eval false || true'],
+#      [AC_MSG_RESULT([no])],
+#      [AC_MSG_RESULT([yes])
+#       AC_MSG_ERROR(
+#[$SH is not usable, consider selecting another shell \
+#using SH=/path/to/shell as an argument to the configure script]) ])
 
 # Test whether mktemp exists, and if it does, whether "mktemp -t" adds
 # .XXXXXXXX to the filename template or not.
@@ -50,8 +55,8 @@ AS_IF([test -n "$MKTEMP"],
 # mandoc is used for generating the manuals and in the doc "check"
 # target.  It's only needed if the distributed manuals are ever deleted
 # (e.g. using "make distclean") or if the source manual sources are
-# updated. col is used for generating the text-only version of the
-# manuals.
+# updated. The col utility is used for generating the text-only version
+# of the manuals.
 AC_PATH_PROG(MANDOC, [mandoc])
 AC_PATH_PROG(COL, [col])
 AM_CONDITIONAL([HAVE_MANDOC], [test -n "$MANDOC" && test -n "$COL"])
