@@ -598,6 +598,7 @@ COL
 MANDOC
 MKTEMP_TEMPLATE
 MKTEMP
+SH
 MAINT
 MAINTAINER_MODE_FALSE
 MAINTAINER_MODE_TRUE
@@ -2360,9 +2361,71 @@ fi
 
 
 
+# The following allows a user to override what sh we use in the #!-lines
+# of the scripts.
+# Extract the first word of "sh", so it can be a program name with args.
+set dummy sh; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_SH+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $SH in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_SH="$SH" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_SH="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+SH=$ac_cv_path_SH
+if test -n "$SH"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $SH" >&5
+$as_echo "$SH" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+
+# Note: This bit is currently not used.  It was required for another
+# project that was going to be part of the same source distribution as
+# "shell", but that project was later abandoned.  Most of it is left
+# commented out here.
+#
+## OpenBSD sh(1) and ksh(1) has a wierd behaviour that allows
+##   eval false || true
+## to terminate the shell if running with the errexit shell option set
+## (which these scripts do), even though it's an AND-OR list.  Test this
+## for the $SH found above.
+## See https://unix.stackexchange.com/questions/523098 and
+##     https://marc.info/?l=openbsd-misc&m=155975799609668
+#AC_MSG_CHECKING([for faulty eval if errexit is set])
+#AS_IF([$SH -e -c 'eval false || true'],
+#      [AC_MSG_RESULT([no])],
+#      [AC_MSG_RESULT([yes])
+#       AC_MSG_ERROR(
+#[$SH is not usable, consider selecting another shell \
+#using SH=/path/to/shell as an argument to the configure script]) ])
+
 # Test whether mktemp exists, and if it does, whether "mktemp -t" adds
-# .XXXXXXXX to the filename template or not.  This is better than
-# testing with "uname" in the src/shell.in script.
+# .XXXXXXXX to the filename template or not.
 # Note: The *minimum* number of X's on OpenBSD is six, while the
 # *maximum* number of X's on Solaris is six (Solaris "mktemp -t" will
 # only use the last six of the eight X's we give it here).
@@ -2429,8 +2492,8 @@ fi
 # mandoc is used for generating the manuals and in the doc "check"
 # target.  It's only needed if the distributed manuals are ever deleted
 # (e.g. using "make distclean") or if the source manual sources are
-# updated. col is used for generating the text-only version of the
-# manuals.
+# updated. The col utility is used for generating the text-only version
+# of the manuals.
 # Extract the first word of "mandoc", so it can be a program name with args.
 set dummy mandoc; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5

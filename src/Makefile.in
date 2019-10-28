@@ -357,6 +357,7 @@ PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PAX = @PAX@
 SET_MAKE = @SET_MAKE@
+SH = @SH@
 SHELL = @SHELL@
 SHELLCHECK = @SHELLCHECK@
 STRIP = @STRIP@
@@ -401,7 +402,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 bin_SCRIPTS = shell
-libexec_SCRIPTS = shell-common.shlib
+libexec_SCRIPTS = \
+	shell-common.shlib
+
 check_SCRIPTS = t/shellcheck.test
 EXTRA_DIST = $(check_SCRIPTS)
 CLEANFILES = $(bin_SCRIPTS)
