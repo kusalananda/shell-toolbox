@@ -2721,6 +2721,8 @@ ac_config_files="$ac_config_files Makefile src/Makefile doc/Makefile"
 
 ac_config_files="$ac_config_files src/shell"
 
+ac_config_files="$ac_config_files src/shvenv"
+
 ac_config_files="$ac_config_files src/shell-common.shlib"
 
 cat >confcache <<\_ACEOF
@@ -3460,6 +3462,7 @@ do
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
     "src/shell") CONFIG_FILES="$CONFIG_FILES src/shell" ;;
+    "src/shvenv") CONFIG_FILES="$CONFIG_FILES src/shvenv" ;;
     "src/shell-common.shlib") CONFIG_FILES="$CONFIG_FILES src/shell-common.shlib" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
@@ -3888,6 +3891,7 @@ which seems to be undefined.  Please make sure it is defined" >&2;}
 
   case $ac_file$ac_mode in
     "src/shell":F) chmod +x src/shell ;;
+    "src/shvenv":F) chmod +x src/shvenv ;;
 
   esac
 done # for ac_tag

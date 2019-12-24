@@ -93,7 +93,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = shell shell-common.shlib
+CONFIG_CLEAN_FILES = shell shvenv shell-common.shlib
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -318,7 +318,8 @@ am__set_b = \
       b='$*';; \
   esac
 am__DIST_COMMON = $(srcdir)/Makefile.in \
-	$(srcdir)/shell-common.shlib.in $(srcdir)/shell.in
+	$(srcdir)/shell-common.shlib.in $(srcdir)/shell.in \
+	$(srcdir)/shvenv.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -401,7 +402,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-bin_SCRIPTS = shell
+bin_SCRIPTS = \
+	shell \
+	shvenv
+
 libexec_SCRIPTS = \
 	shell-common.shlib
 
@@ -448,6 +452,8 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 shell: $(top_builddir)/config.status $(srcdir)/shell.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+shvenv: $(top_builddir)/config.status $(srcdir)/shvenv.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 shell-common.shlib: $(top_builddir)/config.status $(srcdir)/shell-common.shlib.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
