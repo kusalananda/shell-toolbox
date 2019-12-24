@@ -1,4 +1,6 @@
-bin_SCRIPTS=	shell
+bin_SCRIPTS=	\
+	shell \
+	shvenv
 
 libexec_SCRIPTS=	\
 	shell-common.shlib
