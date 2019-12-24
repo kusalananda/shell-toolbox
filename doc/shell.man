@@ -8,7 +8,7 @@
 .SH "SYNOPSIS"
 .HP 6n
 \fBshell\fR
-[\fB\-fkqSv\fR]
+[\fB\-fkqSvV\fR]
 [\fB\-d\fR\ \fIdirectory\fR\ |\ \fB\-s\fR\ \fIdirectory\fR]
 [\fIshell\fR\ [\fI...\fR]]
 .SH "DESCRIPTION"
@@ -76,6 +76,8 @@ Keep the temporary directory around after terminating the shell session.
 \fB\-q\fR
 Be quiet.
 Don't output informational messages.
+Overrides any earlier use of
+\fB\-v\fR.
 .TP 8n
 \fB\-s\fR \fIdirectory\fR
 Pre-populate the temporary directory with the contents of the named
@@ -96,6 +98,13 @@ option was used earlier on the command line or the
 environment variable is set.
 .TP 8n
 \fB\-v\fR
+Be verbose.
+Output informational messages.
+This is the default behaviour.
+Overrides any earlier use of
+\fB\-q\fR.
+.TP 8n
+\fB\-V\fR
 Output version information and immediately terminate.
 .SH "ENVIRONMENT"
 \fBshell\fR
@@ -126,6 +135,8 @@ This variable is used by
 which will revert to use
 \fI/tmp\fR
 if the variable is not set.
+Note: Setting this variable in the environment may not have any effect
+on macOS.
 .PP
 \fBshell\fR
 clears the environment of the interactive shell that it starts, but
