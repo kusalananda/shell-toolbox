@@ -1,0 +1,35 @@
+#!@SH@
+
+# Part of @PACKAGE_STRING@
+# For bug reports, see "@PACKAGE_BUGREPORT@"
+
+set -o errexit
+
+# Variables set by the configure script:
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+
+MKTEMP="@MKTEMP@"
+MKTEMP_TEMPLATE="@MKTEMP_TEMPLATE@"
+PAX="@PAX@"
+
+UTILITY_NAME=shvenv
+# Get common functions (perrorf, pinfof, output_version, command_line_error)
+# shellcheck source=./shell-common.shlib
+. "@libexecdir@/shell-common.shlib"
+
+quiet=false     # when true, informational messages are not outputted
+
+while getopts 'qvV' opt; do
+    case $opt in
+        q) quiet=true   ;;
+        v) quiet=false  ;;
+        V) output_version
+           exit 0       ;;
+        *) command_line_error
+           exit 1
+    esac
+done
+
+
+# vim: ft=sh
