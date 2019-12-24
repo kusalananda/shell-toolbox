@@ -6,7 +6,7 @@
 .Nd Creates a temporary interactive shell session in a disposable working directory
 .Sh SYNOPSIS
 .Nm shell
-.Op Fl fkqSv
+.Op Fl fkqSvV
 .Op Fl d Ar directory | Fl s Ar directory
 .Op Ar shell Op Ar ...
 .Sh DESCRIPTION
@@ -88,6 +88,12 @@ option was used earlier on the command line or the
 .Ev SHELL_SKEL
 environment variable is set.
 .It Fl v
+Be verbose.
+Output informational messages.
+This is the default behaviour.
+Overrides any earlier use of
+.Fl q .
+.It Fl V
 Output version information and immediately terminate.
 .El
 .Sh ENVIRONMENT
