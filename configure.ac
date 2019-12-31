@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([shell-toolbox],[20190528+],[https://github.com/kusalananda/shell-toolbox/issues])
+AC_INIT([shell-toolbox],[2.0.0],[https://github.com/kusalananda/shell-toolbox/issues])
 
 AC_CONFIG_AUX_DIR([autotools])
 
