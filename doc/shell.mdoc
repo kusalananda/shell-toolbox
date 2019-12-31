@@ -63,9 +63,9 @@ option, and overrides any earlier
 .Fl s
 option.
 .It Fl f
-Force the execution of the given command, even if it is not a valid
+Force the execution of the given executable, even if it is not a valid
 login shell on the current system.
-The shell executable needs to be specified with an absolute path.
+The executable needs to be specified with an absolute path.
 .It Fl k
 Keep the temporary directory around after terminating the shell session.
 .It Fl q
@@ -80,7 +80,9 @@ This will copy the whole directory structure rooted in the specified
 directory to the temporary working directory.
 This option overrides any earlier
 .Fl d
-option.
+option and the value of the
+.Ev SHELL_SKEL
+environment variable.
 .It Fl S
 Do not pre-populate the temporary directory with the contents of a
 .Dq skeleton directory ,
@@ -112,9 +114,9 @@ will be used instead.
 .It Ev SHELL_SKEL
 Directory to automatically pre-populate the temporary working directory with.
 This environment variable is not used if any of the
-.Fl d
+.Fl d , s ,
 or
-.Fl s
+.Fl S
 options are used on the command line.
 .It Ev TMPDIR
 Directory in which to create the working directory when the
