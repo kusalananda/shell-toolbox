@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -- shell
+set -- shell shvenv
 
 printf '1..%d\n' "$#"
 
