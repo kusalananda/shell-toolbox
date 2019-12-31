@@ -31,5 +31,25 @@ while getopts 'qvV' opt; do
     esac
 done
 
+dir=$1
+
+if [ -d "$dir" ]; then
+    perrorf 'Directory already exists: %s\n' "$dir"
+    exit 1
+fi
+if ! mkdir -p "$dir"; then
+    perrorf 'Can not create directory: %s\n' "$dir"
+    exit 1
+fi
+
+! "$quiet" && pinfof 'Created directory %s\n' "$dir"
+
+absdir=$( cd "$dir" && printf '%s' "$PWD" )
+
+cat >"$dir/activate" <<END_ACTIVATE
+#!/bin/sh
+
+shell -d "$absdir"
+END_ACTIVATE
 
 # vim: ft=sh
