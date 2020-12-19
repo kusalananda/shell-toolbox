@@ -1,6 +1,5 @@
 bin_SCRIPTS=	\
-	shell \
-	shvenv
+	shell
 
 libexec_SCRIPTS=	\
 	shell-common.shlib
