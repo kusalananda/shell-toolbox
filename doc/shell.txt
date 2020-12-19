@@ -38,9 +38,9 @@ DESCRIPTION
 	     session terminates.  This option implies the -k option, and
 	     overrides any earlier -s option.
 
-     -f	     Force the execution of the given command, even if it is not a
-	     valid login shell on the current system.  The shell executable
-	     needs to be specified with an absolute path.
+     -f	     Force the execution of the given executable, even if it is not a
+	     valid login shell on the current system.  The executable needs to
+	     be specified with an absolute path.
 
      -k	     Keep the temporary directory around after terminating the shell
 	     session.
@@ -52,7 +52,8 @@ DESCRIPTION
 	     Pre-populate the temporary directory with the contents of the
 	     named "skeleton directory".  This will copy the whole directory
 	     structure rooted in the specified directory to the temporary
-	     working directory.	 This option overrides any earlier -d option.
+	     working directory.	 This option overrides any earlier -d option
+	     and the value of the SHELL_SKEL environment variable.
 
      -S	     Do not pre-populate the temporary directory with the contents of
 	     a "skeleton directory", even if the -s option was used earlier on
@@ -73,7 +74,7 @@ ENVIRONMENT
      SHELL_SKEL
 	     Directory to automatically pre-populate the temporary working
 	     directory with.  This environment variable is not used if any of
-	     the -d or -s options are used on the command line.
+	     the -d, -s, or -S options are used on the command line.
 
      TMPDIR  Directory in which to create the working directory when the -d
 	     option is not used.  This variable is used by mktemp which will

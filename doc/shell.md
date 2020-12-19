@@ -69,9 +69,9 @@ relative position on the command line):
 
 **-f**
 
-> Force the execution of the given command, even if it is not a valid
+> Force the execution of the given executable, even if it is not a valid
 > login shell on the current system.
-> The shell executable needs to be specified with an absolute path.
+> The executable needs to be specified with an absolute path.
 
 **-k**
 
@@ -92,7 +92,9 @@ relative position on the command line):
 > directory to the temporary working directory.
 > This option overrides any earlier
 > **-d**
-> option.
+> option and the value of the
+> `SHELL_SKEL`
+> environment variable.
 
 **-S**
 
@@ -134,9 +136,9 @@ uses the following environment variables:
 
 > Directory to automatically pre-populate the temporary working directory with.
 > This environment variable is not used if any of the
-> **-d**
+> **-d**, **-s**,
 > or
-> **-s**
+> **-S**
 > options are used on the command line.
 
 `TMPDIR`
