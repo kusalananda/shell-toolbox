@@ -13,8 +13,8 @@ MKTEMP="@MKTEMP@"
 MKTEMP_TEMPLATE="@MKTEMP_TEMPLATE@"
 PAX="@PAX@"
 
-# Get common functions (perrorf, pinfof, output_version, command_line_error)
 UTILITY_NAME=shell
+# Get common functions (perrorf, pinfof, output_version, command_line_error)
 # shellcheck source=./shell-common.shlib
 . "@libexecdir@/shell-common.shlib"
 
@@ -103,8 +103,8 @@ quiet=false     # when true, informational messages are not outputted
 
 skel=${SHELL_SKEL:-}    # skeleton directory
 
-while getopts 'd:fks:Sqv' opt; do
-    case "$opt" in
+while getopts 'd:fkqs:SvV' opt; do
+    case $opt in
         d) tmpwd=$OPTARG
            unset skel   ;;
         f) force=true   ;;
@@ -113,7 +113,8 @@ while getopts 'd:fks:Sqv' opt; do
         s) skel=$OPTARG
            unset tmpwd  ;;
         S) unset skel   ;;
-        v) output_version
+        v) quiet=false  ;;
+        V) output_version
            exit 0       ;;
         *) command_line_error
            exit 1

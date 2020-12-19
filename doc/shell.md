@@ -7,7 +7,7 @@ SHELL(1) - General Commands Manual
 # SYNOPSIS
 
 **shell**
-\[**-fkqSv**]
+\[**-fkqSvV**]
 \[**-d**&nbsp;*directory*&nbsp;|&nbsp;**-s**&nbsp;*directory*]
 \[*shell*&nbsp;\[*...*]]
 
@@ -81,6 +81,8 @@ relative position on the command line):
 
 > Be quiet.
 > Don't output informational messages.
+> Overrides any earlier use of
+> **-v**.
 
 **-s** *directory*
 
@@ -103,6 +105,14 @@ relative position on the command line):
 > environment variable is set.
 
 **-v**
+
+> Be verbose.
+> Output informational messages.
+> This is the default behaviour.
+> Overrides any earlier use of
+> **-q**.
+
+**-V**
 
 > Output version information and immediately terminate.
 
@@ -139,6 +149,8 @@ uses the following environment variables:
 > which will revert to use
 > */tmp*
 > if the variable is not set.
+> Note: Setting this variable in the environment may not have any effect
+> on macOS.
 
 **shell**
 clears the environment of the interactive shell that it starts, but
