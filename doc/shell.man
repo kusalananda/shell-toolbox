@@ -66,9 +66,9 @@ option, and overrides any earlier
 option.
 .TP 8n
 \fB\-f\fR
-Force the execution of the given command, even if it is not a valid
+Force the execution of the given executable, even if it is not a valid
 login shell on the current system.
-The shell executable needs to be specified with an absolute path.
+The executable needs to be specified with an absolute path.
 .TP 8n
 \fB\-k\fR
 Keep the temporary directory around after terminating the shell session.
@@ -86,7 +86,9 @@ This will copy the whole directory structure rooted in the specified
 directory to the temporary working directory.
 This option overrides any earlier
 \fB\-d\fR
-option.
+option and the value of the
+\fRSHELL_SKEL\fR
+environment variable.
 .TP 8n
 \fB\-S\fR
 Do not pre-populate the temporary directory with the contents of a
@@ -121,9 +123,9 @@ will be used instead.
 \fRSHELL_SKEL\fR
 Directory to automatically pre-populate the temporary working directory with.
 This environment variable is not used if any of the
-\fB\-d\fR
+\fB\-d\fR, \fB\-s\fR,
 or
-\fB\-s\fR
+\fB\-S\fR
 options are used on the command line.
 .TP 8n
 \fRTMPDIR\fR
