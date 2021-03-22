@@ -5,18 +5,60 @@
 
 set -o errexit
 
-# Variables set by the configure script:
-prefix="@prefix@"
-exec_prefix="@exec_prefix@"
-
 MKTEMP="@MKTEMP@"
 MKTEMP_TEMPLATE="@MKTEMP_TEMPLATE@"
 PAX="@PAX@"
 
 UTILITY_NAME=shell
-# Get common functions (perrorf, pinfof, output_version, command_line_error)
-# shellcheck source=./shell-common.shlib
-. "@libexecdir@/shell-common.shlib"
+
+perrorf ()
+{
+    # Simple function for outputting error messages.
+    # Prefixes the error message with the name of the utility.
+
+    # Parameters:   same as printf
+    # stdin:        unused
+    # stdout:       unused
+    # stderr:       error message
+
+    _fmt=$1; shift
+
+    # We mimic printf here, disable shellcheck warnings about using
+    # variables in the printf format string.
+    # See https://unix.stackexchange.com/questions/438694
+    # shellcheck disable=SC2059
+    printf "$UTILITY_NAME: error: $_fmt" "$@" >&2
+    unset _fmt
+}
+
+pinfof ()
+{
+    # Same as above, but with 'info:' instead of 'error:'.
+
+    _fmt=$1; shift
+
+    # shellcheck disable=SC2059
+    printf "$UTILITY_NAME: info: $_fmt" "$@" >&2
+    unset _fmt
+}
+
+output_version ()
+{
+    # Simple function for outputting version information.
+
+    # Parameters:   none
+    # stdin:        unused
+    # stdout:       unused
+    # stderr:       version information
+
+    pinfof 'Part of %s (release "%s")\n' "@PACKAGE_NAME@" "@PACKAGE_VERSION@"
+    pinfof 'For bug reports, see %s\n' "@PACKAGE_BUGREPORT@"
+}
+
+command_line_error ()
+{
+    perrorf 'Error while parsing the command line arguments\n'
+}
 
 main_pid=$$             # used in get_shells()
 
@@ -194,6 +236,3 @@ env -i  HOME="$tmpwd" \
         SHELL="$realshell" \
         TERM="$TERM" \
         "$realshell" "$@"
-
-
-# vim: ft=sh
