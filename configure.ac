@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([shell-toolbox],[2.0.0-pre+20201219],[https://github.com/kusalananda/shell-toolbox/issues])
+AC_INIT([shell-toolbox],[2.0.0-pre+20210322],[https://github.com/kusalananda/shell-toolbox/issues])
 
 AC_CONFIG_AUX_DIR([autotools])
 
@@ -85,7 +85,6 @@ AC_PATH_PROGS(PAX, [pax cp])
 AS_IF([test -z "$PAX"],
       [AC_MSG_ERROR([Did not find pax nor cp])])
 
-AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
+AC_CONFIG_FILES([Makefile], [AS_MKDIR_P([doc])])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
-AC_CONFIG_FILES([src/shell-common.shlib])
 AC_OUTPUT
