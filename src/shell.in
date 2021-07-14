@@ -142,15 +142,17 @@ usr1_handler () { keep=true; }
 force=false     # when true, bypasses the call to get_shells
 keep=false      # when true, does not remove working directory when exiting
 quiet=false     # when true, informational messages are not outputted
+preserveenv=false # when true, environemnt variables are untouched
 
 skel=${SHELL_SKEL:-}    # skeleton directory
 
-while getopts 'd:fkqs:SvV' opt; do
+while getopts 'd:fkmqs:SvV' opt; do
     case $opt in
         d) tmpwd=$OPTARG
            unset skel   ;;
         f) force=true   ;;
         k) keep=true    ;;
+        m) preserveenv=true ;;
         q) quiet=true   ;;
         s) skel=$OPTARG
            unset tmpwd  ;;
@@ -229,10 +231,16 @@ fi
 
 ! "$quiet" && pinfof 'Starting %s in %s\n' "$realshell" "$tmpwd"
 
-cd -- "$tmpwd" &&
-env -i  HOME="$tmpwd" \
+if "$preserveenv" ; then
+    cd -- "$tmpwd" &&
+    "$realshell" "$@"
+else
+    cd -- "$tmpwd" &&
+    env -i  HOME="$tmpwd" \
         PATH="$( getconf PATH )" \
         PS1='$ ' \
         SHELL="$realshell" \
         TERM="$TERM" \
         "$realshell" "$@"
+fi
+
