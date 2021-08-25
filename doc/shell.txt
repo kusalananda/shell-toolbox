@@ -5,9 +5,7 @@ NAME
      working directory
 
 SYNOPSIS
-     shell [-fq] [-d directory] [shell [...]]
-     shell [-fkqS] [-s directory] [shell [...]]
-     shell -v
+     shell [-fkqSvV] [-d directory | -s directory] [shell [...]]
 
 DESCRIPTION
      The shell utility creates an interactive shell session with a clean
@@ -31,7 +29,8 @@ DESCRIPTION
      USR1 signal, the temporary working directory will not be deleted when the
      shell session terminates (as if -k had been used from the start).
 
-     The options are as follows:
+     The options are as follows (note that some are dependent on their
+     relative position on the command line):
 
      -d directory
 	     Use the specified directory rather than a new temporary
@@ -39,26 +38,31 @@ DESCRIPTION
 	     session terminates.  This option implies the -k option, and
 	     overrides any earlier -s option.
 
-     -f	     Force the execution of the given command, even if it is not a
-	     valid login shell on the current system.  The command needs to be
-	     specified with an absolute path.
+     -f	     Force the execution of the given executable, even if it is not a
+	     valid login shell on the current system.  The executable needs to
+	     be specified with an absolute path.
 
      -k	     Keep the temporary directory around after terminating the shell
 	     session.
 
-     -q	     Be quiet.	Don't output informational messages.
+     -q	     Be quiet.	Don't output informational messages.  Overrides any
+	     earlier use of -v.
 
      -s directory
 	     Pre-populate the temporary directory with the contents of the
 	     named "skeleton directory".  This will copy the whole directory
 	     structure rooted in the specified directory to the temporary
-	     working directory.	 This option overrides any earlier -d option.
+	     working directory.	 This option overrides any earlier -d option
+	     and the value of the SHELL_SKEL environment variable.
 
      -S	     Do not pre-populate the temporary directory with the contents of
 	     a "skeleton directory", even if the -s option was used earlier on
 	     the command line or the SHELL_SKEL environment variable is set.
 
-     -v	     Output version information and immediately terminate.
+     -v	     Be verbose.  Output informational messages.  This is the default
+	     behaviour.	 Overrides any earlier use of -q.
+
+     -V	     Output version information and immediately terminate.
 
 ENVIRONMENT
      shell uses the following environment variables:
@@ -70,11 +74,13 @@ ENVIRONMENT
      SHELL_SKEL
 	     Directory to automatically pre-populate the temporary working
 	     directory with.  This environment variable is not used if any of
-	     the -d or -s options are used on the command line.
+	     the -d, -s, or -S options are used on the command line.
 
      TMPDIR  Directory in which to create the working directory when the -d
 	     option is not used.  This variable is used by mktemp which will
-	     revert to use /tmp if the variable is not set.
+	     revert to use /tmp if the variable is not set.  Note: Setting
+	     this variable in the environment may not have any effect on
+	     macOS.
 
      shell clears the environment of the interactive shell that it starts, but
      also sets the following environment variables:

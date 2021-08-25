@@ -1,4 +1,4 @@
-.Dd May 28, 2019
+.Dd August 21, 2021
 .Dt SHELL 1
 .Os
 .Sh NAME
@@ -6,15 +6,9 @@
 .Nd Creates a temporary interactive shell session in a disposable working directory
 .Sh SYNOPSIS
 .Nm shell
-.Op Fl fq
-.Op Fl d Ar directory
+.Op Fl fkqSvV
+.Op Fl d Ar directory | Fl s Ar directory
 .Op Ar shell Op Ar ...
-.Nm
-.Op Fl fkqS
-.Op Fl s Ar directory
-.Op Ar shell Op Ar ...
-.Nm
-.Fl v
 .Sh DESCRIPTION
 The
 .Nm
@@ -57,7 +51,8 @@ working directory will not be deleted when the shell session terminates
 .Fl k
 had been used from the start).
 .Pp
-The options are as follows:
+The options are as follows (note that some are dependent on their
+relative position on the command line):
 .Bl -tag -width Ds
 .It Fl d Ar directory
 Use the specified directory rather than a new temporary directory.
@@ -68,14 +63,16 @@ option, and overrides any earlier
 .Fl s
 option.
 .It Fl f
-Force the execution of the given command, even if it is not a valid
+Force the execution of the given executable, even if it is not a valid
 login shell on the current system.
-The command needs to be specified with an absolute path.
+The executable needs to be specified with an absolute path.
 .It Fl k
 Keep the temporary directory around after terminating the shell session.
 .It Fl q
 Be quiet.
 Don't output informational messages.
+Overrides any earlier use of
+.Fl v .
 .It Fl s Ar directory
 Pre-populate the temporary directory with the contents of the named
 .Dq skeleton directory .
@@ -83,7 +80,9 @@ This will copy the whole directory structure rooted in the specified
 directory to the temporary working directory.
 This option overrides any earlier
 .Fl d
-option.
+option and the value of the
+.Ev SHELL_SKEL
+environment variable.
 .It Fl S
 Do not pre-populate the temporary directory with the contents of a
 .Dq skeleton directory ,
@@ -93,6 +92,12 @@ option was used earlier on the command line or the
 .Ev SHELL_SKEL
 environment variable is set.
 .It Fl v
+Be verbose.
+Output informational messages.
+This is the default behaviour.
+Overrides any earlier use of
+.Fl q .
+.It Fl V
 Output version information and immediately terminate.
 .El
 .Sh ENVIRONMENT
@@ -109,9 +114,9 @@ will be used instead.
 .It Ev SHELL_SKEL
 Directory to automatically pre-populate the temporary working directory with.
 This environment variable is not used if any of the
-.Fl d
+.Fl d , s ,
 or
-.Fl s
+.Fl S
 options are used on the command line.
 .It Ev TMPDIR
 Directory in which to create the working directory when the
@@ -122,6 +127,8 @@ This variable is used by
 which will revert to use
 .Pa /tmp
 if the variable is not set.
+Note: Setting this variable in the environment may not have any effect
+on macOS.
 .El
 .Pp
 .Nm

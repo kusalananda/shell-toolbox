@@ -1,7 +1,3 @@
-    * Possibly factor out utility functions into separate "library".
-      This will not happen until the toolbox contains more than a single
-      script.
-
     * Write the shell code formatter script/program.
 
     * shell:    Nothing at the moment.

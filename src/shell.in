@@ -1,15 +1,15 @@
-#!/bin/sh -e
+#!@SH@
 
 # Part of @PACKAGE_STRING@
 # For bug reports, see "@PACKAGE_BUGREPORT@"
 
-utility_name=shell      # used in perrorf() and pinfo()
-main_pid=$$             # used in get_shells()
+set -o errexit
 
-# Variables set by the configure script:
 MKTEMP="@MKTEMP@"
 MKTEMP_TEMPLATE="@MKTEMP_TEMPLATE@"
 PAX="@PAX@"
+
+UTILITY_NAME=shell
 
 perrorf ()
 {
@@ -27,21 +27,18 @@ perrorf ()
     # variables in the printf format string.
     # See https://unix.stackexchange.com/questions/438694
     # shellcheck disable=SC2059
-    printf "$utility_name: error: $_fmt" "$@" >&2
+    printf "$UTILITY_NAME: error: $_fmt" "$@" >&2
     unset _fmt
 }
 
 pinfof ()
 {
     # Same as above, but with 'info:' instead of 'error:'.
-    # Also disables output if the global variable $quiet is true.
 
     _fmt=$1; shift
 
-    if ! "$quiet"; then
-        # shellcheck disable=SC2059
-        printf "$utility_name: info: $_fmt" "$@" >&2
-    fi
+    # shellcheck disable=SC2059
+    printf "$UTILITY_NAME: info: $_fmt" "$@" >&2
     unset _fmt
 }
 
@@ -57,6 +54,13 @@ output_version ()
     pinfof 'Part of %s (release "%s")\n' "@PACKAGE_NAME@" "@PACKAGE_VERSION@"
     pinfof 'For bug reports, see %s\n' "@PACKAGE_BUGREPORT@"
 }
+
+command_line_error ()
+{
+    perrorf 'Error while parsing the command line arguments\n'
+}
+
+main_pid=$$             # used in get_shells()
 
 get_solaris_shells ()
 {
@@ -126,9 +130,9 @@ get_shells ()
 
 exit_handler () {
     if "$keep"; then
-        pinfof 'Leaving %s in place\n' "$tmpwd" >&2
+        ! "$quiet" && pinfof 'Leaving %s in place\n' "$tmpwd"
     else
-        pinfof 'Removing %s\n' "$tmpwd" >&2
+        ! "$quiet" && pinfof 'Removing %s\n' "$tmpwd"
         cd / && rm -rf -- "$tmpwd"
     fi
 }
@@ -141,8 +145,8 @@ quiet=false     # when true, informational messages are not outputted
 
 skel=${SHELL_SKEL:-}    # skeleton directory
 
-while getopts 'd:fks:Sqv' opt; do
-    case "$opt" in
+while getopts 'd:fkqs:SvV' opt; do
+    case $opt in
         d) tmpwd=$OPTARG
            unset skel   ;;
         f) force=true   ;;
@@ -151,10 +155,10 @@ while getopts 'd:fks:Sqv' opt; do
         s) skel=$OPTARG
            unset tmpwd  ;;
         S) unset skel   ;;
-        v) quiet=false
-           output_version
+        v) quiet=false  ;;
+        V) output_version
            exit 0       ;;
-        *) perrorf 'Unable to parse command line\n'
+        *) command_line_error
            exit 1
     esac
 done
@@ -175,7 +179,8 @@ if ! "$force"; then
     if [ -z "$realshell" ]; then
         perrorf 'No such shell: %s\n' "$shell"
         echo 'Valid shells:' >&2
-        get_shells | awk '{ printf("\t%s\n", $0) }' >&2
+        get_shells |
+        awk '{s=$0;sub(".*/","",s);printf("\t%s\t(%s)\n",s,$0)}' >&2
         exit 1
     fi
 else
@@ -208,7 +213,7 @@ if [ -n "$skel" ]; then
         exit 1
     fi
 
-    pinfof 'Copying %s into %s\n' "$skel" "$tmpwd" >&2
+    ! "$quiet" && pinfof 'Copying %s into %s\n' "$skel" "$tmpwd"
     case $PAX in
         */pax)
             ( cd -- "$skel" && "$PAX" -rw -p p . "$tmpwd" )
@@ -222,7 +227,7 @@ if [ -n "$skel" ]; then
     esac
 fi
 
-pinfof 'Starting %s in %s\n' "$realshell" "$tmpwd" >&2
+! "$quiet" && pinfof 'Starting %s in %s\n' "$realshell" "$tmpwd"
 
 cd -- "$tmpwd" &&
 env -i  HOME="$tmpwd" \
@@ -231,6 +236,3 @@ env -i  HOME="$tmpwd" \
         SHELL="$realshell" \
         TERM="$TERM" \
         "$realshell" "$@"
-
-
-# vim: ft=sh
