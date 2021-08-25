@@ -3,6 +3,8 @@ Development version 2.0.0-pre
       at 2.0.0 to signal the backwards-incompatible change in the -v
       command line option to the "shell" utility (see below).
     * -v now used to cancel effect of -q (use -V for version output).
+    * Pre-formatted markdown manual removed.
+    * Generation of markdown manual removed.
 
 Release 20190528
     * "pax" or "cp" will be used to copy the skeleton directory, rather
