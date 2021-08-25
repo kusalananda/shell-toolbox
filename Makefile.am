@@ -3,7 +3,7 @@ dist_man1_MANS=	doc/shell.man
 
 dist_doc_DATA=	\
 	LICENSE NEWS README \
-	doc/shell.md doc/shell.txt
+	doc/shell.txt
 
 check_scripts_src=	t/shellcheck.test
 check_scripts_doc=	t/mandoc-lint.test
@@ -14,7 +14,7 @@ EXTRA_DIST=	\
 	$(check_SCRIPTS)
 
 CLEANFILES=	$(bin_SCRIPTS)
-DISTCLEANFILES=	doc/shell.man doc/shell.md doc/shell.txt
+DISTCLEANFILES=	doc/shell.man doc/shell.txt
 
 TEST_LOG_DRIVER=	\
 	env AM_TAP_AWK='$(AWK)' \
@@ -37,18 +37,15 @@ $(dist_man1_MANS) $(dist_doc_DATA):
 
 else
 
-SUFFIXES=	.mdoc .man .md .txt
+SUFFIXES=	.mdoc .man .txt
 
 .mdoc.man:
 	$(MANDOC) -T man -I os=Unix $< >$@ || true
-
-.mdoc.md:
-	$(MANDOC) -T markdown -I os=Unix $< >$@ || true
 
 .mdoc.txt:
 	$(MANDOC) -T ascii -I os=Unix $< | \
 	$(COL) -b >$@ || true
 
-doc/shell.man doc/shell.md doc/shell.txt:	doc/shell.mdoc
+doc/shell.man doc/shell.txt:	doc/shell.mdoc
 
 endif	# !HAVE_MANDOC
