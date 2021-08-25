@@ -61,14 +61,6 @@ AC_PATH_PROG(MANDOC, [mandoc])
 AC_PATH_PROG(COL, [col])
 AM_CONDITIONAL([HAVE_MANDOC], [test -n "$MANDOC" && test -n "$COL"])
 
-AM_COND_IF([HAVE_MANDOC],
-      [AC_MSG_CHECKING([whether $MANDOC can produce markdown output])
-      AM_CONDITIONAL([HAVE_MANDOC],
-                     ["$MANDOC" -T markdown </dev/null 2>/dev/null])
-      AM_COND_IF([HAVE_MANDOC],
-                 [AC_MSG_RESULT([yes])],
-                 [AC_MSG_RESULT([no])]) ])
-
 AM_COND_IF([HAVE_MANDOC], [],
       [AC_MSG_WARN([col or usable mandoc is missing, manuals can not be rebuilt])
        AC_MSG_WARN([mandoc is missing, "make check" disabled for documentation])])
