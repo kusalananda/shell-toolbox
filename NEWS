@@ -1,4 +1,4 @@
-Development version 2.0.0-pre
+Release 2.0.0 (20210821)
     * Start using semantic versioning (https://semver.org/), starting
       at 2.0.0 to signal the backwards-incompatible change in the -v
       command line option to the "shell" utility (see below).
