@@ -1943,12 +1943,7 @@ program_transform_name=`$as_echo "$program_transform_name" | sed "$ac_script"`
 am_aux_dir=`cd "$ac_aux_dir" && pwd`
 
 if test x"${MISSING+set}" != xset; then
-  case $am_aux_dir in
-  *\ * | *\	*)
-    MISSING="\${SHELL} \"$am_aux_dir/missing\"" ;;
-  *)
-    MISSING="\${SHELL} $am_aux_dir/missing" ;;
-  esac
+  MISSING="\${SHELL} '$am_aux_dir/missing'"
 fi
 # Use eval to expand $SHELL
 if eval "$MISSING --is-lightweight"; then
@@ -2596,26 +2591,6 @@ fi
 
 
 if test -z "$HAVE_MANDOC_TRUE"; then :
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $MANDOC can produce markdown output" >&5
-$as_echo_n "checking whether $MANDOC can produce markdown output... " >&6; }
-       if "$MANDOC" -T markdown </dev/null 2>/dev/null; then
-  HAVE_MANDOC_TRUE=
-  HAVE_MANDOC_FALSE='#'
-else
-  HAVE_MANDOC_TRUE='#'
-  HAVE_MANDOC_FALSE=
-fi
-
-      if test -z "$HAVE_MANDOC_TRUE"; then :
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-fi
-
-if test -z "$HAVE_MANDOC_TRUE"; then :
   else
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: col or usable mandoc is missing, manuals can not be rebuilt" >&5
 $as_echo "$as_me: WARNING: col or usable mandoc is missing, manuals can not be rebuilt" >&2;}
@@ -2889,10 +2864,6 @@ $as_echo "done" >&6; }
 
 if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${HAVE_MANDOC_TRUE}" && test -z "${HAVE_MANDOC_FALSE}"; then
-  as_fn_error $? "conditional \"HAVE_MANDOC\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${HAVE_MANDOC_TRUE}" && test -z "${HAVE_MANDOC_FALSE}"; then
