@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([shell-toolbox],[2.0.1-20210825],[https://github.com/kusalananda/shell-toolbox/issues])
+AC_INIT([shell-toolbox],[2.0.1-20220114],[https://github.com/kusalananda/shell-toolbox/issues])
 
 AC_CONFIG_AUX_DIR([autotools])
 
@@ -80,3 +80,5 @@ AS_IF([test -z "$PAX"],
 AC_CONFIG_FILES([Makefile], [AS_MKDIR_P([doc])])
 AC_CONFIG_FILES([src/shell], [chmod +x src/shell])
 AC_OUTPUT
+m4_unquote(
+  _m4_defn([_m4_wrap_text])_m4_popdef([_m4_wrap_text]))

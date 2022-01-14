@@ -1,5 +1,5 @@
-Development code 2.0.1-20210825
-    * No news.
+Development code 2.0.1-20220114
+    * The value of the shell variable PS1 is no longer set.
 
 Release 2.0.0 (20210821)
     * Start using semantic versioning (https://semver.org/), starting

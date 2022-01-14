@@ -89,10 +89,6 @@ ENVIRONMENT
 
      PATH    Set to the output of "getconf PATH".
 
-     PS1     Set to the string `$ ' (dollar-sign and space).  Note that some
-	     shells ignore this variable if passed from the parent
-	     environment.
-
      SHELL   Set to the absolute path of the real shell executable.  This may
 	     be different from the shell mentioned on the command line as the
 	     actual shell used will be picked from the list of valid login
@@ -172,4 +168,4 @@ CAVEATS
      "getent shells" and may also lack the /etc/shells file.  The /etc/shells
      file will still be used if it exists.
 
-Unix				 May 28, 2019				  Unix
+Unix			       January 14, 2022				  Unix
